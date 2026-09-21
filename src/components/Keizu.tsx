@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import * as d3 from "d3";
-import { LINEAGES, NODES, PREFS, YEAR_MAX, YEAR_MIN, type LineageKey, type Pref } from "@/data/shops";
+import { LINEAGES, NODES, REGIONS, YEAR_MAX, YEAR_MIN, type LineageKey, type Region } from "@/data/shops";
 import { computeLayout } from "@/lib/layout";
 import { matches, type FilterState } from "@/lib/ancestry";
 import { TreeCanvas, type TreeHandle } from "./TreeCanvas";
@@ -18,15 +18,15 @@ export function Keizu() {
   const tree = useRef<TreeHandle>(null);
 
   const [lineages, setLineages] = useState<LineageKey[]>([]);
-  const [prefs, setPrefs] = useState<Pref[]>([]);
+  const [regions, setRegions] = useState<Region[]>([]);
   const [query, setQuery] = useState("");
   // 初回は 1974 年から再生するため、最初の描画時点で吉村家以外を非表示にしておく
   const [year, setYear] = useState(YEAR_MIN);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filter = useMemo<FilterState>(
-    () => ({ lineages: new Set(lineages), prefs: new Set(prefs), year, query: query.trim().replace(/\s+/g, "") }),
-    [lineages, prefs, year, query],
+    () => ({ lineages: new Set(lineages), regions: new Set(regions), year, query: query.trim().replace(/\s+/g, "") }),
+    [lineages, regions, year, query],
   );
   const selected = selectedId ? layout.nodes.find((n) => n.id === selectedId) ?? null : null;
 
@@ -79,7 +79,7 @@ export function Keizu() {
     <div className="app">
       <header className="bar">
         <div className="brand">
-          <h1>家系図<small>関東・家系ラーメンの系譜</small></h1>
+          <h1>家系図<small>関東・東海・関西の家系ラーメンの系譜</small></h1>
         </div>
         <div className="stats">
           {stats.map(([v, l]) => <div key={l}><b>{v}</b><span>{l}</span></div>)}
@@ -103,10 +103,10 @@ export function Keizu() {
               ))}
             </div>
           </div>
-          <div className="group"><span>都県</span>
+          <div className="group"><span>地方</span>
             <div className="chips">
-              {PREFS.map((p) => (
-                <button key={p} type="button" className="chip" aria-pressed={prefs.includes(p)} onClick={() => toggle(prefs, setPrefs, p)}>{p}</button>
+              {REGIONS.map((r) => (
+                <button key={r} type="button" className="chip" aria-pressed={regions.includes(r)} onClick={() => toggle(regions, setRegions, r)}>{r}</button>
               ))}
             </div>
           </div>

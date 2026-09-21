@@ -1,4 +1,4 @@
-import type { LineageKey, Pref, Shop } from "@/data/shops";
+import { PREF_REGION, type LineageKey, type Region, type Shop } from "@/data/shops";
 
 /** 指定の店から吉村家まで遡った id の集合（自身を含む） */
 export function ancestry(id: string, byId: Map<string, Shop>): Set<string> {
@@ -13,14 +13,14 @@ export function ancestry(id: string, byId: Map<string, Shop>): Set<string> {
 
 export interface FilterState {
   lineages: Set<LineageKey>;
-  prefs: Set<Pref>;
+  regions: Set<Region>;
   year: number;
   query: string;
 }
 
 export function matches(n: Shop, f: FilterState): boolean {
   if (f.lineages.size && !f.lineages.has(n.lineage)) return false;
-  if (f.prefs.size && !f.prefs.has(n.pref)) return false;
-  if (f.query && !(n.name + n.sub + n.city).includes(f.query)) return false;
+  if (f.regions.size && !f.regions.has(PREF_REGION[n.pref])) return false;
+  if (f.query && !(n.name + n.sub + n.pref + n.city).includes(f.query)) return false;
   return true;
 }

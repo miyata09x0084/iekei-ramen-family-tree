@@ -23,6 +23,9 @@ interface Props {
 type SvgSel = d3.Selection<SVGSVGElement, unknown, null, undefined>;
 type GSel = d3.Selection<SVGGElement, unknown, null, undefined>;
 
+/** 全体表示で、屋号の読みやすさを譲ってでも系図全体を画面に収める下限の倍率 */
+const FIT_ALL_MIN = 0.58;
+
 /**
  * D3 が SVG を専有する描画面。React は props の変化を class の付け替えとして伝えるだけで、
  * SVG の再構築は行わない（初回マウント時のみ構築）。
@@ -145,8 +148,10 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
     if (!d || !stage) return;
     const bb = d.g.node()!.getBBox();
     const W = stage.clientWidth, H = stage.clientHeight;
-    // 幅を基準に収め、縮みすぎる時は吉村家を上中央に置いて下へ辿らせる
-    const s = Math.max(Math.min((W - 60) / bb.width, (H - 60) / bb.height, 1.1), 0.72);
+    const ideal = Math.min((W - 60) / bb.width, (H - 60) / bb.height, 1.1);
+    // 屋号が読める下限は 0.72。ただし FIT_ALL_MIN までの縮小で全体が収まるなら、
+    // 読みやすさより一覧性を採る。それ以上縮むなら吉村家を上中央に置いて下へ辿らせる
+    const s = ideal >= FIT_ALL_MIN ? ideal : 0.72;
     const fitsAll = bb.height * s <= H - 60;
     const t = d3.zoomIdentity
       .translate(W / 2 - (fitsAll ? bb.x + bb.width / 2 : layout.root.x) * s, fitsAll ? H / 2 - (bb.y + bb.height / 2) * s : 36 - bb.y * s)

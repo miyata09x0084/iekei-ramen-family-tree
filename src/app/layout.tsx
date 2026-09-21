@@ -9,7 +9,7 @@ const zenKaku = Zen_Kaku_Gothic_New({ weight: ["400", "500", "700"], subsets: ["
 
 export const metadata: Metadata = {
   title: "家系ラーメン家系図",
-  description: "関東の家系ラーメン27店の修行系譜を、縦書き屋号の系図として可視化する家系図",
+  description: "関東・東海・関西の家系ラーメン45店の修行系譜を、縦書き屋号の系図として可視化する家系図",
 };
 
 export const viewport: Viewport = {
