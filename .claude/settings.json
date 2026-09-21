@@ -9,6 +9,7 @@
             "type": "command",
             "command": "exec \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/verify.sh\"",
             "timeout": 300,
+            "asyncRewake": true,
             "statusMessage": "型チェック・lint・ビルド・テストを実行中"
           }
         ]
