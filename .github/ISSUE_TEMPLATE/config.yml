@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: プロジェクトコンセプト（何を大事にしているか）
+    url: https://github.com/miyata09x0084/iekei-ramen-family-tree/blob/main/docs/CONCEPT.md
+    about: 何を作ろうとしていて、何をやらないか。提案の前に読むと話が早いです
+  - name: 参加の手引き（データの直し方・開発環境）
+    url: https://github.com/miyata09x0084/iekei-ramen-family-tree/blob/main/CONTRIBUTING.md
+    about: 出典の書き方、店の足し方、Pull Request の出し方
+  - name: 家系図を開く
+    url: https://iekei-ramen-family-tree.vercel.app
+    about: 公開中のサイト

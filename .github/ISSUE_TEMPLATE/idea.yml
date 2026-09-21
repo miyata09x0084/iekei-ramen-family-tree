@@ -1,0 +1,39 @@
+name: アイデアの提案（こうなったら面白い）
+description: 機能の提案、使い勝手の改善、こんな見せ方はどうか、など
+title: "[アイデア] "
+labels: ["idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        思いつきの段階で構いません。**「面白そう」で立てた Issue が、このプロジェクトの半分を作っています。**
+
+        先に [プロジェクトコンセプト](https://github.com/miyata09x0084/iekei-ramen-family-tree/blob/main/docs/CONCEPT.md)
+        を見ていただくと、何を大事にしていて、何をやらないかがわかります。
+        （たとえば味のランキングや点数付けは、方針としてやらないことにしています）
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: どんなアイデアですか
+      placeholder: |
+        例）自分が行った店にスタンプを押せて、「27店中8店」と出てほしい
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: それがあると、何が良くなりますか
+      description: 誰のどんな場面が楽になるか、面白くなるか
+      placeholder: |
+        例）系図を眺めるだけで終わらず、集めたくなる。次に行く店を決める理由になる
+    validations:
+      required: false
+
+  - type: textarea
+    id: alt
+    attributes:
+      label: 代わりの案・気になる点（あれば）
+    validations:
+      required: false

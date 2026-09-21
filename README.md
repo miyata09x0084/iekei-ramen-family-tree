@@ -4,6 +4,8 @@
 
 吉村家を頂点に、関東の家系ラーメン27店・6世代の修行系譜を、縦書き屋号の伝統的な系図様式で辿れる Web アプリです。
 
+> 家系ラーメンの「誰が誰に教わったか」を、出典を辿れる形で残し、誰でも読めて、誰でも直せる公共の系図にする。 — [プロジェクトコンセプト](docs/CONCEPT.md)
+
 [![家系図の画面。吉村家を選ぶと右に詳細パネルが開き、Google マップへのリンクが表示される](docs/screenshot.jpg)](https://iekei-ramen-family-tree.vercel.app)
 
 ## 使い方
@@ -33,7 +35,25 @@
 
 ## データについて
 
-系譜は公開情報を編集したものです。創業年は概算（「頃」表記）を含み、系譜上の位置づけに諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。
+系譜は公開情報を編集したものです。創業年は概算（「頃」表記）を含み、系譜上の位置づけに諸説ある店は点線で示しています。**確信のないことを断定調で書かない**のが、このプロジェクトの方針です。
+
+## 間違いを見つけたら
+
+**このプロジェクトがいちばん必要としているのは、コードではなく「その店を知っている人」です。**
+
+Git も GitHub の作法も要りません。フォームを埋めるだけです。わかる範囲だけで構いません。
+
+| 見つけたもの | ここから |
+|---|---|
+| 系譜が違う / 店が抜けている / 閉店した | [**データの修正・追加**](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues/new?template=data-correction.yml) |
+| 動かない・表示が崩れる | [**不具合の報告**](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues/new?template=bug.yml) |
+| こうなったら面白い | [**アイデアの提案**](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues/new?template=idea.yml) |
+
+「創業年は覚えていないけど、店主が○○家出身だと店で聞いた」——それだけでも十分に価値があります。裏取りはこちらでします。
+
+- [プロジェクトコンセプト](docs/CONCEPT.md) — 何を作ろうとしていて、何をやらないか
+- [参加の手引き](CONTRIBUTING.md) — 出典の書き方、店の足し方、Pull Request の出し方
+- [行動規範](CODE_OF_CONDUCT.md) — 議論の作法
 
 ---
 
@@ -60,20 +80,17 @@ npm run lint
 
 ### データの編集
 
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。
+店舗データは `src/data/shops.ts` の `NODES` 配列に集約されています。型が付いているので、値の誤りはビルド時に検出されます。
 
-```ts
-{ id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
-  parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
-  mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
-```
+フィールドの意味、`mapQuery` の書き方（place ID を使わない理由）、データを壊したときに何が起きるかは [CONTRIBUTING.md](CONTRIBUTING.md#店を1軒足す) にまとめています。
 
-- `parent`: 師匠となる店の `id`（資本系は `null`）
-- `lineage`: `direct` / `honmoku` / `rokkaku` / `ichi` / `oudou` / `musashi` / `indep` / `capital`
-- `edge`: `direct`（直系認定）/ `former`（元直系）/ `trained`（修行・独立）/ `disputed`（諸説あり）
-- `status`: `open` / `closed` / `main-closed`
-- `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
-  多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
-  本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。
-  URL は `src/data/shops.ts` の `mapUrl()` が `https://www.google.com/maps/search/?api=1&query=...` 形式で生成する。
-  place ID（`?q=place_id:...`）は店舗の移転・改装で失効すると「一致する検索結果はありません」になるため使わない
+## ライセンス
+
+コードとデータで分けています。
+
+| 対象 | ライセンス |
+|---|---|
+| ソースコード | [MIT](LICENSE) |
+| 系譜データ（`src/data/shops.ts` の店舗情報・解説文、`docs/` の調査記録） | [CC BY-SA 4.0](LICENSE-DATA.md) |
+
+データを SA（継承）にしているのは囲い込むためではありません。逆です。系譜は一人で完成させられるものではなく、**直され続けることでしか正確になりません**。このデータを使って作られたものが、また誰かの手で直せる状態であってほしい——そのための SA です。商用利用は制限していません。

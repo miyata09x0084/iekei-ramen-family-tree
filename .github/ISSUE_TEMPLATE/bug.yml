@@ -1,0 +1,61 @@
+name: 不具合の報告（動かない・表示が崩れる）
+description: 系図が出ない、ボタンが押せない、表示が崩れる、リンクが違う場所を開く、など
+title: "[不具合] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        教えていただきありがとうございます。わかる範囲で構いません。
+
+  - type: textarea
+    id: what
+    attributes:
+      label: 何が起きましたか
+      placeholder: |
+        例）店名を押しても右のパネルが開かない
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: どうすると起きますか
+      description: 手順がわかると、こちらで再現できます
+      placeholder: |
+        1. サイトを開く
+        2. 上の検索欄に「六角家」と入れる
+        3. 出てきた屋号を押す
+        4. 何も起きない
+    validations:
+      required: false
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: どの端末で見ていますか
+      options:
+        - スマートフォン（iPhone）
+        - スマートフォン（Android）
+        - タブレット
+        - パソコン（Windows）
+        - パソコン（Mac）
+        - わからない
+    validations:
+      required: false
+
+  - type: input
+    id: browser
+    attributes:
+      label: ブラウザ
+      placeholder: 例）Safari / Chrome / わからない
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 画面の写真（あれば）
+      description: この欄に画像をドラッグ＆ドロップできます。スマホなら画面のスクリーンショットで十分です
+    validations:
+      required: false

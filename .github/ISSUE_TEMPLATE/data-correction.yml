@@ -1,0 +1,82 @@
+name: データの修正・追加（系譜の誤り、店の追加、閉店など）
+description: 系譜が違う・店が抜けている・閉店した、などを教えてください。わかる範囲だけで構いません
+title: "[データ] "
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **このプロジェクトがいちばん必要としているのが、この報告です。** ありがとうございます。
+
+        わかる範囲だけ埋めてください。空欄があっても大丈夫です。こちらで裏取りします。
+        「創業年は覚えていないけど、店主が○○家出身だと店で聞いた」——それだけでも十分に価値があります。
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 何についてですか
+      options:
+        - 系譜（師匠・独立元）が違う
+        - 店が抜けている（追加してほしい）
+        - 閉店した / 移転した
+        - 創業年が違う
+        - 所在地・地図リンクが違う
+        - 解説文の内容が違う
+        - その他
+    validations:
+      required: true
+
+  - type: input
+    id: shop
+    attributes:
+      label: 店名
+      description: わかれば「店名（地名・支店名）」まで
+      placeholder: 例）武道家（早稲田）
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: 正しくはどうなりますか
+      description: いまの表示と、正しいと思う内容を書いてください
+      placeholder: |
+        例）
+        いまの系図では「武蔵家 千葉 → 武道家」になっているが、
+        正しくは「武蔵家 新中野 → 武道家」だと思う。
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: どこで知りましたか（出典）
+      description: |
+        URL、書籍名、記事名など。**「店で店主から聞いた」も立派な出典です。**
+        その場合は「いつ頃」「誰から」を添えてもらえると助かります。
+      placeholder: |
+        例1）https://example.com/article （2023年の取材記事）
+        例2）2024年の春頃、店内の掲示に書いてあった
+        例3）店主から直接聞いた
+    validations:
+      required: false
+
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: どのくらい確かですか
+      description: 正直なところで構いません。確度に応じた載せ方（点線・「頃」表記）をします
+      options:
+        - 確実（公式の発信・店内の掲示で確認した）
+        - たぶん確か（複数の記事・まとめで一致していた）
+        - 聞いた話（人づて・記憶）
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: その他（あれば）
+      description: 創業年、住所、系統、関連する他の店など
+    validations:
+      required: false
