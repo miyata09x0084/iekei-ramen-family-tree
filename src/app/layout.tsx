@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Shippori_Mincho, Yuji_Syuku, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 
@@ -22,7 +23,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja" className={`${yuji.variable} ${shippori.variable} ${zenKaku.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* 測定 ID 未設定（ローカル等）では計測しない */}
+        {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
+      </body>
     </html>
   );
 }
