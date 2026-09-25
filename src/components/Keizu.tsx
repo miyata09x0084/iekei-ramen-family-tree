@@ -8,6 +8,8 @@ import { matches, type FilterState } from "@/lib/ancestry";
 import { TreeCanvas, type TreeHandle } from "./TreeCanvas";
 import { DetailPanel } from "./DetailPanel";
 import { Legend } from "./Legend";
+import Link from "next/link";
+import { track } from "@/lib/track";
 
 const LINEAGE_CHIPS = (Object.keys(LINEAGES) as LineageKey[]).filter((k) => k !== "root");
 // 修行系譜としての系統数（総本山と資本系を除く）
@@ -55,7 +57,10 @@ export function Keizu() {
 
   function select(id: string | null) {
     setSelectedId(id);
-    if (id) tree.current?.focus(id);
+    if (!id) return;
+    tree.current?.focus(id);
+    const shop = NODES.find((n) => n.id === id);
+    if (shop) track({ name: "shop_select", shop_id: shop.id, lineage: shop.lineage });
   }
   function toggle<T>(list: T[], set: (v: T[]) => void, key: T) {
     set(list.includes(key) ? list.filter((k) => k !== key) : [...list, key]);
@@ -67,7 +72,9 @@ export function Keizu() {
     if (exact) select(exact.id);
   }
   function onQueryEnter() {
+    if (!filter.query) return;
     const hit = NODES.find((n) => matches(n, filter));
+    track({ name: "search", hit: !!hit });
     if (hit) select(hit.id);
   }
 
@@ -97,7 +104,7 @@ export function Keizu() {
             <div className="chips">
               {LINEAGE_CHIPS.map((k) => (
                 <button key={k} type="button" className="chip" aria-pressed={lineages.includes(k)}
-                  style={{ "--c": LINEAGES[k].color } as CSSProperties} onClick={() => toggle(lineages, setLineages, k)}>
+                  style={{ "--c": LINEAGES[k].color } as CSSProperties} onClick={() => { if (!lineages.includes(k)) track({ name: "filter_lineage", key: k }); toggle(lineages, setLineages, k); }}>
                   <span className="dot" />{LINEAGES[k].label}
                 </button>
               ))}
@@ -106,7 +113,7 @@ export function Keizu() {
           <div className="group"><span>都県</span>
             <div className="chips">
               {PREFS.map((p) => (
-                <button key={p} type="button" className="chip" aria-pressed={prefs.includes(p)} onClick={() => toggle(prefs, setPrefs, p)}>{p}</button>
+                <button key={p} type="button" className="chip" aria-pressed={prefs.includes(p)} onClick={() => { if (!prefs.includes(p)) track({ name: "filter_pref", key: p }); toggle(prefs, setPrefs, p); }}>{p}</button>
               ))}
             </div>
           </div>
@@ -115,7 +122,7 @@ export function Keizu() {
             <input type="range" id="year" min={YEAR_MIN} max={YEAR_MAX} value={year} aria-label="表示する年"
               onChange={(e) => { stopTimer(); setYear(+e.target.value); }} />
             <output id="year-out" htmlFor="year">{year}</output>
-            <button className="btn" id="replay" type="button" onClick={replay}>1974年から再生</button>
+            <button className="btn" id="replay" type="button" onClick={() => { track({ name: "replay" }); replay(); }}>1974年から再生</button>
           </div>
         </div>
       </header>
@@ -126,8 +133,9 @@ export function Keizu() {
         <div className="zoombar">
           <button className="btn" type="button" aria-label="拡大" onClick={() => tree.current?.zoomBy(1.3)}>＋</button>
           <button className="btn" type="button" aria-label="縮小" onClick={() => tree.current?.zoomBy(1 / 1.3)}>－</button>
-          <button className="btn" type="button" aria-label="全体表示" onClick={() => tree.current?.fit(true)}>⊡</button>
+          <button className="btn" type="button" aria-label="全体表示" onClick={() => { track({ name: "zoom_fit" }); tree.current?.fit(true); }}>⊡</button>
         </div>
+        <Link className="sitelink" href="/privacy">プライバシーポリシー</Link>
         <DetailPanel shop={selected} nodes={layout.nodes} onSelect={select} onClose={() => setSelectedId(null)} />
       </div>
     </div>

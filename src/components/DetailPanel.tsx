@@ -3,6 +3,7 @@
 import { useState, type CSSProperties } from "react";
 import { EDGE_LABEL, LINEAGES, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
 import type { PlacedShop } from "@/lib/layout";
+import { track } from "@/lib/track";
 
 interface Props {
   shop: PlacedShop | null;
@@ -53,7 +54,8 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
             <dt>状態</dt><dd><span className={`badge ${shop.status === "open" ? "open" : "closed"}`}>{STATUS_LABEL[shop.status]}</span></dd>
           </dl>
           <p className="note">{shop.note}</p>
-          <a className="btn maplink" href={mapUrl(shop)} target="_blank" rel="noopener noreferrer" aria-label="Google マップで開く（新しいタブ）">
+          <a className="btn maplink" href={mapUrl(shop)} target="_blank" rel="noopener noreferrer"
+            onClick={() => track({ name: "map_open", shop_id: shop.id })} aria-label="Google マップで開く（新しいタブ）">
             Google マップで開く<span aria-hidden="true">↗</span>
           </a>
           <h3>師匠</h3>

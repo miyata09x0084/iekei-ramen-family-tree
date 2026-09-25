@@ -117,6 +117,17 @@ g.has-lit .link.lit{stroke-width:2.2}
 
 .zoombar{position:absolute;right:16px;bottom:16px;display:flex;gap:4px}
 .zoombar .btn{width:32px;height:32px;padding:0;font-size:16px;background:rgba(43,27,18,.86)}
+.sitelink{position:absolute;right:16px;bottom:54px;font-size:11px;color:var(--paper-faint);text-decoration:none}
+.sitelink:hover{color:var(--paper-dim);text-decoration:underline}
+
+/* ── privacy ── */
+body:has(.doc){overflow:auto}
+.doc{max-width:680px;margin:0 auto;padding:40px 16px 64px}
+.doc h1{font-family:var(--mincho);font-weight:500;font-size:26px;letter-spacing:.1em;margin:0 0 24px}
+.doc h2{font-family:var(--mincho);font-weight:500;font-size:17px;margin:32px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.doc p,.doc li{color:var(--paper-dim)}
+.doc a{color:var(--paper)}
+.doc .back{display:inline-block;margin-top:40px}
 
 /* ── panel ── */
 .panel{
