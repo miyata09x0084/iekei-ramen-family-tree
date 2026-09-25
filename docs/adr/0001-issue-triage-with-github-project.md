@@ -1,7 +1,7 @@
 # ADR 0001: issue の優先順位を GitHub Project で管理し、登録直後は Inbox に置く
 
 - 日付: 2026-09-25
-- 状態: 採択
+- 状態: 採択（決定 3 の自動追加の方式は [ADR 0002](0002-auto-add-with-builtin-project-workflow.md) で変更）
 
 ## 背景
 
