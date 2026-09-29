@@ -4,7 +4,8 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef, type Ref } fro
 import * as d3 from "d3";
 import { LINEAGES, SHOP_BY_ID } from "@/data/shops";
 import { LEVEL, MARK, PAD_TOP, CH, SUBCH, SIB, labelHeight, type Layout, type PlacedShop, type Link } from "@/lib/layout";
-import { ancestry, matches, type FilterState } from "@/lib/ancestry";
+import { ancestry, type FilterState } from "@/lib/ancestry";
+import { isLitLink, linkVisibility, markStyle, visibility } from "@/lib/view";
 
 export interface TreeHandle {
   fit: (animate: boolean) => void;
@@ -67,11 +68,11 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
     nodeSel.append("rect").attr("class", "hit")
       .attr("x", -SIB / 2 + 2).attr("y", -MARK - 6).attr("width", SIB - 4).attr("height", (d) => labelHeight(d) + 12);
     nodeSel.append("circle").attr("class", "halo").attr("r", MARK + 8);
-    nodeSel.filter((d) => d.edge === "direct" || d.edge === "former").append("circle").attr("class", "ring")
+    nodeSel.filter((d) => markStyle(d).ring !== null).append("circle").attr("class", "ring")
       .attr("r", MARK + 4).attr("stroke", (d) => LINEAGES[d.lineage].color)
-      .attr("stroke-dasharray", (d) => (d.edge === "former" ? "2.5 2.5" : null));
+      .attr("stroke-dasharray", (d) => (markStyle(d).ring === "dashed" ? "2.5 2.5" : null));
     nodeSel.append("circle").attr("class", "mark").attr("r", MARK)
-      .attr("fill", (d) => (d.status === "open" ? LINEAGES[d.lineage].color : "var(--bg)"))
+      .attr("fill", (d) => (markStyle(d).filled ? LINEAGES[d.lineage].color : "var(--bg)"))
       .attr("stroke", (d) => LINEAGES[d.lineage].color);
 
     // 縦書き：1文字ずつ tspan を dy で積む（ブラウザ差を避け、高さを確定計算できる）
@@ -96,7 +97,7 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
       const ids = ancestry(d.id, SHOP_BY_ID);
       g.classed("has-lit", true);
       nodeSel.classed("lit", (n) => ids.has(n.id));
-      linkSel.classed("lit", (l) => l.kind === "drop" ? ids.has(l.child.id) : ids.has(l.parent.id) && l.children.some((c) => ids.has(c.id)));
+      linkSel.classed("lit", (l) => isLitLink(l, ids));
     }).on("mouseleave", () => {
       g.classed("has-lit", false);
       nodeSel.classed("lit", false);
@@ -124,15 +125,11 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
   useEffect(() => {
     const d = d3Ref.current;
     if (!d) return;
-    const hidden = new Set<string>(), dim = new Set<string>();
-    layout.nodes.forEach((n) => {
-      if (n.founded > filter.year) hidden.add(n.id);
-      else if (!matches(n, filter)) dim.add(n.id);
-    });
-    d.nodeSel.classed("future", (n) => hidden.has(n.id)).classed("dim", (n) => dim.has(n.id));
+    const v = visibility(layout.nodes, filter);
+    d.nodeSel.classed("future", (n) => v.hidden.has(n.id)).classed("dim", (n) => v.dim.has(n.id));
     d.linkSel
-      .classed("future", (l) => l.kind === "drop" ? hidden.has(l.child.id) : l.children.every((c) => hidden.has(c.id)))
-      .classed("dim", (l) => l.kind === "drop" ? dim.has(l.child.id) && dim.has(l.parent.id) : l.children.every((c) => dim.has(c.id)));
+      .classed("future", (l) => linkVisibility(l, v).future)
+      .classed("dim", (l) => linkVisibility(l, v).dim);
   }, [layout, filter]);
 
   // ── 選択 ──
