@@ -155,7 +155,7 @@ export const NODES: Shop[] = [
     mapQuery: "横浜家系ラーメン 壱角家" },
 ];
 
-// 読み込み時に系譜の整合を検証する。壊れていれば next dev / next build が原因の店の id を含むエラーで止まる（#39）
+// 読み込み時に系譜の整合を検証する。壊れていれば next dev / next build が、原因の店の id を名指しするエラーで止まる（#39）
 assertShopsValid(NODES);
 
 export const SHOP_BY_ID = new Map(NODES.map((n) => [n.id, n]));

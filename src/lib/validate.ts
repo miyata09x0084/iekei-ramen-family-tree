@@ -4,7 +4,7 @@ import type { Shop } from "@/data/shops";
  * 店舗データが系譜として整合しているかを検証し、違反を文言の配列で返す。
  * 違反がなければ空配列。1 件目で止めず全件を集めるので、店を一気に足したときも原因の店を全部名指しできる。
  *
- * 規則（CONTEXT.md「系譜の整合」）:
+ * 規則 3 が CONTEXT.md「系譜の整合」の定義そのもの。1・2・4 は #39 で決めた、系譜を辿る前提となる追加の検査。
  *   1. id が一意
  *   2. 総本山（lineage "root"）はちょうど 1 店で、師匠と関係が空
  *      資本系は師匠と関係が空。それ以外は両方が非空
@@ -74,7 +74,7 @@ export function validateShops(shops: Shop[]): string[] {
   return errors;
 }
 
-/** 店舗データの読み込み時に呼ぶ。違反があれば原因の店の id を含む Error で止める */
+/** 店舗データの読み込み時に呼ぶ。違反があれば Error で止める。原因の店がある違反はその id を文言に含む（総本山が 1 店もない場合だけ id がない） */
 export function assertShopsValid(shops: Shop[]): void {
   const errors = validateShops(shops);
   if (errors.length === 0) return;

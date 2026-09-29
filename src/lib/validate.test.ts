@@ -40,9 +40,9 @@ describe("validateShops: 系譜の整合", () => {
     const errors = validateShops(replace(branch.id, { lineage: "root", parent: null, edge: null }));
     expect(naming(errors, branch.id)).not.toEqual([]);
   });
-  it("総本山が 1 店もなければ違反", () => {
+  it("総本山が 1 店もなければ違反（弟子の師匠が見つからない違反とは別に報告する）", () => {
     const errors = validateShops(FIXTURE.filter((s) => s.id !== root.id));
-    expect(errors).not.toEqual([]);
+    expect(errors.some((e) => e.includes("総本山") && e.includes("ない"))).toBe(true);
   });
 });
 
