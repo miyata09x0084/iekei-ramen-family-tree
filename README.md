@@ -54,13 +54,14 @@ npm run lint
 - `src/data/shops.ts` — 店舗データと型（`Shop`）、系統・関係・状態のラベル
 - `src/lib/layout.ts` — d3.tree による座標計算と系線の生成（純粋関数）
 - `src/lib/ancestry.ts` — 系譜の遡り、絞り込み判定
+- `src/lib/validate.ts` — 店舗データの系譜の整合の検証（読み込み時に呼ばれ、壊れていればビルドが止まる）
 - `src/components/TreeCanvas.tsx` — D3 が SVG を専有する描画面。React は class の付け替えだけを伝える
 - `src/components/Keizu.tsx` — 絞り込み・検索・年スライダー・選択の状態管理
 - `src/components/DetailPanel.tsx` / `Legend.tsx`
 
 ### データの編集
 
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。
+`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない系譜の誤り（師匠の id の誤りや循環、id の重複、資本系に師匠がある、創業年が師匠より前）は `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を含むエラーで止まります。
 
 ```ts
 { id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
