@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import * as d3 from "d3";
 import { LINEAGES, NODES, PREFS, YEAR_MAX, YEAR_MIN, type LineageKey, type Pref } from "@/data/shops";
 import { computeLayout } from "@/lib/layout";
-import { matches, type FilterState } from "@/lib/ancestry";
+import { matches, normalizeQuery, type FilterState } from "@/lib/ancestry";
 import { TreeCanvas, type TreeHandle } from "./TreeCanvas";
 import { DetailPanel } from "./DetailPanel";
 import { Legend } from "./Legend";
@@ -27,7 +27,7 @@ export function Keizu() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filter = useMemo<FilterState>(
-    () => ({ lineages: new Set(lineages), prefs: new Set(prefs), year, query: query.trim().replace(/\s+/g, "") }),
+    () => ({ lineages: new Set(lineages), prefs: new Set(prefs), year, query: normalizeQuery(query) }),
     [lineages, prefs, year, query],
   );
   const selected = selectedId ? layout.nodes.find((n) => n.id === selectedId) ?? null : null;
@@ -67,7 +67,7 @@ export function Keizu() {
   }
   function onQuery(v: string) {
     setQuery(v);
-    const q = v.trim().replace(/\s+/g, "");
+    const q = normalizeQuery(v);
     const exact = NODES.find((n) => n.name + n.sub === q);
     if (exact) select(exact.id);
   }

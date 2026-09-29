@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { EDGE_LABEL, LINEAGES, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
+import { LINEAGES, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
 import type { PlacedShop } from "@/lib/layout";
+import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { track } from "@/lib/track";
 
 interface Props {
@@ -27,14 +28,10 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
   if (current && current !== last) setLast(current);
   const shop = current ?? last;
   const open = !!current;
-  const master = shop?.parent ? nodes.find((n) => n.id === shop.parent) ?? null : null;
-  const kids = shop ? nodes.filter((n) => n.parent === shop.id).sort((a, b) => a.founded - b.founded) : [];
-  const gen = shop
-    ? shop.gen === null ? "系譜外" : shop.gen === 0 ? "初代（総本山）" : `第${shop.gen + 1}世代`
-    : "";
-  const edge = shop
-    ? shop.edge ? EDGE_LABEL[shop.edge] : shop.lineage === "capital" ? "企業経営（修行系譜なし）" : "—"
-    : "";
+  const master = shop ? masterOf(shop, nodes) : null;
+  const kids = shop ? disciplesOf(shop, nodes) : [];
+  const gen = shop ? generationLabel(shop.gen) : "";
+  const edge = shop ? relationLabel(shop) : "";
 
   return (
     <aside className={`panel${open ? " open" : ""}`} id="panel" aria-live="polite" inert={!open}>
