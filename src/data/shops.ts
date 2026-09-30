@@ -1,3 +1,5 @@
+import { assertShopsValid } from "@/lib/validate";
+
 export type LineageKey =
   | "root" | "direct" | "honmoku" | "rokkaku" | "ichi" | "oudou" | "musashi" | "indep" | "capital";
 export type EdgeKind = "direct" | "former" | "trained" | "disputed";
@@ -152,5 +154,8 @@ export const NODES: Shop[] = [
     note: "企業が展開する資本系。都内の駅前に多い。",
     mapQuery: "横浜家系ラーメン 壱角家" },
 ];
+
+// 読み込み時に系譜の整合を検証する。壊れていれば next dev / next build が、原因の店の id を名指しするエラーで止まる（#39）
+assertShopsValid(NODES);
 
 export const SHOP_BY_ID = new Map(NODES.map((n) => [n.id, n]));
