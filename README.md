@@ -52,6 +52,10 @@ npm test        # Vitest
 
 PR を立てると GitHub Actions（`.github/workflows/ci.yml`）が test / lint / build を自動実行します。3 つすべてが成功しないと `main` にはマージできません。
 
+Claude Code で作業するときは、`.claude/settings.json` の hook が破壊的な git コマンドを実行前に止めます。止めるのは force push、`main` への直 push、`git reset --hard`、`git clean -f`、`git branch -D`、`git checkout .` / `git restore .` です。判定は `.claude/hooks/dangerous-git.mjs` にあり、止められたコマンドが必要なときは、自分のターミナルか Claude Code の入力欄の `! <コマンド>` で実行します。hook が判定の途中で失敗したときも、素通しにせず止めます。
+
+この hook は事故の防止が目的で、回避の防止ではありません。次のものは見ません: 引用符で囲んだ引数（`git push origin "main"`）や `sh -c "..."` の中身、heredoc の本文、パス付きの `/usr/bin/git`、`git push --all` / `--mirror`、ブランチの削除（`git push origin --delete`）。
+
 ### 構成
 
 - `src/data/shops.ts` — 店舗データと型（`Shop`）、系統・関係・状態のラベル
