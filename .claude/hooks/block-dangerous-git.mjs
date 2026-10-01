@@ -2,6 +2,7 @@
 // 入力を読めなかったときは、素通しにせず止める。
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { findDangerousGit } from "./dangerous-git.mjs";
 
 function block(reason) {
@@ -35,5 +36,8 @@ try {
 const command = input?.tool_input?.command;
 if (typeof command !== "string") block("hook の入力に実行するコマンドがありません");
 
-const reason = findDangerousGit(command, currentBranch(input.cwd));
+// cd や git -C で場所を変えた git は、その場所のブランチで判定する
+const branchIn = (dirs) => currentBranch(resolve(input.cwd ?? ".", ...dirs));
+
+const reason = findDangerousGit(command, currentBranch(input.cwd), branchIn);
 if (reason) block(reason);

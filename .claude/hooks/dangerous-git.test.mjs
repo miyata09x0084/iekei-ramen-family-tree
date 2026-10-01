@@ -47,12 +47,29 @@ describe("findDangerousGit: main への直 push を止める", () => {
     expect(findDangerousGit(command, BRANCH)).toContain("main");
   });
 
-  it.each(["git push", "git push origin", "git push origin HEAD"])(
+  it.each(["git push", "git push origin", "git push origin HEAD", "git push origin 2>&1", "git push origin @"])(
     "今のブランチが main のときの %s",
     (command) => {
       expect(findDangerousGit(command, "main")).toContain("main");
     },
   );
+});
+
+describe("findDangerousGit: 別の場所で打つ git push は、その場所のブランチで判定する", () => {
+  // 今いる場所は作業ブランチで、../main-tree は main にいる
+  const branchIn = (dirs) => (dirs.at(-1) === "../main-tree" ? "main" : BRANCH);
+
+  it.each([
+    "cd ../main-tree && git push",
+    "cd ../main-tree\ngit push origin HEAD",
+    "git -C ../main-tree push",
+  ])("%s", (command) => {
+    expect(findDangerousGit(command, BRANCH, branchIn)).toContain("main");
+  });
+
+  it("移動先が作業ブランチなら通す", () => {
+    expect(findDangerousGit("cd ../other-tree && git push", BRANCH, branchIn)).toBeNull();
+  });
 });
 
 describe("findDangerousGit: 前後に別のコマンドや全体オプションがあっても止める", () => {
@@ -62,6 +79,10 @@ describe("findDangerousGit: 前後に別のコマンドや全体オプション�
     "git -C ../other reset --hard",
     "git -c core.editor=true reset --hard",
     "cd src\ngit checkout .",
+    "git status & git reset --hard",
+    "git reset --hard>/dev/null",
+    "git reset \\\n  --hard",
+    "cat > n.md <<'EOF'\ndon't\nEOF\ngit reset --hard && echo 'done'",
   ])("%s", (command) => {
     expect(findDangerousGit(command, BRANCH)).not.toBeNull();
   });
@@ -88,6 +109,11 @@ describe("findDangerousGit: 通すコマンド", () => {
     "npm test",
     "gh pr create --title \"x\" --body \"git push origin main はしない\"",
   ])("%s", (command) => {
+    expect(findDangerousGit(command, BRANCH)).toBeNull();
+  });
+
+  it("heredoc の本文に書かれたコマンドでは止めない", () => {
+    const command = "cat > notes.md <<'EOF'\ngit reset --hard は危険\nEOF";
     expect(findDangerousGit(command, BRANCH)).toBeNull();
   });
 
