@@ -47,7 +47,10 @@ npm install
 npm run dev     # http://localhost:3000
 npm run build   # out/ に静的サイトを出力
 npm run lint
+npm test        # Vitest
 ```
+
+PR を立てると GitHub Actions（`.github/workflows/ci.yml`）が test / lint / build を自動実行します。3 つすべてが成功しないと `main` にはマージできません。
 
 ### 構成
 
