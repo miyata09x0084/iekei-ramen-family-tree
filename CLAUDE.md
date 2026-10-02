@@ -12,6 +12,7 @@
 | TDD | ユーザースキルの `tdd` | `superpowers:test-driven-development` |
 | デバッグ | ユーザースキルの `diagnosing-bugs` | `superpowers:systematic-debugging` |
 | 手元のレビュー | ユーザースキルの `code-review`（規約と仕様の 2 観点） | `coderabbit:code-review`、`superpowers:requesting-code-review` |
+| UI のレビュー（アクセシビリティ・操作性） | `web-design-guidelines`。速さを見るときは `vercel-react-best-practices` | — |
 | 完了を宣言する前 | `superpowers:verification-before-completion` | — |
 
 設計文書（spec・計画書）はリポジトリに残さない。計画は Plan モードで使い捨てにし、残すのは ADR と PR の説明文だけにする（[ADR 0003](docs/adr/0003-issue-lifecycle-and-refinement-depth.md)）。
