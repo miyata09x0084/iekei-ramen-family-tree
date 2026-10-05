@@ -13,3 +13,6 @@ export function siteDescription(): string {
 export function siteTagline(): string {
   return `吉村家から広がる ${NODES.length} 店の系図`;
 }
+
+/** OGP 画像の場所と大きさ。画像は src/app/og.png/route.tsx がビルド時に描く */
+export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630 };

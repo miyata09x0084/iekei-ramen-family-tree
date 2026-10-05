@@ -2,19 +2,22 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Shippori_Mincho, Yuji_Syuku, Zen_Kaku_Gothic_New } from "next/font/google";
-import { SITE_NAME, SITE_URL, siteDescription } from "@/lib/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL, siteDescription, siteTagline } from "@/lib/site";
 import "./globals.css";
 
 const yuji = Yuji_Syuku({ weight: "400", subsets: ["latin"], variable: "--font-yuji", display: "swap", preload: false });
 const shippori = Shippori_Mincho({ weight: ["500", "700"], subsets: ["latin"], variable: "--font-shippori", display: "swap", preload: false });
 const zenKaku = Zen_Kaku_Gothic_New({ weight: ["400", "500", "700"], subsets: ["latin"], variable: "--font-zen-kaku", display: "swap", preload: false });
 
-// og:image / twitter:image は src/app/opengraph-image.tsx がビルド時に生成し、タグも自動で入る
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
   description: siteDescription(),
-  openGraph: { type: "website", siteName: SITE_NAME, locale: "ja_JP" },
+  // twitter:image は指定しなければ og:image と同じものが入る
+  openGraph: {
+    type: "website", siteName: SITE_NAME, locale: "ja_JP",
+    images: [{ ...OG_IMAGE, type: "image/png", alt: `${SITE_NAME} — ${siteTagline()}` }],
+  },
   twitter: { card: "summary_large_image" },
 };
 

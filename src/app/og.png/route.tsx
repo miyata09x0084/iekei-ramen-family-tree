@@ -3,13 +3,13 @@ import { LINEAGES, NODES } from "@/data/shops";
 import { computeLayout } from "@/lib/layout";
 import { loadOgFont } from "@/lib/og-font";
 import { silhouette } from "@/lib/og";
-import { SITE_NAME, SITE_URL, siteTagline } from "@/lib/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL, siteTagline } from "@/lib/site";
 
-// 静的出力でもビルド時に out/opengraph-image として書き出す（sitemap.ts / robots.ts も同じ指定）
+// 静的出力でもビルド時に out/og.png として書き出す（sitemap.ts / robots.ts も同じ指定）。
+// 規約ファイルの opengraph-image.tsx は拡張子なしで出力され、静的ホスティングが image/png で
+// 返す保証がないので、拡張子付きのパスを持つ route にしている。タグは layout.tsx で指定する
+
 export const dynamic = "force-static";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = `${SITE_NAME} — ${siteTagline()}`;
 
 // globals.css の配色と合わせる。Satori は CSS 変数を読めないので値を直接書く
 const BG = "#2B1B12", PAPER = "#F1E7D2", PAPER_DIM = "#B9A98E", PAPER_FAINT = "#7E6F5C";
@@ -47,7 +47,7 @@ function Silhouette() {
   );
 }
 
-export default async function Image() {
+export async function GET() {
   const tagline = siteTagline();
   // 画像だけが切り取られて出回っても出所を辿れるよう、隅にホスト名を入れる
   const host = new URL(SITE_URL).host;
@@ -64,6 +64,6 @@ export default async function Image() {
         </div>
       </div>
     ),
-    { ...size, fonts: [{ name: "Yuji", data: font, weight: 400, style: "normal" }] },
+    { width: OG_IMAGE.width, height: OG_IMAGE.height, fonts: [{ name: "Yuji", data: font, weight: 400, style: "normal" }] },
   );
 }
