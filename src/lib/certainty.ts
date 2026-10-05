@@ -11,9 +11,9 @@ export function sortSources(sources: Source[]): Source[] {
 export type Certainty = "confirmed" | "reported" | "unverified";
 
 export const CERTAINTY_LABEL: Record<Certainty, string> = {
-  confirmed: "確定（一次情報あり）",
-  reported: "報道による（一次情報なし）",
-  unverified: "未確認（Wikipedia・ブログのみ）",
+  confirmed: "確か（公式の発信あり）",
+  reported: "ほぼ確か（新聞・雑誌の記事あり）",
+  unverified: "未確認（Wikipedia やブログだけ）",
 };
 
 /** 出典のうち最も確かな種別で決める。一次が 1 件でもあれば確定、二次までなら報道による、三次だけなら未確認 */

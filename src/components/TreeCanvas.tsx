@@ -86,7 +86,7 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
       const cx0 = layout.capitals[0].x - SIB / 2, cx1 = layout.capitals[layout.capitals.length - 1].x + SIB / 2;
       g.append("path").attr("class", "outside-rule").attr("d", `M${cx0},${LEVEL - 26} H${cx1}`);
       g.append("text").attr("class", "outside-label").attr("x", (cx0 + cx1) / 2).attr("y", LEVEL - 36)
-        .attr("text-anchor", "middle").text("系譜に属さない店（資本系）");
+        .attr("text-anchor", "middle").text("会社が広げたお店（資本系）");
     }
 
     const zoom = d3.zoom<SVGSVGElement, unknown>().scaleExtent([0.25, 3]).on("zoom", (e) => g.attr("transform", e.transform));
@@ -177,7 +177,7 @@ export function TreeCanvas({ ref, layout, filter, selectedId, onSelect }: Props)
 
   return (
     <div className="stage" ref={stageRef}>
-      <svg className="tree" ref={svgRef} role="img" aria-label="家系ラーメンの系図" />
+      <svg className="tree" ref={svgRef} role="img" aria-label="家系ラーメンのお店のつながりを表した系図" />
     </div>
   );
 }
