@@ -94,8 +94,10 @@ export const NODES: Shop[] = [
   { id: "yoshimura", name: "吉村家", sub: "横浜駅西口", pref: "神奈川", city: "横浜市西区", founded: 1974, parent: null, lineage: "root", status: "open", edge: null,
     note: "1974年、吉村実氏が新杉田に創業。豚骨醤油のスープに酒井製麺の太麺、ほうれん草と海苔、チャーシュー。屋号の「家」がそのまま「家系」の名の由来になった。1999年に横浜駅西口へ移転し、現在は同じ西口の岡野に店を構え、総本山として行列が絶えない。",
     sources: [
-      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "創業年・移転・所在地" },
-      { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "創業年・家系の由来" },
+      { title: "吉村家 公式サイト「家系総本山とは」", url: "http://ieke1.com/source/yosimuraya/toha.html", kind: "primary", note: "創業年・創業地" },
+      { title: "吉村家 公式サイト（トップ）", url: "http://ieke1.com/", kind: "primary", note: "現在の所在地" },
+      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "移転の経緯" },
+      { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "家系の由来" },
     ],
     mapQuery: "家系総本山 吉村家 横浜市西区岡野" },
 
