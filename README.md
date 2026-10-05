@@ -2,7 +2,7 @@
 
 **▶ https://iekei-ramen-family-tree.vercel.app** — ブラウザで開くだけで使えます（PC・スマホ対応、インストール不要）
 
-吉村家を頂点に、関東の家系ラーメン27店・6世代の修行系譜を、縦書き屋号の伝統的な系図様式で辿れる Web アプリです。
+吉村家を頂点に、関東の家系ラーメン28店・7世代の修行系譜を、縦書き屋号の伝統的な系図様式で辿れる Web アプリです。
 
 [![家系図の画面。吉村家を選ぶと右に詳細パネルが開き、Google マップへのリンクが表示される](docs/screenshot.jpg)](https://iekei-ramen-family-tree.vercel.app)
 
@@ -28,12 +28,13 @@
 | 白抜きの丸 | 閉店・本店閉店 |
 | 実線 | 暖簾分け・修行 |
 | 点線 | 諸説あり |
+| 細かい点線 | 影響（師弟関係なし） |
 
 町田商店などの資本系は修行の系譜に属さないため、系図の右に別置きしています。
 
 ## データについて
 
-系譜は公開情報を編集したものです。創業年は概算（「頃」表記）を含み、系譜上の位置づけに諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。
+系譜は公開情報を編集したものです。全店に出典（公式サイト・報道・Wikipedia など）を付けており、屋号を押して開く詳細パネルの「出典」から原文を確かめられます。出典で裏付けられない創業年は概算（「頃」表記）とし、師匠の店に諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。
 
 ---
 
@@ -68,18 +69,22 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 
 ### データの編集
 
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）の 4 つです。
+`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり URL が http(s) で始まることの 5 つです。
 
 ```ts
 { id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
   parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
+  sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", note: "創業年・師匠" }],
   mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
 ```
 
 - `parent`: 師匠となる店の `id`（資本系は `null`）
 - `lineage`: `direct` / `honmoku` / `rokkaku` / `ichi` / `oudou` / `musashi` / `indep` / `capital`
-- `edge`: `direct`（直系認定）/ `former`（元直系）/ `trained`（修行・独立）/ `disputed`（諸説あり）
+- `edge`: `direct`（直系認定）/ `former`（元直系）/ `trained`（修行・独立）/ `disputed`（諸説あり）/ `inspired`（影響。師弟関係なし）
 - `status`: `open` / `closed` / `main-closed`
+- `sources`: 出典。1 件以上が必須で、詳細パネルの「出典」に媒体名のリンクとして並ぶ。`title` は媒体名＋ページ名（例: `Wikipedia「吉村家」`）、
+  `url` は実際に開いて主張が書かれていることを確かめた URL（https を基本とし、証明書不一致で開けない公式サイトだけ http）、`note`（任意）はその出典が裏付ける項目（例: `創業年・師匠`）。
+  優先順は 公式サイト・公式 SNS > 報道 > Wikipedia > ラーメン専門メディア > 個人ブログ。裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする
 - `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
   多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
   本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。

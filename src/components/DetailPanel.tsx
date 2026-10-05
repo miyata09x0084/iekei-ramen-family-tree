@@ -59,6 +59,19 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           <div className="rel">{master ? <RelChip shop={master} onSelect={onSelect} /> : <span className="none">なし</span>}</div>
           <h3>弟子・暖簾分け</h3>
           <div className="rel">{kids.length ? kids.map((k) => <RelChip key={k.id} shop={k} onSelect={onSelect} />) : <span className="none">なし</span>}</div>
+          <h3>出典</h3>
+          <ul className="sources">
+            {shop.sources.map((src) => (
+              <li key={src.url}>
+                <a href={src.url} target="_blank" rel="noopener noreferrer"
+                  onClick={() => track({ name: "source_open", shop_id: shop.id })}
+                  aria-label={`${src.title}（新しいタブ）`}>
+                  {src.title}<span aria-hidden="true">↗</span>
+                </a>
+                {src.note && <span className="src-note">{src.note}</span>}
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </aside>
