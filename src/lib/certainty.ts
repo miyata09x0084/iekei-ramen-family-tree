@@ -2,8 +2,8 @@ import type { Source, SourceKind } from "@/data/shops";
 
 const KIND_RANK: Record<SourceKind, number> = { primary: 0, secondary: 1, tertiary: 2 };
 
-/** 出典を一次・二次・三次の順に並べた新しい配列を返す。同じ種別はデータの順を保つ */
-export function sortByKind(sources: Source[]): Source[] {
+/** 一次 → 二次 → 三次の順に並べた新しい配列を返す。同じ種別の中はデータの順を保つ */
+export function sortSources(sources: Source[]): Source[] {
   return [...sources].sort((a, b) => KIND_RANK[a.kind] - KIND_RANK[b.kind]);
 }
 

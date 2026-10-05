@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Source } from "@/data/shops";
-import { certaintyOf, sortByKind } from "@/lib/certainty";
+import { certaintyOf, sortSources } from "@/lib/certainty";
 
 const primary: Source = { title: "公式サイト", url: "https://example.com/official", kind: "primary" };
 const secondary: Source = { title: "新聞", url: "https://example.com/news", kind: "secondary" };
@@ -21,14 +21,14 @@ describe("certaintyOf: 出典の種別から確度を導く", () => {
   });
 });
 
-describe("sortByKind: 出典を一次・二次・三次の順に並べる", () => {
-  it("種別の順に並べ、同じ種別はデータの順を保つ", () => {
+describe("sortSources: 一次 → 二次 → 三次の順に並べる", () => {
+  it("種別の順に並べ替え、同じ種別の中はデータの順を保つ", () => {
     const tertiary2: Source = { ...tertiary, url: "https://example.com/wiki2" };
-    expect(sortByKind([tertiary, secondary, tertiary2, primary])).toEqual([primary, secondary, tertiary, tertiary2]);
+    expect(sortSources([tertiary, secondary, tertiary2, primary])).toEqual([primary, secondary, tertiary, tertiary2]);
   });
-  it("元の配列を書き換えない", () => {
+  it("元の配列は変えない", () => {
     const input = [tertiary, primary];
-    sortByKind(input);
+    sortSources(input);
     expect(input).toEqual([tertiary, primary]);
   });
 });
