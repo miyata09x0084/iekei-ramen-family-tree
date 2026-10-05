@@ -6,7 +6,11 @@ import { LINEAGES, NODES, SHOP_BY_ID, SOURCES_CHECKED_AT, SOURCE_KIND_LABEL, STA
 import { lineagePath } from "@/lib/ancestry";
 import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
-import { correctionIssueUrl, generationOf, shopDescription, shopPath, shopTitle } from "@/lib/shop-page";
+import { correctionIssueUrl, generationOf, keizuPath, shopDescription, shopLabel, shopPath, shopTitle } from "@/lib/shop-page";
+import { openGraphBase } from "@/lib/site";
+
+// 系譜の見出しに使う総本山。validate.ts が「ちょうど 1 店」を保証している
+const ROOT = NODES.find((n) => n.lineage === "root")!;
 
 // 全店ぶんを静的出力する。一覧にない id は 404（dynamicParams = false）
 export const dynamicParams = false;
@@ -14,20 +18,20 @@ export function generateStaticParams() {
   return NODES.map(({ id }) => ({ id }));
 }
 
-type Props = { params: Promise<{ id: string }> };
+interface Props { params: Promise<{ id: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const shop = SHOP_BY_ID.get(id);
-  if (!shop) return {};
+  if (!shop) return {}; // dynamicParams = false なので到達しない。型の絞り込みのため
   const title = shopTitle(shop);
   const description = shopDescription(shop, SHOP_BY_ID);
   return {
     title,
     description,
     alternates: { canonical: shopPath(id) },
-    // 画像は layout.tsx の openGraph（サイト全体の 1 枚）を継承する
-    openGraph: { title, description, url: shopPath(id) },
+    // 画像はサイト全体の 1 枚。openGraph は layout とマージされないので共通部分を展開する
+    openGraph: { ...openGraphBase(), title, description, url: shopPath(id) },
   };
 }
 
@@ -36,7 +40,7 @@ function ShopLink({ shop }: { shop: Shop }) {
   return (
     <Link className="chip" style={{ "--c": LINEAGES[shop.lineage].color } as CSSProperties} href={shopPath(shop.id)}>
       <span className="dot" />
-      {shop.name}{shop.sub ? `（${shop.sub}）` : ""}
+      {shopLabel(shop)}
     </Link>
   );
 }
@@ -50,7 +54,7 @@ export default async function ShopPage({ params }: Props) {
   const master = masterOf(shop, NODES);
   const kids = disciplesOf(shop, NODES);
   const certainty = certaintyOf(shop.sources);
-  const capital = shop.lineage === "capital";
+  const isCapital = shop.lineage === "capital";
 
   return (
     <main className="doc shop">
@@ -74,13 +78,16 @@ export default async function ShopPage({ params }: Props) {
         </a>
       </p>
 
-      <h2>{path[0].name}までのつながり</h2>
-      {capital ? (
+      <h2>{ROOT.name}までのつながり</h2>
+      {isCapital ? (
         <p>会社が開いたお店で、修行のつながりはありません。</p>
+      ) : path.length === 1 ? (
+        <p>家系ラーメンの始まりのお店で、師匠はいません。</p>
       ) : (
-        <ol className="lineage-path" aria-label={`${path[0].name}から${shop.name}までの系譜`}>
-          {path.map((s) => (
+        <ol className="lineage-path" aria-label={`${ROOT.name}から${shop.name}までのつながり`}>
+          {path.map((s, i) => (
             <li key={s.id}>
+              {i > 0 && <span className="arrow" aria-hidden="true">→</span>}
               {s.id === shop.id
                 ? <span className="here" aria-current="page">{s.name}</span>
                 : <Link href={shopPath(s.id)}>{s.name}</Link>}
@@ -106,10 +113,10 @@ export default async function ShopPage({ params }: Props) {
           </li>
         ))}
       </ul>
-      <p className="checked">出典を確かめた日: {SOURCES_CHECKED_AT}</p>
+      <p className="checked">出典を確かめた日: <time dateTime={SOURCES_CHECKED_AT}>{SOURCES_CHECKED_AT.replace(/-/g, "/")}</time></p>
 
       <nav className="shop-links" aria-label="このページから">
-        <Link className="btn" href={`/?shop=${shop.id}`}>系図でこの店を見る</Link>
+        <Link className="btn" href={keizuPath(shop.id)}>系図でこのお店を見る</Link>
         <Link className="btn" href="/shops">お店の一覧</Link>
         <a className="btn" href={correctionIssueUrl(shop)} target="_blank" rel="noopener noreferrer" aria-label="この情報を直す（GitHub、新しいタブ）">
           この情報を直す<span aria-hidden="true">↗</span>

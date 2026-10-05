@@ -6,7 +6,7 @@ import { LINEAGES, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/
 import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
 import type { PlacedShop } from "@/lib/layout";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
-import { shopPath } from "@/lib/shop-page";
+import { shopLabel, shopPath } from "@/lib/shop-page";
 import { track } from "@/lib/track";
 
 interface Props {
@@ -31,7 +31,7 @@ function RelChip({ shop, onSelect }: { shop: Shop; onSelect: (id: string) => voi
   return (
     <button type="button" className="chip" style={{ "--c": LINEAGES[shop.lineage].color } as CSSProperties} onClick={() => onSelect(shop.id)}>
       <span className="dot" />
-      {shop.name}{shop.sub ? `（${shop.sub}）` : ""}
+      {shopLabel(shop)}
     </button>
   );
 }

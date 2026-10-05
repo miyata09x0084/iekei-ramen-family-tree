@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { LINEAGES, NODES, type LineageKey } from "@/data/shops";
-import { shopPath } from "@/lib/shop-page";
+import { shopLabel, shopPath } from "@/lib/shop-page";
 
 export const metadata: Metadata = {
   title: "お店の一覧",
@@ -25,7 +25,7 @@ export default function ShopsIndex() {
           <ul className="shop-list">
             {g.shops.map((s) => (
               <li key={s.id}>
-                <Link href={shopPath(s.id)}>{s.name}{s.sub ? `（${s.sub}）` : ""}</Link>
+                <Link href={shopPath(s.id)}>{shopLabel(s)}</Link>
                 <span className="meta">{s.founded}年{s.approx ? "頃" : ""}・{s.city}</span>
               </li>
             ))}

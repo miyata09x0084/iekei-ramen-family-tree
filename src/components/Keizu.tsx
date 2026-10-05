@@ -10,6 +10,7 @@ import { DetailPanel } from "./DetailPanel";
 import { Legend } from "./Legend";
 import Link from "next/link";
 import { track } from "@/lib/track";
+import { SHOP_QUERY } from "@/lib/shop-page";
 
 const LINEAGE_CHIPS = (Object.keys(LINEAGES) as LineageKey[]).filter((k) => k !== "root");
 // 修行系譜としての系統数（総本山と資本系を除く）
@@ -49,9 +50,9 @@ export function Keizu() {
     });
   }
   useEffect(() => {
-    // 店舗ページの「系図でこの店を見る」（/?shop=<id>）から来たときは、再生を飛ばしてその店を選択済みで開く。
+    // 店舗ページの「系図でこのお店を見る」（keizuPath）から来たときは、再生を飛ばしてその店を選択済みで開く。
     // 自動選択なので select() は通さず、GA の shop_select（ユーザーの操作）には混ぜない
-    const id = new URLSearchParams(window.location.search).get("shop");
+    const id = new URLSearchParams(window.location.search).get(SHOP_QUERY);
     if (id && SHOP_BY_ID.has(id)) {
       setYear(YEAR_MAX);
       setSelectedId(id);

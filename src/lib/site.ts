@@ -19,3 +19,14 @@ export function siteTagline(): string {
 
 /** OGP 画像の場所と大きさ。画像は src/app/og.png/route.tsx がビルド時に描く */
 export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630 };
+
+/**
+ * 全ページ共通の openGraph。Next はページの openGraph を layout のものとマージせず置き換えるので、
+ * ページ側で title や url を足すときは必ずこれを展開してから上書きする（店舗ページで og:image が消えた経験から）
+ */
+export function openGraphBase() {
+  return {
+    type: "website" as const, siteName: SITE_NAME, locale: "ja_JP",
+    images: [{ ...OG_IMAGE, type: "image/png", alt: `${SITE_NAME} — ${siteTagline()}` }],
+  };
+}

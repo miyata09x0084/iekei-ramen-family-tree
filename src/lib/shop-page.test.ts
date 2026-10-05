@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { correctionIssueUrl, generationOf, shopDescription, shopPath, shopTitle } from "@/lib/shop-page";
-import { FIXTURE_BY_ID, pick } from "@/lib/shops.fixture";
+import { correctionIssueUrl, generationOf, keizuPath, shopDescription, shopLabel, shopPath, shopTitle } from "@/lib/shop-page";
+import { computeLayout } from "@/lib/layout";
+import { FIXTURE, FIXTURE_BY_ID, pick } from "@/lib/shops.fixture";
 
 const root = pick((s) => s.lineage === "root", "総本山");
 const capital = pick((s) => s.lineage === "capital", "資本系");
@@ -11,9 +12,19 @@ const noSub = pick((s) => s.sub === "" && s.parent !== null && s.lineage !== "ca
 const approx = pick((s) => s.approx === true, "概算の店");
 const disputed = pick((s) => s.edge === "disputed", "諸説あり");
 
-describe("shopPath: 店舗ページの URL", () => {
-  it("/shops/<id>", () => {
-    expect(shopPath("budoka")).toBe("/shops/budoka");
+describe("shopPath / keizuPath: 店舗ページと、系図をその店で開く URL", () => {
+  it("店舗ページは /shops/<id>", () => {
+    expect(shopPath(root.id)).toBe(`/shops/${root.id}`);
+  });
+  it("系図は /?shop=<id>（Keizu.tsx が読むクエリ名と同じ）", () => {
+    expect(keizuPath(root.id)).toBe(`/?shop=${root.id}`);
+  });
+});
+
+describe("shopLabel: 画面に出す店名", () => {
+  it("屋号（補足）。補足が空なら屋号だけ", () => {
+    expect(shopLabel(withSub)).toBe(`${withSub.name}（${withSub.sub}）`);
+    expect(shopLabel(noSub)).toBe(noSub.name);
   });
 });
 
@@ -63,6 +74,10 @@ describe("generationOf: 世代（総本山が 0）", () => {
   });
   it("資本系は null（世代なし）", () => {
     expect(generationOf(capital, FIXTURE_BY_ID)).toBeNull();
+  });
+  it("系図の配置（layout.ts）が付ける gen と全店で一致する（世代の正が 2 つにならないように）", () => {
+    const { nodes } = computeLayout(FIXTURE);
+    for (const n of nodes) expect(generationOf(n, FIXTURE_BY_ID), n.id).toBe(n.gen);
   });
 });
 
