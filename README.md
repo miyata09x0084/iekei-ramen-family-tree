@@ -65,6 +65,9 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 - `src/components/TreeCanvas.tsx` — D3 が SVG を専有する描画面。React は class の付け替えだけを伝える
 - `src/components/Keizu.tsx` — 絞り込み・検索・年スライダー・選択の状態管理
 - `src/components/DetailPanel.tsx` / `Legend.tsx`
+- `src/lib/site.ts` — 正とする URL・サイト名・説明文。`metadataBase` / sitemap / robots はここから作る
+- `src/app/opengraph-image.tsx` — OGP 画像（1200×630）。`src/lib/og.ts` が系図を影絵の座標に変換し、`src/lib/og-font.ts` がビルド時に筆文字フォントを Google Fonts から取る
+- `src/app/sitemap.ts` / `robots.ts` — 静的出力でもビルド時に `out/sitemap.xml` / `out/robots.txt` になる（`dynamic = "force-static"`）
 
 ### データの編集
 
