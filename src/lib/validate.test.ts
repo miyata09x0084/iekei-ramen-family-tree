@@ -92,6 +92,29 @@ describe("validateShops: 創業年", () => {
   });
 });
 
+describe("validateShops: 出典", () => {
+  it("出典が 1 件もない店を名指しする", () => {
+    const errors = validateShops(replace(grandchild.id, { sources: [] }));
+    expect(naming(errors, grandchild.id)).not.toEqual([]);
+  });
+  it("総本山と資本系にも出典が要る", () => {
+    expect(naming(validateShops(replace(root.id, { sources: [] })), root.id)).not.toEqual([]);
+    expect(naming(validateShops(replace(capital.id, { sources: [] })), capital.id)).not.toEqual([]);
+  });
+  it("URL が http(s) で始まらない出典を、店の id と URL で名指しする", () => {
+    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "example.com/page", kind: "primary" }] }));
+    expect(naming(errors, grandchild.id)).not.toEqual([]);
+    expect(naming(errors, "example.com/page")).not.toEqual([]);
+  });
+  it("http の URL は違反にしない（公式サイトが http のみの店があるため）", () => {
+    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "http://example.com/page", kind: "primary" }] }))).toEqual([]);
+  });
+  it("媒体名が空の出典を名指しする", () => {
+    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "", url: "https://example.com/", kind: "primary" }] }));
+    expect(naming(errors, grandchild.id)).not.toEqual([]);
+  });
+});
+
 describe("assertShopsValid: 読み込み時の停止", () => {
   it("整合していれば何もしない", () => {
     expect(() => assertShopsValid(FIXTURE)).not.toThrow();

@@ -10,6 +10,7 @@ import type { Shop } from "@/data/shops";
  *      資本系は師匠と関係が空。それ以外は両方が非空
  *   3. 資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない
  *   4. 創業年が師匠より前でない（本人か師匠が概算なら除く）
+ *   5. 全店に出典が 1 件以上あり、各出典は媒体名が非空で URL が http(s) で始まる（#44）
  */
 export function validateShops(shops: Shop[]): string[] {
   const errors: string[] = [];
@@ -68,6 +69,15 @@ export function validateShops(shops: Shop[]): string[] {
     if (!master || master.approx) continue;
     if (s.founded < master.founded) {
       errors.push(`"${s.id}" の創業年 ${s.founded} が師匠 "${master.id}" の ${master.founded} より前`);
+    }
+  }
+
+  // 5. 出典: 総本山・資本系を含む全店に 1 件以上。URL は http(s) で始まる絶対 URL（相対パスやメモの混入を防ぐ）
+  for (const s of shops) {
+    if (s.sources.length === 0) errors.push(`"${s.id}" に出典（sources）がない`);
+    for (const src of s.sources) {
+      if (src.title.trim() === "") errors.push(`"${s.id}" の出典 "${src.url}" に媒体名（title）がない`);
+      if (!/^https?:\/\//.test(src.url)) errors.push(`"${s.id}" の出典 "${src.url}" が http(s) で始まらない`);
     }
   }
 

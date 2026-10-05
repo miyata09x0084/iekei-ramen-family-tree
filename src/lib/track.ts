@@ -6,6 +6,7 @@ import type { LineageKey, Pref } from "@/data/shops";
 export type TrackEvent =
   | { name: "shop_select"; shop_id: string; lineage: LineageKey }
   | { name: "map_open"; shop_id: string }
+  | { name: "source_open"; shop_id: string }
   | { name: "filter_lineage"; key: LineageKey }
   | { name: "filter_pref"; key: Pref }
   | { name: "search"; hit: boolean }
