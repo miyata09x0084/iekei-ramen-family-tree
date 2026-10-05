@@ -76,7 +76,7 @@ export function validateShops(shops: Shop[]): string[] {
   for (const s of shops) {
     if (s.sources.length === 0) errors.push(`"${s.id}" に出典（sources）がない`);
     for (const src of s.sources) {
-      if (src.title.trim() === "") errors.push(`"${s.id}" の出典 ${src.url} に媒体名（title）がない`);
+      if (src.title.trim() === "") errors.push(`"${s.id}" の出典 "${src.url}" に媒体名（title）がない`);
       if (!/^https?:\/\//.test(src.url)) errors.push(`"${s.id}" の出典 "${src.url}" が http(s) で始まらない`);
     }
   }

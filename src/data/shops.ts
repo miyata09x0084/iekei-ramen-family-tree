@@ -156,6 +156,7 @@ export const NODES: Shop[] = [
   { id: "ichinana", name: "壱七家", sub: "立川", pref: "東京", city: "立川市", founded: 2008, parent: "ichiroku", lineage: "ichi", status: "open", edge: "disputed",
     note: "2008年、立川で開店。魂心家と同じ株式会社トイダックが運営する。壱六家の暖簾分けとされることが多いが、師弟関係を示す公式・報道の記述は見つかっておらず、位置づけには諸説ある。",
     sources: [
+      { title: "株式会社トイダック 公式サイト「会社沿革」", url: "http://www.toyduck.co.jp/history.html", note: "創業年・運営企業" },
       { title: "Retty「横浜家系ラーメン 立川 壱七家」", url: "https://retty.me/area/PRE13/ARE3/SUB301/100000730898/", note: "創業年・所在地" },
       { title: "家系ラーメンマン「壱六家の暖簾分け」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/08/180000", note: "壱六家の暖簾分けとする説" },
       { title: "Yahoo!マップ「立川 壱七家」", url: "https://map.yahoo.co.jp/v3/place/1Y4BkbKGlQA", note: "営業状況・魂心家の姉妹店" },
@@ -248,9 +249,9 @@ export const NODES: Shop[] = [
     ],
     mapQuery: "家系ラーメン 王道家 柏市明原1-7-26" },
   { id: "torakichi", name: "とらきち家", sub: "東白楽", pref: "神奈川", city: "横浜市神奈川区", founded: 2014, parent: "oudou", lineage: "oudou", status: "open", edge: "trained",
-    note: "王道家出身。2014年に横浜・東白楽で創業した王道家公認店。2024年に本家は平塚へ移り、東白楽の店は弟子が「とらきち家 光」として継いでいる。",
+    note: "王道家出身。2014年に横浜・東白楽で創業した王道家グループの店。店主は2024年に東白楽を閉めて2025年に平塚で再開し、東白楽の店は弟子が「とらきち家 光」として継いでいる。",
     sources: [
-      { title: "食べログ「家系ラーメン とらきち家（東白楽）」", url: "https://tabelog.com/kanagawa/A1401/A140205/14053454/", note: "開店日・王道家公認" },
+      { title: "食べログ「家系ラーメン とらきち家（東白楽）」", url: "https://tabelog.com/kanagawa/A1401/A140205/14053454/", note: "開店日・王道家との関係" },
       { title: "王道家 公式サイト「グループ店舗情報」", url: "https://oudouya.com/shop-info/", note: "師匠" },
       { title: "ラーメンデータベース「家系ラーメン とらきち家」", url: "https://ramendb.supleks.jp/s/72495.html", note: "開店日・平塚への移転" },
     ],
@@ -272,21 +273,21 @@ export const NODES: Shop[] = [
 
   // 系図に載らない資本系（修行系譜に属さない）
   { id: "machida", name: "町田商店", sub: "町田", pref: "東京", city: "町田市", founded: 2008, parent: null, lineage: "capital", status: "open", edge: null,
-    note: "2008年に町田で創業し、ギフトホールディングスが展開するチェーン。修行の系譜には属さない「資本系」の代表格で、家系を全国に広めた。",
+    note: "2008年に町田で創業し、ギフトホールディングスが全国に多店舗を展開する。修行の系譜には属さない「資本系」の代表格で、家系を全国に広めた。",
     sources: [
       { title: "EDINET DB「株式会社ギフトホールディングス の沿革」", url: "https://edinetdb.jp/company/E34336/history", note: "創業年・創業地・運営企業" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", note: "資本系" },
     ],
     mapQuery: "横浜家系ラーメン 町田商店 本店 町田市森野1-34-13" },
   { id: "konshin", name: "魂心家", sub: "", pref: "神奈川", city: "大和市ほか", founded: 2010, parent: null, lineage: "capital", status: "open", edge: null,
-    note: "ゲーム販売などを営む株式会社トイダック（大和市）が2010年に目黒で始めた資本系チェーン。関東を中心に多店舗化。",
+    note: "ゲーム販売などを営む株式会社トイダック（大和市）が2010年に目黒で始めた資本系の店。関東を中心に多店舗化。",
     sources: [
       { title: "株式会社トイダック 公式サイト「会社沿革」", url: "http://www.toyduck.co.jp/history.html", note: "創業年・運営企業" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", note: "資本系" },
     ],
     mapQuery: "横浜家系ラーメン 魂心家" },
   { id: "ichikaku", name: "壱角家", sub: "", pref: "東京", city: "新宿区ほか", founded: 2014, parent: null, lineage: "capital", status: "open", edge: null,
-    note: "カラオケ事業の株式会社ガーデンが、ギフト（町田商店）のプロデュースで2014年に新宿で始めた資本系チェーン。都内の駅前に多い。",
+    note: "カラオケ事業の株式会社ガーデンが、ギフト（町田商店）のプロデュースで2014年に新宿で始めた資本系の店。都内の駅前に多い。",
     sources: [
       { title: "EDINET DB「株式会社ガーデン の沿革」", url: "https://edinetdb.jp/company/E40066/history", note: "創業年・創業地・運営企業" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", note: "資本系" },

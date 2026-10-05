@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { LINEAGES, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
 import type { PlacedShop } from "@/lib/layout";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
@@ -11,6 +11,17 @@ interface Props {
   nodes: PlacedShop[];
   onSelect: (id: string) => void;
   onClose: () => void;
+}
+
+/** 新しいタブで開く外部リンク。読み上げには「（新しいタブ）」を添え、矢印は装飾として隠す */
+function ExternalLink({ href, label, className, onClick, children }: {
+  href: string; label: string; className?: string; onClick: () => void; children: ReactNode;
+}) {
+  return (
+    <a className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={onClick} aria-label={`${label}（新しいタブ）`}>
+      {children}<span aria-hidden="true">↗</span>
+    </a>
+  );
 }
 
 function RelChip({ shop, onSelect }: { shop: Shop; onSelect: (id: string) => void }) {
@@ -51,10 +62,10 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
             <dt>状態</dt><dd><span className={`badge ${shop.status === "open" ? "open" : "closed"}`}>{STATUS_LABEL[shop.status]}</span></dd>
           </dl>
           <p className="note">{shop.note}</p>
-          <a className="btn maplink" href={mapUrl(shop)} target="_blank" rel="noopener noreferrer"
-            onClick={() => track({ name: "map_open", shop_id: shop.id })} aria-label="Google マップで開く（新しいタブ）">
-            Google マップで開く<span aria-hidden="true">↗</span>
-          </a>
+          <ExternalLink className="btn maplink" href={mapUrl(shop)} label="Google マップで開く"
+            onClick={() => track({ name: "map_open", shop_id: shop.id })}>
+            Google マップで開く
+          </ExternalLink>
           <h3>師匠</h3>
           <div className="rel">{master ? <RelChip shop={master} onSelect={onSelect} /> : <span className="none">なし</span>}</div>
           <h3>弟子・暖簾分け</h3>
@@ -63,11 +74,9 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           <ul className="sources">
             {shop.sources.map((src) => (
               <li key={src.url}>
-                <a href={src.url} target="_blank" rel="noopener noreferrer"
-                  onClick={() => track({ name: "source_open", shop_id: shop.id })}
-                  aria-label={`${src.title}（新しいタブ）`}>
-                  {src.title}<span aria-hidden="true">↗</span>
-                </a>
+                <ExternalLink href={src.url} label={src.title} onClick={() => track({ name: "source_open", shop_id: shop.id })}>
+                  {src.title}
+                </ExternalLink>
                 {src.note && <span className="src-note">{src.note}</span>}
               </li>
             ))}

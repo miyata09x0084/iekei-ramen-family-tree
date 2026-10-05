@@ -151,7 +151,7 @@ body:has(.doc){overflow:auto}
 .facts .badge.closed{color:var(--paper-dim);text-decoration:line-through}
 .note{margin:14px 0 0;line-height:1.75;max-width:36em}
 .maplink{display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none}
-.maplink span{font-size:11px}
+.maplink span,.sources a span{font-size:11px}
 .panel h3{font-family:var(--mincho);font-weight:500;font-size:13px;letter-spacing:.14em;color:var(--paper-dim);margin:20px 0 8px}
 .rel{display:flex;flex-wrap:wrap;gap:6px}
 .rel .chip{font-family:var(--mincho);font-size:13px;color:var(--paper)}
@@ -159,7 +159,7 @@ body:has(.doc){overflow:auto}
 .sources{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.6}
 .sources a{color:var(--paper);text-decoration:underline;text-decoration-color:var(--paper-faint);text-underline-offset:3px}
 .sources a:hover{text-decoration-color:var(--paper)}
-.sources a span{font-size:11px;margin-left:3px}
+.sources a span{margin-left:3px}
 .sources .src-note{color:var(--paper-dim);font-size:12px;margin-left:8px}
 
 @media (max-width:640px){
