@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ancestry, matches, normalizeQuery, type FilterState } from "@/lib/ancestry";
+import { ancestry, lineagePath, matches, normalizeQuery, type FilterState } from "@/lib/ancestry";
 import { FIXTURE, FIXTURE_BY_ID, pick } from "@/lib/shops.fixture";
 
 const root = pick((s) => s.lineage === "root", "総本山");
@@ -22,6 +22,19 @@ describe("ancestry: 総本山までの系譜", () => {
   });
   it("知らない id は空", () => {
     expect(ancestry("no-such-shop", FIXTURE_BY_ID).size).toBe(0);
+  });
+});
+
+describe("lineagePath: 総本山から当店までの系譜", () => {
+  it("総本山を先頭に、師匠の順で当店まで並ぶ", () => {
+    expect(lineagePath(grandchild.id, FIXTURE_BY_ID).map((s) => s.id)).toEqual([root.id, branch.id, grandchild.id]);
+  });
+  it("総本山と資本系は自身だけ", () => {
+    expect(lineagePath(root.id, FIXTURE_BY_ID).map((s) => s.id)).toEqual([root.id]);
+    expect(lineagePath(capital.id, FIXTURE_BY_ID).map((s) => s.id)).toEqual([capital.id]);
+  });
+  it("知らない id は空", () => {
+    expect(lineagePath("no-such-shop", FIXTURE_BY_ID)).toEqual([]);
   });
 });
 

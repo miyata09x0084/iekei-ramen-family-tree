@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, type CSSProperties, type ReactNode } from "react";
+import Link from "next/link";
 import { LINEAGES, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
 import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
 import type { PlacedShop } from "@/lib/layout";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
+import { shopPath } from "@/lib/shop-page";
 import { track } from "@/lib/track";
 
 interface Props {
@@ -56,6 +58,7 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
             <span>{LINEAGES[shop.lineage].label}</span>
           </p>
           <h2><span>{shop.name}</span><span>{shop.sub}</span></h2>
+          <Link className="pagelink" href={shopPath(shop.id)}>このお店のページ（貼って共有できる URL）</Link>
           <dl className="facts">
             <dt>場所</dt><dd>{shop.pref}・{shop.city}</dd>
             <dt>できた年</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>

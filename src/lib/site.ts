@@ -3,6 +3,8 @@ import { NODES } from "@/data/shops";
 /** 正とする URL。metadataBase・sitemap・robots・Search Console の登録先はすべてここから作る */
 export const SITE_URL = "https://iekei-ramen-family-tree.vercel.app";
 export const SITE_NAME = "家系ラーメン家系図";
+/** 誤りや追加の連絡先。店舗ページの「この情報を直す」はここの issues/new に飛ぶ */
+export const REPO_URL = "https://github.com/miyata09x0084/iekei-ramen-family-tree";
 
 /** 検索結果とリンクのカードに出る説明文。店数は収録データから数え、店を足したときの直し忘れを防ぐ */
 export function siteDescription(): string {
