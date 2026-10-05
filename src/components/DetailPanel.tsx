@@ -57,23 +57,23 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           </p>
           <h2><span>{shop.name}</span><span>{shop.sub}</span></h2>
           <dl className="facts">
-            <dt>所在地</dt><dd>{shop.pref}・{shop.city}</dd>
-            <dt>創業</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>
+            <dt>場所</dt><dd>{shop.pref}・{shop.city}</dd>
+            <dt>できた年</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>
             <dt>世代</dt><dd>{gen}</dd>
-            <dt>関係</dt><dd>{edge}</dd>
-            <dt>状態</dt><dd><span className={`badge ${shop.status === "open" ? "open" : "closed"}`}>{STATUS_LABEL[shop.status]}</span></dd>
-            <dt>確度</dt><dd><span className={`badge certainty ${certainty}`}>{CERTAINTY_LABEL[certainty]}</span></dd>
+            <dt>師匠との関係</dt><dd>{edge}</dd>
+            <dt>営業</dt><dd><span className={`badge ${shop.status === "open" ? "open" : "closed"}`}>{STATUS_LABEL[shop.status]}</span></dd>
+            <dt>確かさ</dt><dd><span className={`badge certainty ${certainty}`}>{CERTAINTY_LABEL[certainty]}</span></dd>
           </dl>
           <p className="note">{shop.note}</p>
           <ExternalLink className="btn maplink" href={mapUrl(shop)} label="Google マップで開く"
             onClick={() => track({ name: "map_open", shop_id: shop.id })}>
             Google マップで開く
           </ExternalLink>
-          <h3>師匠</h3>
+          <h3>師匠（修行したお店）</h3>
           <div className="rel">{master ? <RelChip shop={master} onSelect={onSelect} /> : <span className="none">なし</span>}</div>
-          <h3>弟子・暖簾分け</h3>
+          <h3>弟子（ここで修行して独立したお店）</h3>
           <div className="rel">{kids.length ? kids.map((k) => <RelChip key={k.id} shop={k} onSelect={onSelect} />) : <span className="none">なし</span>}</div>
-          <h3>出典</h3>
+          <h3>出典（もとにした記事）</h3>
           <ul className="sources">
             {sortSources(shop.sources).map((src) => (
               <li key={src.url}>

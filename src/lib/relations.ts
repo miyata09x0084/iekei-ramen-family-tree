@@ -12,13 +12,13 @@ export function disciplesOf<T extends Shop>(shop: Shop, shops: T[]): T[] {
 
 /** 詳細パネルの「世代」の文言。gen は系図の配置で付く世代（総本山が 0、資本系は null） */
 export function generationLabel(gen: number | null): string {
-  if (gen === null) return "系譜外";
-  if (gen === 0) return "初代（総本山）";
+  if (gen === null) return "なし（修行のつながりがないお店）";
+  if (gen === 0) return "初代（総本山。すべての始まりのお店）";
   return `第${gen + 1}世代`;
 }
 
 /** 詳細パネルの「関係」の文言。師匠との関係がない店は、資本系か総本山かで分ける */
 export function relationLabel(shop: Shop): string {
   if (shop.edge) return EDGE_LABEL[shop.edge];
-  return shop.lineage === "capital" ? "企業経営（修行系譜なし）" : "—";
+  return shop.lineage === "capital" ? "会社が開いたお店（修行のつながりはない）" : "始まりのお店（師匠はいない）";
 }

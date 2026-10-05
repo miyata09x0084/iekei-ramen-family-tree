@@ -79,14 +79,14 @@ export function Keizu() {
   }
 
   const stats: [string | number, string][] = [
-    [NODES.length, "店舗"], [layout.generations, "世代"], [LINEAGE_COUNT, "系統"], [YEAR_MIN, "創業年"],
+    [NODES.length, "お店"], [layout.generations, "世代"], [LINEAGE_COUNT, "系統"], [YEAR_MIN, "始まりの年"],
   ];
 
   return (
     <div className="app">
       <header className="bar">
         <div className="brand">
-          <h1>家系図<small>関東・家系ラーメンの系譜</small></h1>
+          <h1>家系図<small>関東の家系ラーメンのつながり</small></h1>
         </div>
         <div className="stats">
           {stats.map(([v, l]) => <div key={l}><b>{v}</b><span>{l}</span></div>)}
@@ -94,7 +94,7 @@ export function Keizu() {
         <div className="controls">
           <div className="group search">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></svg>
-            <input id="q" type="search" placeholder="屋号で探す" list="names" autoComplete="off" aria-label="屋号で探す"
+            <input id="q" type="search" placeholder="お店の名前で探す" list="names" autoComplete="off" aria-label="お店の名前で探す"
               value={query} onChange={(e) => onQuery(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") onQueryEnter(); }} />
             <datalist id="names">
               {NODES.map((n) => <option key={n.id} value={n.name + (n.sub ? ` ${n.sub}` : "")} />)}
@@ -110,7 +110,7 @@ export function Keizu() {
               ))}
             </div>
           </div>
-          <div className="group"><span>都県</span>
+          <div className="group"><span>地域</span>
             <div className="chips">
               {PREFS.map((p) => (
                 <button key={p} type="button" className="chip" aria-pressed={prefs.includes(p)} onClick={() => { if (!prefs.includes(p)) track({ name: "filter_pref", key: p }); toggle(prefs, setPrefs, p); }}>{p}</button>
@@ -122,7 +122,7 @@ export function Keizu() {
             <input type="range" id="year" min={YEAR_MIN} max={YEAR_MAX} value={year} aria-label="表示する年"
               onChange={(e) => { stopTimer(); setYear(+e.target.value); }} />
             <output id="year-out" htmlFor="year">{year}</output>
-            <button className="btn" id="replay" type="button" onClick={() => { track({ name: "replay" }); replay(); }}>1974年から再生</button>
+            <button className="btn" id="replay" type="button" onClick={() => { track({ name: "replay" }); replay(); }}>1974年からもう一度見る</button>
           </div>
         </div>
       </header>
@@ -133,7 +133,7 @@ export function Keizu() {
         <div className="zoombar">
           <button className="btn" type="button" aria-label="拡大" onClick={() => tree.current?.zoomBy(1.3)}>＋</button>
           <button className="btn" type="button" aria-label="縮小" onClick={() => tree.current?.zoomBy(1 / 1.3)}>－</button>
-          <button className="btn" type="button" aria-label="全体表示" onClick={() => { track({ name: "zoom_fit" }); tree.current?.fit(true); }}>⊡</button>
+          <button className="btn" type="button" aria-label="全体を表示" onClick={() => { track({ name: "zoom_fit" }); tree.current?.fit(true); }}>⊡</button>
         </div>
         <Link className="sitelink" href="/privacy">プライバシーポリシー</Link>
         <DetailPanel shop={selected} nodes={layout.nodes} onSelect={select} onClose={() => setSelectedId(null)} />

@@ -37,12 +37,12 @@ describe("disciplesOf: 弟子", () => {
 
 describe("generationLabel: 世代の文言", () => {
   it("総本山は初代、以降は第 n 世代（gen + 1）", () => {
-    expect(generationLabel(0)).toBe("初代（総本山）");
+    expect(generationLabel(0)).toBe("初代（総本山。すべての始まりのお店）");
     expect(generationLabel(1)).toBe("第2世代");
     expect(generationLabel(4)).toBe("第5世代");
   });
-  it("資本系（gen が null）は系譜外", () => {
-    expect(generationLabel(null)).toBe("系譜外");
+  it("資本系（gen が null）は世代なし", () => {
+    expect(generationLabel(null)).toBe("なし（修行のつながりがないお店）");
   });
 });
 
@@ -52,8 +52,8 @@ describe("relationLabel: 関係の文言", () => {
     expect(relationLabel(pick((s) => s.edge === "former", "元直系"))).toBe(EDGE_LABEL.former);
     expect(relationLabel(pick((s) => s.edge === "disputed", "諸説あり"))).toBe(EDGE_LABEL.disputed);
   });
-  it("資本系は企業経営、総本山は —", () => {
-    expect(relationLabel(capital)).toBe("企業経営（修行系譜なし）");
-    expect(relationLabel(root)).toBe("—");
+  it("資本系は会社が開いたお店、総本山は始まりのお店", () => {
+    expect(relationLabel(capital)).toBe("会社が開いたお店（修行のつながりはない）");
+    expect(relationLabel(root)).toBe("始まりのお店（師匠はいない）");
   });
 });
