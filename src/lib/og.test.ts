@@ -9,6 +9,7 @@ const inTree = FIXTURE.filter((s) => s.lineage !== "capital");
 describe("silhouette: 影絵の座標", () => {
   const box = { width: 1000, height: 300, pad: 20 };
   const s = silhouette(layout, box);
+  const at = (id: string) => s.marks.find((m) => m.id === id)!;
 
   it("系譜に属する店だけを描き、資本系は含めない", () => {
     expect(s.marks.map((m) => m.id)).toEqual(inTree.map((x) => x.id));
@@ -23,7 +24,6 @@ describe("silhouette: 影絵の座標", () => {
   });
 
   it("師匠と弟子の上下、兄弟の左右の並びは系図のまま", () => {
-    const at = (id: string) => s.marks.find((m) => m.id === id)!;
     const child = pick((x) => x.parent !== null, "弟子");
     expect(at(child.id).y).toBeGreaterThan(at(child.parent!).y);
     const before = layout.nodes.filter((n) => n.gen === 1).sort((a, b) => a.x - b.x).map((n) => n.id);
@@ -32,7 +32,6 @@ describe("silhouette: 影絵の座標", () => {
   });
 
   it("弟子ごとに降り線が 1 本あり、弟子の丸印に届く。師匠の丸印からは幹が出る", () => {
-    const at = (id: string) => s.marks.find((m) => m.id === id)!;
     const disciples = inTree.filter((x) => x.parent !== null);
     const drops = s.lines.filter((l) => l.kind === "drop");
     expect(drops.map((l) => l.id).sort()).toEqual(disciples.map((x) => x.id).sort());

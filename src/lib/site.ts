@@ -9,9 +9,10 @@ export function siteDescription(): string {
   return `関東の家系ラーメン${NODES.length}店が、どのお店で修行して生まれたかを、家系図のように見られるサイトです。`;
 }
 
-/** OGP 画像の題字の下に出す 1 行 */
+/** OGP 画像の題字の下に出す 1 行。画像の系図に描く店（資本系を除く）の数と合わせる */
 export function siteTagline(): string {
-  return `吉村家から広がる ${NODES.length} 店の家系図`;
+  const inKeizu = NODES.filter((n) => n.lineage !== "capital").length;
+  return `吉村家から始まる ${inKeizu} 店の系図`;
 }
 
 /** OGP 画像の場所と大きさ。画像は src/app/og.png/route.tsx がビルド時に描く */
