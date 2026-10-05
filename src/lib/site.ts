@@ -4,7 +4,12 @@ import { NODES } from "@/data/shops";
 export const SITE_URL = "https://iekei-ramen-family-tree.vercel.app";
 export const SITE_NAME = "家系ラーメン家系図";
 
-/** 店数は収録データから数える。店を足したときに文言の直し忘れを防ぐ */
+/** 検索結果とリンクのカードに出る説明文。店数は収録データから数え、店を足したときの直し忘れを防ぐ */
 export function siteDescription(): string {
   return `関東の家系ラーメン${NODES.length}店の修行系譜を、縦書き屋号の系図として可視化する家系図`;
+}
+
+/** OGP 画像の題字の下に出す 1 行 */
+export function siteTagline(): string {
+  return `吉村家から広がる ${NODES.length} 店の系図`;
 }

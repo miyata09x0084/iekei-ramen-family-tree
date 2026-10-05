@@ -3,6 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function Privacy() {
