@@ -102,15 +102,15 @@ describe("validateShops: 出典", () => {
     expect(naming(validateShops(replace(capital.id, { sources: [] })), capital.id)).not.toEqual([]);
   });
   it("URL が http(s) で始まらない出典を、店の id と URL で名指しする", () => {
-    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "example.com/page" }] }));
+    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "example.com/page", kind: "primary" }] }));
     expect(naming(errors, grandchild.id)).not.toEqual([]);
     expect(naming(errors, "example.com/page")).not.toEqual([]);
   });
   it("http の URL は違反にしない（公式サイトが http のみの店があるため）", () => {
-    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "http://example.com/page" }] }))).toEqual([]);
+    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "http://example.com/page", kind: "primary" }] }))).toEqual([]);
   });
   it("媒体名が空の出典を名指しする", () => {
-    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "", url: "https://example.com/" }] }));
+    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "", url: "https://example.com/", kind: "primary" }] }));
     expect(naming(errors, grandchild.id)).not.toEqual([]);
   });
 });

@@ -23,7 +23,7 @@ import type { Shop } from "@/data/shops";
  *   - 同じ師匠を持つ兄弟を、配列上は創業年の降順で並べる（弟子の並び替えを検証するため）
  */
 /** 全店に同じ架空の出典を付ける。出典の検証は validate.test.ts が sources を差し替えて行う */
-const SOURCES = [{ title: "架空の出典", url: "https://example.com/" }];
+const SOURCES = [{ title: "架空の出典", url: "https://example.com/", kind: "primary" as const }];
 
 export const FIXTURE: Shop[] = [
   { id: "sohonzan", name: "総本山家", sub: "本店", pref: "神奈川", city: "横浜市", founded: 1974, parent: null, lineage: "root", status: "open", edge: null, note: "", sources: SOURCES },

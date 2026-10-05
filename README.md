@@ -34,7 +34,7 @@
 
 ## データについて
 
-系譜は公開情報を編集したものです。全店に出典（公式サイト・報道・Wikipedia など）を付けており、屋号を押して開く詳細パネルの「出典」から原文を確かめられます。出典で裏付けられない創業年は概算（「頃」表記）とし、師匠の店に諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。
+系譜は公開情報を編集したものです。全店に出典を付け、屋号を押して開く詳細パネルの「出典」から原文を確かめられます。出典は一次（公式発信・店主本人の語り・有価証券報告書）、二次（報道）、三次（Wikipedia・グルメサイト・ブログ）に分けて表示し、その最上位から「確度」を導いています。一次情報が 1 件でもあれば「確定」、二次までなら「報道による」、三次だけなら「未確認」です。出典で裏付けられない創業年は概算（「頃」表記）とし、師匠の店に諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。
 
 ---
 
@@ -74,7 +74,7 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 ```ts
 { id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
   parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
-  sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", note: "創業年・師匠" }],
+  sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", kind: "primary", note: "創業年・師匠" }],
   mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
 ```
 
@@ -84,7 +84,9 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 - `status`: `open` / `closed` / `main-closed`
 - `sources`: 出典。1 件以上が必須で、詳細パネルの「出典」に媒体名のリンクとして並ぶ。`title` は媒体名＋ページ名（例: `Wikipedia「吉村家」`）、
   `url` は実際に開いて主張が書かれていることを確かめた URL（https を基本とし、証明書不一致で開けない公式サイトだけ http）、`note`（任意）はその出典が裏付ける項目（例: `創業年・師匠`）。
-  優先順は 公式サイト・公式 SNS > 報道 > Wikipedia > ラーメン専門メディア > 個人ブログ。裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする
+  `kind` は出典の種別で、`primary`（店・運営会社・吉村家の公式発信、店主本人のインタビューや連載、有価証券報告書）/ `secondary`（新聞・雑誌・地域メディアの取材記事）/ `tertiary`（Wikipedia、グルメサイトのデータ、まとめ、個人ブログ）。
+  詳細パネルの「確度」は `src/lib/certainty.ts` が最上位の `kind` から導く（一次あり → 確定、二次まで → 報道による、三次だけ → 未確認）ので、手で付けない。
+  裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする
 - `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
   多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
   本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。

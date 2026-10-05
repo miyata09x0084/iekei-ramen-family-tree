@@ -149,6 +149,9 @@ body:has(.doc){overflow:auto}
 .facts .badge{display:inline-block;border-radius:4px;padding:1px 7px;font-size:12px;background:rgba(241,231,210,.08)}
 .facts .badge.open{color:#9DC46C}
 .facts .badge.closed{color:var(--paper-dim);text-decoration:line-through}
+.facts .badge.certainty.confirmed{color:#9DC46C}
+.facts .badge.certainty.reported{color:#E3B95A}
+.facts .badge.certainty.unverified{color:var(--paper-dim)}
 .note{margin:14px 0 0;line-height:1.75;max-width:36em}
 .maplink{display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none}
 .maplink span,.sources a span{font-size:11px}
@@ -161,6 +164,9 @@ body:has(.doc){overflow:auto}
 .sources a:hover{text-decoration-color:var(--paper)}
 .sources a span{margin-left:3px}
 .sources .src-note{color:var(--paper-dim);font-size:12px;margin-left:8px}
+.sources .kind{display:inline-block;min-width:2.4em;text-align:center;margin-right:6px;border-radius:3px;padding:0 4px;font-size:11px;line-height:1.5;background:rgba(241,231,210,.08);color:var(--paper-dim)}
+.sources .kind.primary{color:#9DC46C}
+.sources .kind.secondary{color:#E3B95A}
 
 @media (max-width:640px){
   .bar{padding-inline:16px}

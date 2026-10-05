@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type CSSProperties, type ReactNode } from "react";
-import { LINEAGES, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
+import { LINEAGES, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
+import { CERTAINTY_LABEL, certaintyOf } from "@/lib/certainty";
 import type { PlacedShop } from "@/lib/layout";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { track } from "@/lib/track";
@@ -43,6 +44,7 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
   const kids = shop ? disciplesOf(shop, nodes) : [];
   const gen = shop ? generationLabel(shop.gen) : "";
   const edge = shop ? relationLabel(shop) : "";
+  const certainty = shop ? certaintyOf(shop.sources) : "unverified";
 
   return (
     <aside className={`panel${open ? " open" : ""}`} id="panel" aria-live="polite" inert={!open}>
@@ -60,6 +62,7 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
             <dt>世代</dt><dd>{gen}</dd>
             <dt>関係</dt><dd>{edge}</dd>
             <dt>状態</dt><dd><span className={`badge ${shop.status === "open" ? "open" : "closed"}`}>{STATUS_LABEL[shop.status]}</span></dd>
+            <dt>確度</dt><dd><span className={`badge certainty ${certainty}`}>{CERTAINTY_LABEL[certainty]}</span></dd>
           </dl>
           <p className="note">{shop.note}</p>
           <ExternalLink className="btn maplink" href={mapUrl(shop)} label="Google マップで開く"
@@ -74,6 +77,7 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           <ul className="sources">
             {shop.sources.map((src) => (
               <li key={src.url}>
+                <span className={`kind ${src.kind}`}>{SOURCE_KIND_LABEL[src.kind]}</span>
                 <ExternalLink href={src.url} label={src.title} onClick={() => track({ name: "source_open", shop_id: shop.id })}>
                   {src.title}
                 </ExternalLink>
