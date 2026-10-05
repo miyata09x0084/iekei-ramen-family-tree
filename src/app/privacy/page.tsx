@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "プライバシーポリシー | 家系ラーメン家系図",
+  title: "プライバシーポリシー",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function Privacy() {
