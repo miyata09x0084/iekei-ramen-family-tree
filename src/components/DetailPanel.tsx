@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { LINEAGES, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
-import { CERTAINTY_LABEL, certaintyOf, sourcesByKind } from "@/lib/certainty";
+import { CERTAINTY_LABEL, certaintyOf, sortByKind } from "@/lib/certainty";
 import type { PlacedShop } from "@/lib/layout";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { track } from "@/lib/track";
@@ -75,7 +75,7 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           <div className="rel">{kids.length ? kids.map((k) => <RelChip key={k.id} shop={k} onSelect={onSelect} />) : <span className="none">なし</span>}</div>
           <h3>出典</h3>
           <ul className="sources">
-            {sourcesByKind(shop.sources).map((src) => (
+            {sortByKind(shop.sources).map((src) => (
               <li key={src.url}>
                 <span className={`kind ${src.kind}`}>{SOURCE_KIND_LABEL[src.kind]}</span>
                 <ExternalLink href={src.url} label={src.title} onClick={() => track({ name: "source_open", shop_id: shop.id })}>

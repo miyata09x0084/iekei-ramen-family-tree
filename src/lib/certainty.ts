@@ -1,10 +1,10 @@
 import type { Source, SourceKind } from "@/data/shops";
 
-const KIND_ORDER: Record<SourceKind, number> = { primary: 0, secondary: 1, tertiary: 2 };
+const KIND_RANK: Record<SourceKind, number> = { primary: 0, secondary: 1, tertiary: 2 };
 
-/** 詳細パネルに並べる順。一次 → 二次 → 三次で、同じ種別の中はデータに書いた順を保つ。元の配列は変えない */
-export function sourcesByKind(sources: Source[]): Source[] {
-  return [...sources].sort((a, b) => KIND_ORDER[a.kind] - KIND_ORDER[b.kind]);
+/** 出典を一次・二次・三次の順に並べた新しい配列を返す。同じ種別はデータの順を保つ */
+export function sortByKind(sources: Source[]): Source[] {
+  return [...sources].sort((a, b) => KIND_RANK[a.kind] - KIND_RANK[b.kind]);
 }
 
 /** 確度。出典の種別から機械的に導き、手では付けない（CONTEXT.md「確度」） */
