@@ -105,7 +105,9 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
   本店閉店（`main-closed`）の店は名前を受け継ぐ店舗を指す。
   URL は `src/data/shops.ts` の `mapUrl()` が `https://www.google.com/maps/search/?api=1&query=...` 形式で生成する。
   place ID（`?q=place_id:...`）は店舗の移転・改装で失効すると「一致する検索結果はありません」になるため使わない
-- `exterior`: 外観画像の位置。全店に必須。`location` は Google ストリートビューに渡す住所（都道府県から番地まで。店名は含めない）。
+- `exterior`: 外観画像の位置。全店に必須。`location` は Google ストリートビューに渡す住所（都道府県から番地まで）。
+  住所だけだと隣の建物に解決される店は、店名を前に付ける（例: `寿々喜家 本店 神奈川県…`）。
   本店閉店（`main-closed`）の店は名前を受け継ぐ店舗、資本系は本店、閉店した店はあった場所を指す。
-  住所だと地点や向きがずれる店だけ、`pano`（パノラマ ID。あれば `location` より優先）か `heading`（向き、度）で上書きする。
-  住所を入れたら `npm run check:exterior` で画像があるかを確かめる
+  それでも地点や向きがずれる店だけ、`pano`（パノラマ ID。あれば `location` より優先）と `heading`（向き、度）で固定する。
+  パノラマ ID は Google マップのストリートビューの URL（`!1s` の直後）から取れるが、撮り直しで消えることがある。
+  住所を入れたら `npm run check:exterior` で画像があるかを確かめ、画像を目で見て店が写っているかも確かめる（住所だけでは隣の建物や道路が写ることがある）

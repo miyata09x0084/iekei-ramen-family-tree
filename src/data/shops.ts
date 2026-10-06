@@ -49,9 +49,10 @@ export interface Shop {
   // Google マップで検索する文字列（店名＋住所）。省略時は「店名 + sub または city」で組み立てる。
   // place ID は一度失効すると「一致する検索結果はありません」になるため使わない。
   mapQuery?: string;
-  // 外観画像の位置。Google ストリートビューに渡す住所（店名は含めない）。全店に必須。
+  // 外観画像の位置。Google ストリートビューに渡す住所（都道府県から番地まで）。全店に必須。
+  // 住所だけだと隣の建物に解決される店は、店名を前に付ける（Google が店そのものの位置に解決する）。
   // 本店閉店の店は名前を受け継ぐ店舗、資本系は本店、閉店した店はあった場所を指す。
-  // 住所だと地点や向きがずれる店だけ pano（パノラマ ID）か heading（度）で上書きする。
+  // それでも地点や向きがずれる店だけ pano（パノラマ ID。古くなると消えるので check:exterior で確かめる）と heading（度）で固定する。
   exterior: ExteriorLocation;
 }
 
@@ -102,7 +103,7 @@ export const SOURCES_CHECKED_AT = "2026-10-05";
 
 // 系譜は公開情報を編集したもの。approx=true の創業年は概算。
 // mapQuery は現存する店舗を指す。本店閉店（main-closed）の店は名前を受け継ぐ店舗を指す。
-// exterior.location も同じ店舗の住所（店名なし・都道府県から）。資本系は本店の住所。
+// exterior.location も同じ店舗の住所（都道府県から）。資本系は本店の住所。
 // 多店舗ブランドは屋号のみを検索して全店舗が地図に出るようにする。
 export const NODES: Shop[] = [
   { id: "yoshimura", name: "吉村家", sub: "横浜駅西口", pref: "神奈川", city: "横浜市西区", founded: 1974, parent: null, lineage: "root", status: "open", edge: null,
@@ -112,7 +113,7 @@ export const NODES: Shop[] = [
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "できた年・「家系」という名前のもと" },
     ],
     mapQuery: "家系総本山 吉村家 横浜市西区岡野",
-    exterior: { location: "神奈川県横浜市西区岡野1-6-4" } },
+    exterior: { location: "家系総本山 吉村家 神奈川県横浜市西区岡野1-6-4" } },
 
   { id: "honmoku", name: "本牧家", sub: "本牧", pref: "神奈川", city: "横浜市中区", founded: 1986, parent: "yoshimura", lineage: "honmoku", status: "main-closed", edge: "trained",
     note: "1986年、吉村家の2号店として本牧に開いたお店。店長だった神藤隆さんがここから独立して六角家を開き、本牧家そのものも、あとで吉村家から独立した。本牧家系と六角家系という2つの大きな流れは、ここから始まった。本店は港南区に引っ越したあと2023年に閉店し、今は横須賀店が名前を受け継いでいる。",
@@ -121,7 +122,7 @@ export const NODES: Shop[] = [
       { title: "ブログ「本牧家 本店【2023年5月7日で閉店】」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12801099357.html", kind: "tertiary", note: "できた年・本店閉店" },
     ],
     mapQuery: "本牧家 横須賀店 横須賀市本町3-33-3",
-    exterior: { location: "神奈川県横須賀市本町3-33-3" } }, // 本店閉店後は横須賀店が名前を受け継ぐ
+    exterior: { location: "神奈川県横須賀市本町3-33-3", pano: "jVwRSDSZfdFdHsluNS0EIg", heading: 150 } }, // 本店閉店後は横須賀店が名前を受け継ぐ
   { id: "suzuki", name: "寿々喜家", sub: "上星川", pref: "神奈川", city: "横浜市保土ケ谷区", founded: 1990, parent: "honmoku", lineage: "honmoku", status: "open", edge: "trained",
     note: "本牧家で修行した店主が、1990年に開いたお店。上星川の住宅街で長く愛されている、本牧家系を代表する一軒。正しい書き方は「寿々㐂家」。",
     sources: [
@@ -129,7 +130,7 @@ export const NODES: Shop[] = [
       { title: "横浜ウォッチャー「上星川の家系ラーメン 寿々㐂家」", url: "https://travelyokohama.jp/entry/iekei-ramen-suzukiya-20250217", kind: "tertiary", note: "できた年・系統" },
     ],
     mapQuery: "寿々喜家 本店 横浜市保土ケ谷区上星川2-3-1",
-    exterior: { location: "神奈川県横浜市保土ケ谷区上星川2-3-1" } },
+    exterior: { location: "寿々喜家 本店 神奈川県横浜市保土ケ谷区上星川2-3-1" } },
 
   { id: "rokkaku", name: "六角家", sub: "六角橋", pref: "神奈川", city: "横浜市神奈川区", founded: 1988, parent: "honmoku", lineage: "rokkaku", status: "main-closed", edge: "trained",
     note: "本牧家の店長だった神藤隆さんが、六角橋に開いたお店。新横浜ラーメン博物館にお店を出したことで、「家系」を日本中に知らせた。本店は2017年に閉店し、戸塚のお店が名前を守っている。2025年に戸塚駅前のトツカーナモールへ引っ越した。",
@@ -138,7 +139,7 @@ export const NODES: Shop[] = [
       { title: "ASCII.jp「あの銘店をもう一度がついにフィナーレ!! 大トリは横浜「六角家1994+」」", url: "https://ascii.jp/elem/000/004/193/4193163/", kind: "secondary", note: "師匠・できた年" },
     ],
     mapQuery: "ラーメン六角家 戸塚 トツカーナモール", // 旧・戸塚店（本店は2017年閉店）
-    exterior: { location: "神奈川県横浜市戸塚区戸塚町16-1" } }, // トツカーナモール（2025-07 移転）。屋内なので source=outdoor でモールの外観になる
+    exterior: { location: "神奈川県横浜市戸塚区戸塚町16-1", pano: "e4jYLkqVXoSQqixVKFHEFQ", heading: 136 } }, // トツカーナモール（2025-07 移転）。店は屋内なのでモールの外観を向くパノラマを固定
   { id: "kaiichi", name: "介一家", sub: "山手", pref: "神奈川", city: "横浜市中区", founded: 1988, approx: true, parent: "rokkaku", lineage: "rokkaku", status: "open", edge: "trained",
     note: "本牧家と六角家で働いた店主たちが、1988年ごろに山手で始めたお店。まろやかなスープで六角家系の味を受け継ぎ、山手の本店のほかにも何軒かある。",
     sources: [
@@ -164,7 +165,7 @@ export const NODES: Shop[] = [
       { title: "家系ラーメンマン「創業25年！町田家本店」", url: "https://iekei-ramenman.hatenablog.com/entry/machidaya_honten2021", kind: "tertiary", note: "師匠・できた年" },
     ],
     mapQuery: "ラーメン 町田家 町田本店 町田市原町田3-7-2",
-    exterior: { location: "東京都町田市原町田3-7-2" } },
+    exterior: { location: "ラーメン 町田家 町田本店 東京都町田市原町田3-7-2" } },
   { id: "samurai", name: "侍", sub: "渋谷", pref: "東京", city: "渋谷区", founded: 2005, parent: "machidaya", lineage: "rokkaku", status: "open", edge: "trained",
     note: "町田家で修行した森真人さんが、2005年に池尻で開いたお店。2009年に渋谷本店を開き、2021年に道玄坂へ引っ越した。東京の家系ラーメンを代表する一軒。",
     sources: [
@@ -183,7 +184,7 @@ export const NODES: Shop[] = [
       { title: "はまれぽ.com「家系一大勢力“壱系”の全貌が明かされる！？」", url: "https://hamarepo.com/story.php?page_no=1&story_id=2328", kind: "secondary", note: "できた年・場所" },
     ],
     mapQuery: "ラーメン壱六家 磯子本店 横浜市磯子区森2-2-7",
-    exterior: { location: "神奈川県横浜市磯子区森2-2-7" } },
+    exterior: { location: "ラーメン壱六家 磯子本店 神奈川県横浜市磯子区森2-2-7" } },
   { id: "ichihachi", name: "壱八家", sub: "東戸塚", pref: "神奈川", city: "横浜市戸塚区", founded: 1999, parent: "ichiroku", lineage: "ichi", status: "open", edge: "trained",
     note: "1999年、壱六家から作り方を学んで東戸塚で開いたお店。名前は、壱六家の「壱」と、お店を運営する会社エイトの「八」から。うずらの卵と甘めのスープが壱系のしるしで、横浜を中心に何軒かある。",
     sources: [
@@ -191,7 +192,7 @@ export const NODES: Shop[] = [
       { title: "株式会社エイト 公式 note「はじめまして 横浜らーめん壱八家です」", url: "https://note.com/kodawari_eight/n/n0f9f952809ed", kind: "primary", note: "師匠・お店の名前のもと" },
     ],
     mapQuery: "壱八家 東戸塚本店 横浜市戸塚区品濃町515-1",
-    exterior: { location: "神奈川県横浜市戸塚区品濃町515-1" } },
+    exterior: { location: "神奈川県横浜市戸塚区品濃町515-1", pano: "f8B7cv3DjiQYlgMGgUbToQ", heading: 90 } },
   { id: "ichinana", name: "壱七家", sub: "立川", pref: "東京", city: "立川市", founded: 2008, parent: "ichiroku", lineage: "ichi", status: "open", edge: "disputed",
     note: "2008年に立川で開いたお店。魂心家と同じ会社（株式会社トイダック）が運営している。壱六家から分かれたお店だと言われることが多いが、それを示す公式の発信や記事は見つかっていないので、どこにつなぐかには諸説ある。",
     sources: [
@@ -227,7 +228,7 @@ export const NODES: Shop[] = [
       { title: "高田馬場経済新聞「早大近くのラーメン店『武道家』が15周年」", url: "https://takadanobaba.keizai.biz/headline/664/", kind: "secondary", note: "師匠・できた年" },
     ],
     mapQuery: "横浜家系らーめん 武道家 本店 新宿区馬場下町",
-    exterior: { location: "東京都新宿区馬場下町62" } },
+    exterior: { location: "横浜家系らーめん 武道家 本店 東京都新宿区馬場下町62" } },
   { id: "budoka2", name: "武道家", sub: "吉祥寺", pref: "東京", city: "武蔵野市", founded: 2013, parent: "budoka", lineage: "musashi", status: "open", edge: "trained",
     note: "2013年に開いた武道家の2号店。家系ラーメンのお店が多い吉祥寺で、本店ゆずりのこってりしたスープを出す。",
     sources: [
