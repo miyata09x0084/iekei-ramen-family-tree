@@ -14,6 +14,7 @@
 | 手元のレビュー | ユーザースキルの `code-review`（規約と仕様の 2 観点） | `coderabbit:code-review`、`superpowers:requesting-code-review` |
 | UI のレビュー（アクセシビリティ・操作性） | `web-design-guidelines`。速さを見るときは `vercel-react-best-practices` | — |
 | 完了を宣言する前 | `superpowers:verification-before-completion` | — |
+| PR の説明文を書く | ユーザースキルの `pr`（Summary / Evidence / Merge Danger の 3 節）。`.github/pull_request_template.md` は置かず、形はこのスキルに一本化する | — |
 
 設計文書（spec・計画書）はリポジトリに残さない。計画は Plan モードで使い捨てにし、残すのは ADR と PR の説明文だけにする（[ADR 0003](docs/adr/0003-issue-lifecycle-and-refinement-depth.md)）。
 
