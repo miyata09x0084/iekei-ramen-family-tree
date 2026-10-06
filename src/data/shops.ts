@@ -210,7 +210,8 @@ export const NODES: Shop[] = [
     sources: [
       { title: "高田馬場経済新聞「早大近くの家系ラーメン『武道家』が20周年」", url: "https://takadanobaba.keizai.biz/headline/1659/", kind: "secondary", note: "師匠・できた年" },
       { title: "高田馬場経済新聞「早大近くのラーメン店『武道家』が15周年」", url: "https://takadanobaba.keizai.biz/headline/664/", kind: "secondary", note: "師匠・できた年" },
-      { title: "ブログ「横浜家系らーめん 武道家 早稲田本店＠早稲田」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12857108676.html", kind: "tertiary", note: "営業・店の様子", image: "https://stat.ameba.jp/user_images/20240626/23/tatsuya-zero-one/28/b3/j/o1024102415456329935.jpg" },
+      { title: "ブログ「横浜家系らーめん 武道家 早稲田本店＠早稲田」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12857108676.html", kind: "tertiary", note: "営業・店の様子" },
+      { title: "ブログ「武道家 早稲田本店」", url: "https://ameblo.jp/moyatorium/entry-12855026571.html", kind: "tertiary", note: "営業・店の様子", image: "https://stat.ameba.jp/user_images/20240606/03/moyatorium/f4/3d/j/o1080066515447970432.jpg" },
     ],
     mapQuery: "横浜家系らーめん 武道家 本店 新宿区馬場下町" },
   { id: "budoka2", name: "武道家", sub: "吉祥寺", pref: "東京", city: "武蔵野市", founded: 2013, parent: "budoka", lineage: "musashi", status: "open", edge: "trained",
@@ -298,7 +299,8 @@ export const NODES: Shop[] = [
     sources: [
       { title: "ラーメンデータベース「家系ラーメン 王道乃印 柏店」", url: "https://ramendb.supleks.jp/s/154145.html", kind: "tertiary", note: "開いた日・場所" },
       { title: "PR TIMES「王道家系列が群馬県太田市に初出店! 家系ラーメン『王道乃印 野上家』」", url: "https://prtimes.jp/main/html/rd/p/000000001.000187957.html", kind: "primary", note: "王道家とのつながり" },
-      { title: "ブログ「【新店】家系ラーメン 王道乃印 柏店＠柏」", url: "https://ameblo.jp/ramania/entry-12874463530.html", kind: "tertiary", note: "王道家系列・リニューアルの経緯", image: "https://stat.ameba.jp/user_images/20241110/08/ramania/e7/89/j/o2048204815508210544.jpg" },
+      { title: "ブログ「【新店】家系ラーメン 王道乃印 柏店＠柏」", url: "https://ameblo.jp/ramania/entry-12874463530.html", kind: "tertiary", note: "王道家系列・リニューアルの経緯" },
+      { title: "ブログ「家系ラーメン 王道乃印 柏店」", url: "https://ameblo.jp/chamako-1999-0927/entry-12876394295.html", kind: "tertiary", note: "店の様子", image: "https://stat.ameba.jp/user_images/20241126/18/chamako-1999-0927/b2/44/j/o1080081015514596214.jpg" },
     ],
     mapQuery: "家系ラーメン 王道乃印 柏店 柏市柏3-6-16" },
   { id: "oudou-ishii", name: "王道 いしい", sub: "千葉", pref: "千葉", city: "千葉市中央区", founded: 2017, parent: "oudou", lineage: "oudou", status: "open", edge: "trained",
@@ -324,7 +326,8 @@ export const NODES: Shop[] = [
     sources: [
       { title: "株式会社トイダック 公式サイト「会社沿革」", url: "http://www.toyduck.co.jp/history.html", kind: "primary", note: "できた年・運営する会社" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "資本系" },
-      { title: "ブログ「魂心家」", url: "https://ramen1.hatenablog.com/entry/2022/09/25/110751", kind: "tertiary", note: "店の様子", image: "https://cdn.image.st-hatena.com/image/scale/12abce0fedbd1e01df913def612ba423286d6cda/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fn%2Fniku_jaguar_JP%2F20220925%2F20220925110606.jpg" },
+      { title: "ブログ「魂心家」", url: "https://ramen1.hatenablog.com/entry/2022/09/25/110751", kind: "tertiary", note: "店の様子" },
+      { title: "ブログ「魂心家 相模大野店」", url: "https://ameblo.jp/maniccimanicci/entry-12871957718.html", kind: "tertiary", note: "店の様子", image: "https://stat.ameba.jp/user_images/20241020/12/maniccimanicci/2c/46/j/o1080081015500090303.jpg" },
     ],
     mapQuery: "横浜家系ラーメン 魂心家" },
   { id: "ichikaku", name: "壱角家", sub: "", pref: "東京", city: "新宿区ほか", founded: 2014, parent: null, lineage: "capital", status: "open", edge: null,
