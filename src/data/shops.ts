@@ -29,6 +29,10 @@ export interface Source {
   kind: SourceKind;
   // この出典が何を裏付けるか（任意）。例: "創業年・師匠"
   note?: string;
+  // 出典カード（CONTEXT.md）に出す記事の画像。https の絶対 URL（validate.ts が検査する）。
+  // 出典ページの og:image をそのまま参照する（ホットリンク。取り込まない）。
+  // その店（丼・店頭・店主）が写っていると目視で確かめた出典にだけ書く。別店舗の画像と期限つき URL は書かない。
+  image?: string;
 }
 
 export interface Shop {
@@ -96,7 +100,7 @@ export const NODES: Shop[] = [
   { id: "yoshimura", name: "吉村家", sub: "横浜駅西口", pref: "神奈川", city: "横浜市西区", founded: 1974, parent: null, lineage: "root", status: "open", edge: null,
     note: "1974年、吉村実さんが新杉田で開いた、家系ラーメンのいちばん最初のお店。豚骨しょうゆのスープに、酒井製麺の太い麺、ほうれん草とのり、チャーシューをのせる。お店の名前の「家」が、そのまま「家系」という呼び名のもとになった。1999年に横浜駅西口へ引っ越し、今は同じ西口の岡野にある。総本山と呼ばれ、毎日行列ができる。",
     sources: [
-      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・引っ越し・場所" },
+      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・引っ越し・場所", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231527_IMG_9695.jpg/1280px-%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231527_IMG_9695.jpg?utm_source=ja.wikipedia.org&utm_campaign=index&utm_content=thumbnail" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "できた年・「家系」という名前のもと" },
     ],
     mapQuery: "家系総本山 吉村家 横浜市西区岡野" },
@@ -111,7 +115,7 @@ export const NODES: Shop[] = [
   { id: "suzuki", name: "寿々喜家", sub: "上星川", pref: "神奈川", city: "横浜市保土ケ谷区", founded: 1990, parent: "honmoku", lineage: "honmoku", status: "open", edge: "trained",
     note: "本牧家で修行した店主が、1990年に開いたお店。上星川の住宅街で長く愛されている、本牧家系を代表する一軒。正しい書き方は「寿々㐂家」。",
     sources: [
-      { title: "家系ラーメンマン「寿々㐂家＠上星川」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/24/170000", kind: "tertiary", note: "師匠・できた年" },
+      { title: "家系ラーメンマン「寿々㐂家＠上星川」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/24/170000", kind: "tertiary", note: "師匠・できた年", image: "https://cdn.image.st-hatena.com/image/scale/81c126b908da6138266f6a5a7b96223955a7b2a0/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20190923%2F20190923154708.jpg" },
       { title: "横浜ウォッチャー「上星川の家系ラーメン 寿々㐂家」", url: "https://travelyokohama.jp/entry/iekei-ramen-suzukiya-20250217", kind: "tertiary", note: "できた年・系統" },
     ],
     mapQuery: "寿々喜家 本店 横浜市保土ケ谷区上星川2-3-1" },
@@ -126,14 +130,14 @@ export const NODES: Shop[] = [
   { id: "kaiichi", name: "介一家", sub: "山手", pref: "神奈川", city: "横浜市中区", founded: 1988, approx: true, parent: "rokkaku", lineage: "rokkaku", status: "open", edge: "trained",
     note: "本牧家と六角家で働いた店主たちが、1988年ごろに山手で始めたお店。まろやかなスープで六角家系の味を受け継ぎ、山手の本店のほかにも何軒かある。",
     sources: [
-      { title: "家系ラーメンマン「1988年オープンの老舗家系ラーメン店 介一家 山手店」", url: "https://iekei-ramenman.hatenablog.com/entry/sukeichiya-yamate", kind: "tertiary", note: "師匠・できた年" },
+      { title: "家系ラーメンマン「1988年オープンの老舗家系ラーメン店 介一家 山手店」", url: "https://iekei-ramenman.hatenablog.com/entry/sukeichiya-yamate", kind: "tertiary", note: "師匠・できた年", image: "https://cdn.image.st-hatena.com/image/scale/a9b4ef1384d5120043813320542ea4d00a2edbd1/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20201012%2F20201012223309.jpg" },
       { title: "ブログ「介一家 山手店＠山手」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12850367560.html", kind: "tertiary", note: "師匠・できた年" },
     ],
     mapQuery: "介一家 山手 横浜市中区" },
   { id: "takasago", name: "たかさご家", sub: "日ノ出町", pref: "神奈川", city: "横浜市中区", founded: 1992, approx: true, parent: "rokkaku", lineage: "rokkaku", status: "open", edge: "disputed",
     note: "1992年ごろに南区高砂町で始まり、あとで日ノ出町に引っ越した。お店を始めるときに六角家出身の海添さんが関わったので六角家系に入れているが、店主本人は六角家で修行していない。そのため、どこにつなぐかには諸説ある。町田家を通して、東京の家系ラーメン（侍など）に大きな影響を与えた。",
     sources: [
-      { title: "家系ラーメンマン「日ノ出町の老舗家系 たかさご家 本店」", url: "https://iekei-ramenman.hatenablog.com/entry/takasagoya-honten20210403", kind: "tertiary", note: "できた年・最初の場所・六角家とのつながり" },
+      { title: "家系ラーメンマン「日ノ出町の老舗家系 たかさご家 本店」", url: "https://iekei-ramenman.hatenablog.com/entry/takasagoya-honten20210403", kind: "tertiary", note: "できた年・最初の場所・六角家とのつながり", image: "https://cdn.image.st-hatena.com/image/scale/63234fafc2a493962463c134bbe5712cb4cb1793/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210331%2F20210331234924.jpg" },
       { title: "ブログ「たかさご家 本店＠日ノ出町」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12791610620.html", kind: "tertiary", note: "できた年・最初の場所" },
       { title: "食べログ口コミ「たかさご家 本店 家系Vol.95-2」", url: "https://tabelog.com/kanagawa/A1401/A140102/14003538/dtlrvwlst/B69818078/", kind: "tertiary", note: "店主は六角家で修行していないという説" },
     ],
@@ -143,7 +147,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "食べログ「ラーメン 町田家 町田本店」", url: "https://tabelog.com/tokyo/A1327/A132701/13010323/", kind: "tertiary", note: "開いた日・場所" },
       { title: "ASCII.jp「都内トップクラスの家系ラーメン「侍 池尻店」」", url: "https://ascii.jp/elem/000/004/145/4145926/", kind: "secondary", note: "たかさご家とのつながり" },
-      { title: "家系ラーメンマン「創業25年！町田家本店」", url: "https://iekei-ramenman.hatenablog.com/entry/machidaya_honten2021", kind: "tertiary", note: "師匠・できた年" },
+      { title: "家系ラーメンマン「創業25年！町田家本店」", url: "https://iekei-ramenman.hatenablog.com/entry/machidaya_honten2021", kind: "tertiary", note: "師匠・できた年", image: "https://cdn.image.st-hatena.com/image/scale/bb1f46eaf65822a974c3bdc7e4fbdd04e7893c04/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20211121%2F20211121231413.jpg" },
     ],
     mapQuery: "ラーメン 町田家 町田本店 町田市原町田3-7-2" },
   { id: "samurai", name: "侍", sub: "渋谷", pref: "東京", city: "渋谷区", founded: 2005, parent: "machidaya", lineage: "rokkaku", status: "open", edge: "trained",
@@ -167,7 +171,7 @@ export const NODES: Shop[] = [
     note: "1999年、壱六家から作り方を学んで東戸塚で開いたお店。名前は、壱六家の「壱」と、お店を運営する会社エイトの「八」から。うずらの卵と甘めのスープが壱系のしるしで、横浜を中心に何軒かある。",
     sources: [
       { title: "株式会社エイト 公式サイト「History 私たちの歴史」", url: "https://eight-8.co.jp/about_history.html", kind: "primary", note: "できた年・最初の場所" },
-      { title: "株式会社エイト 公式 note「はじめまして 横浜らーめん壱八家です」", url: "https://note.com/kodawari_eight/n/n0f9f952809ed", kind: "primary", note: "師匠・お店の名前のもと" },
+      { title: "株式会社エイト 公式 note「はじめまして 横浜らーめん壱八家です」", url: "https://note.com/kodawari_eight/n/n0f9f952809ed", kind: "primary", note: "師匠・お店の名前のもと", image: "https://assets.st-note.com/production/uploads/images/52684926/rectangle_large_type_2_b18cad9f6bcd9b008199cebe4bbcd525.jpg?fit=bounds&quality=85&width=1280" },
     ],
     mapQuery: "壱八家 東戸塚本店 横浜市戸塚区品濃町515-1" },
   { id: "ichinana", name: "壱七家", sub: "立川", pref: "東京", city: "立川市", founded: 2008, parent: "ichiroku", lineage: "ichi", status: "open", edge: "disputed",
@@ -184,21 +188,21 @@ export const NODES: Shop[] = [
     note: "たかさご家で修行した店主が、1997年に新中野で開いたお店。武蔵家系の本店で、こってりしたスープと無料のライスを東京に広めた。ここから分かれたお店は約90軒ある。",
     sources: [
       { title: "さんたつ by 散歩の達人「武蔵家 中野本店」", url: "https://san-tatsu.jp/supporter/reports/1771/", kind: "tertiary", note: "師匠・できた年" },
-      { title: "家系ラーメンマン「1997年創業！武蔵家中野本店」", url: "https://iekei-ramenman.hatenablog.com/entry/musashiya_nakanohonten", kind: "tertiary", note: "師匠・できた年・つながり" },
+      { title: "家系ラーメンマン「1997年創業！武蔵家中野本店」", url: "https://iekei-ramenman.hatenablog.com/entry/musashiya_nakanohonten", kind: "tertiary", note: "師匠・できた年・つながり", image: "https://cdn.image.st-hatena.com/image/scale/9b494f8542d7190f8179cb992ba61d6d8316c943/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210719%2F20210719222122.jpg" },
       { title: "葛飾経済新聞「葛飾・金町に『ラーメン三浦家』 武蔵家総大将が地元に凱旋出店」", url: "https://katsushika.keizai.biz/headline/1704/", kind: "secondary", note: "分かれたお店の数" },
     ],
     mapQuery: "横浜ラーメン 武蔵家 中野本店 中野区中央4-4-1" },
   { id: "musashi", name: "武蔵家", sub: "千葉", pref: "千葉", city: "千葉市中央区", founded: 2003, parent: "musashi-nakano", lineage: "musashi", status: "open", edge: "trained",
     note: "新中野の武蔵家が、2003年に千葉で開いた1号店。ここから千葉県の中に武蔵家系のお店が広がった。",
     sources: [
-      { title: "iekei.jp「武蔵家 千葉本店」", url: "https://iekei.jp/shop/musashiya-chiba", kind: "tertiary", note: "師匠・できた年・つながり" },
+      { title: "iekei.jp「武蔵家 千葉本店」", url: "https://iekei.jp/shop/musashiya-chiba", kind: "tertiary", note: "師匠・できた年・つながり", image: "https://pub-bf954aa8adbe410ea0cbc3f1375e2a94.r2.dev/shops/musashiya-chiba/photos/d352482b-acc7-4b07-b49a-36de476ba581_1785404115488_425e7e6f.jpg" },
       { title: "食べログ「武蔵家 千葉本店」", url: "https://tabelog.com/en/chiba/A1201/A120101/12000921/", kind: "tertiary", note: "開いた日" },
     ],
     mapQuery: "らーめん武蔵家 千葉本店 千葉市中央区道場北町317" },
   { id: "budoka", name: "武道家", sub: "早稲田", pref: "東京", city: "新宿区", founded: 2006, parent: "musashi-nakano", lineage: "musashi", status: "open", edge: "trained",
     note: "新中野の武蔵家で修行した菊地輝さんが、2006年に開いたお店。早稲田の学生街でとても人気があり、「濃い」といえばここ、と言われる東京の家系ラーメンの代表。",
     sources: [
-      { title: "高田馬場経済新聞「早大近くの家系ラーメン『武道家』が20周年」", url: "https://takadanobaba.keizai.biz/headline/1659/", kind: "secondary", note: "師匠・できた年" },
+      { title: "高田馬場経済新聞「早大近くの家系ラーメン『武道家』が20周年」", url: "https://takadanobaba.keizai.biz/headline/1659/", kind: "secondary", note: "師匠・できた年", image: "https://images.keizai.biz/takadanobaba_keizai/headline/1780023567_photo.jpg" },
       { title: "高田馬場経済新聞「早大近くのラーメン店『武道家』が15周年」", url: "https://takadanobaba.keizai.biz/headline/664/", kind: "secondary", note: "師匠・できた年" },
     ],
     mapQuery: "横浜家系らーめん 武道家 本店 新宿区馬場下町" },
