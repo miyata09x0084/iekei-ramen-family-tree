@@ -1,0 +1,26 @@
+# 店舗データのライセンス（CC BY 4.0）
+
+このリポジトリのうち、次のものを「店舗データ」と呼びます。
+
+- `src/data/shops.ts` の `NODES` に書かれた値（屋号・場所・創業年・師匠の店・関係・系統・状態・解説文・出典）
+
+店舗データは Creative Commons 表示 4.0 国際（CC BY 4.0）で公開します。
+全文: https://creativecommons.org/licenses/by/4.0/legalcode.ja
+要約: https://creativecommons.org/licenses/by/4.0/deed.ja
+
+Copyright (c) 2026 miyata09x0084
+
+店舗データ以外（プログラム、画面、文書）は MIT ライセンスです。`LICENSE` を見てください。
+
+## 使うときの表示
+
+出典として、次のように書いてください。
+
+> 「家系ラーメン家系図」（https://iekei-ramen-family-tree.vercel.app 、CC BY 4.0）をもとに作成
+
+手を加えた場合は、その旨も添えてください。
+
+## 注意
+
+- 店舗データは公開情報を集めて編集したもので、各項目の根拠は店ごとの出典に示しています。誤りを含むことがあります
+- 各店の屋号・ロゴ・商標は各店に帰属します。店舗データのライセンスはそれらに及びません

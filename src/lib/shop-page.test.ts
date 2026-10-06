@@ -87,4 +87,9 @@ describe("correctionIssueUrl: 訂正を知らせる issue の新規作成 URL", 
     expect(url.origin + url.pathname).toBe("https://github.com/miyata09x0084/iekei-ramen-family-tree/issues/new");
     expect(url.searchParams.get("title")).toBe(`${withSub.name}（${withSub.sub}）の情報の訂正`);
   });
+
+  it("「誤りの報告」のフォームを指定する。指定しないとフォーム選択画面に飛ばされ、題名が消えるため", () => {
+    const url = new URL(correctionIssueUrl(withSub));
+    expect(url.searchParams.get("template")).toBe("correction.yml");
+  });
 });

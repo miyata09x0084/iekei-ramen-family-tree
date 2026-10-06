@@ -1,12 +1,23 @@
 # 家系ラーメン家系図
 
+[![CI](https://github.com/miyata09x0084/iekei-ramen-family-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/miyata09x0084/iekei-ramen-family-tree/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Data: CC BY 4.0](https://img.shields.io/badge/Data-CC_BY_4.0-lightgrey.svg)](LICENSE-DATA)
+
 **▶ https://iekei-ramen-family-tree.vercel.app** — ブラウザで開くだけで使えます（PC・スマホ対応、インストール不要）
 
-吉村家を頂点に、関東の家系ラーメン28店・7世代の修行系譜を、縦書き屋号の伝統的な系図様式で辿れる Web アプリです。
+吉村家を頂点に、関東の家系ラーメン 28 店・7 世代の修行系譜を、縦書き屋号の伝統的な系図様式で辿れる Web サイトです。
+
+*An interactive family tree of Iekei ramen shops in the Kanto region, tracing 28 shops across 7 generations back to Yoshimuraya.*
 
 [![家系図の画面。吉村家を選ぶと右に詳細パネルが開き、Google マップへのリンクが表示される](docs/screenshot.jpg)](https://iekei-ramen-family-tree.vercel.app)
 
-## 使い方
+## 何ができるか
+
+お店の名前にカーソルを合わせると吉村家までのつながりが光り、押すと場所・できた年・師匠と弟子・出典が読めます。1 店ずつ固定の URL（`/shops/店のid`）があるので、ブログや SNS で「この店の系譜」を指して引用できます。
+
+<details>
+<summary>操作の一覧</summary>
 
 | やりたいこと | 操作 |
 |---|---|
@@ -18,6 +29,8 @@
 | 系統・地域で絞る | 上部のチップ（直系 / 本牧家系 / 六角家系 … 、神奈川 / 東京 / 千葉）を押す |
 | お店の名前で探す | 左上の検索欄に入力 |
 | 歴史を追う | 年スライダーを動かすか **「1974年からもう一度見る」** で、お店が増えていく様子をアニメーションで見る |
+
+</details>
 
 ### 印の意味
 
@@ -33,16 +46,22 @@
 
 町田商店などの資本系は修行の系譜に属さないため、系図の右に別置きしています。
 
-## データについて
+## データの方針
 
-系譜は公開情報を編集したものです。全店に出典を付け、お店の名前を押して開く詳細パネルの「出典」から原文を確かめられます。出典は「公式」（公式発信・店主本人の語り・有価証券報告書）、「新聞・雑誌」（報道）、「ネット」（Wikipedia・グルメサイト・ブログ）に分けて表示し、その最上位から「確かさ」を導いています。公式が 1 件でもあれば「確か」、新聞・雑誌までなら「ほぼ確か」、ネットだけなら「未確認」です。出典で裏付けられない創業年は概算（「頃」表記）とし、師匠の店に諸説ある店は点線で示しています。誤りや追加したい店があれば [Issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues) でお知らせください。趣味で作っているので、お返事は約束できませんが、いただいた内容は必ず目を通します。
+- **全店に出典を付けています。** 出典は「公式」（公式発信・店主本人の語り・有価証券報告書）、「新聞・雑誌」（報道）、「ネット」（Wikipedia・グルメサイト・ブログ）の 3 つに分け、その最上位から「確か」「ほぼ確か」「未確認」の 3 段階を機械的に導いています。手で確度を付けることはしません
+- 出典で裏付けられない創業年は「頃」と表記し、師匠の店に諸説ある店は点線で示しています
+- 味の評価はしません。載せるのは系譜と、その根拠だけです
+- お店の営業状況や場所は変わることがあります。屋号・ロゴは各店に帰属します
 
----
+## 誤りの報告・店の情報提供
+
+誤りに気づいたときや、載っていない店をご存じのときは、[issue](https://github.com/miyata09x0084/iekei-ramen-family-tree/issues/new/choose) で教えてください。「誤りの報告」と「店の情報提供」のフォームがあります。公式サイト・店主の発信・新聞や雑誌の記事など、出典の URL を添えてもらえると、そのまま反映できます。
+
+趣味で作っているので、お返事は約束できませんが、いただいた内容は必ず目を通します。
 
 ## 開発
 
-Next.js（App Router / TypeScript）+ D3.js。静的出力（`output: 'export'`）なので任意の静的ホスティングに置けます。
-本番は Vercel（Hobby）でホストしており、`main` への push で自動デプロイされます。
+Next.js（App Router / TypeScript）+ D3.js。静的出力（`output: 'export'`）なので任意の静的ホスティングに置けます。本番は Vercel でホストしており、`main` への push で自動デプロイされます。
 
 ```sh
 npm install
@@ -52,50 +71,13 @@ npm run lint
 npm test        # Vitest
 ```
 
-PR を立てると GitHub Actions（`.github/workflows/ci.yml`）が test / lint / build を自動実行します。3 つすべてが成功しないと `main` にはマージできません。
+コードや店舗データに手を入れるときは [CONTRIBUTING.md](CONTRIBUTING.md) を見てください。主要ファイル、店舗データの書き方、PR の条件があります。
 
-Claude Code で作業するときは、`.claude/settings.json` の hook が破壊的な git コマンドを実行前に止めます。止めるのは force push、`main` への直 push、`git reset --hard`、`git clean -f`、`git branch -D`、`git checkout .` / `git restore .` です。判定は `.claude/hooks/dangerous-git.mjs` にあり、止められたコマンドが必要なときは、自分のターミナルか Claude Code の入力欄の `! <コマンド>` で実行します。hook が判定の途中で失敗したときも、素通しにせず止めます。
+## ライセンス
 
-この hook は事故の防止が目的で、回避の防止ではありません。次のものは見ません: 引用符で囲んだ引数（`git push origin "main"`）や `sh -c "..."` の中身、heredoc の本文、パス付きの `/usr/bin/git`、`git push --all` / `--mirror`、ブランチの削除（`git push origin --delete`）。
+- コード: [MIT](LICENSE)
+- 店舗データ（`src/data/shops.ts` の内容）: [CC BY 4.0](LICENSE-DATA)
 
-### 構成
+データを使うときは、次のように出典を書いてください。
 
-- `src/data/shops.ts` — 店舗データと型（`Shop`）、系統・関係・状態のラベル
-- `src/lib/layout.ts` — d3.tree による座標計算と系線の生成（純粋関数）
-- `src/lib/ancestry.ts` — 系譜の遡り、絞り込み判定
-- `src/lib/validate.ts` — 店舗データの系譜の整合の検証（読み込み時に呼ばれ、壊れていればビルドが止まる）
-- `src/components/TreeCanvas.tsx` — D3 が SVG を専有する描画面。React は class の付け替えだけを伝える
-- `src/components/Keizu.tsx` — 絞り込み・検索・年スライダー・選択の状態管理
-- `src/components/DetailPanel.tsx` / `Legend.tsx`
-- `src/app/shops/[id]/page.tsx` — 店舗ページ。`generateStaticParams` で全店ぶんを `out/shops/<id>.html` に出す。`src/app/shops/page.tsx` は系統ごとの一覧
-- `src/lib/shop-page.ts` — 店舗ページの URL・題名・説明文・世代・訂正 issue の URL（純粋関数）。`/?shop=<id>` で系図を開くと、`Keizu.tsx` がその店を選択済みで表示する
-- `src/lib/site.ts` — 正とする URL・サイト名・説明文・OGP 画像の 1 行。`metadataBase` / sitemap / robots はここから作る
-- `src/app/og.png/route.tsx` — OGP 画像（1200×630）。ビルド時に `out/og.png` になる。題字と、系線・丸印だけの系図（資本系は除く）。`src/lib/og.ts` が系図をその座標に変換し、`src/lib/og-font.ts` がビルド時に筆文字フォントを Google Fonts から取る
-- `src/app/sitemap.ts` / `robots.ts` — 静的出力でもビルド時に `out/sitemap.xml` / `out/robots.txt` になる（`dynamic = "force-static"`）
-
-### データの編集
-
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり、媒体名が空でなく、URL が http(s) で始まることの 5 つです。
-
-```ts
-{ id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
-  parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
-  sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", kind: "primary", note: "創業年・師匠" }],
-  mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
-```
-
-- `parent`: 師匠となる店の `id`（資本系は `null`）
-- `lineage`: `direct` / `honmoku` / `rokkaku` / `ichi` / `oudou` / `musashi` / `indep` / `capital`
-- `edge`: `direct`（直系認定）/ `former`（元直系）/ `trained`（修行・独立）/ `disputed`（諸説あり）/ `inspired`（影響。師弟関係なし）
-- `status`: `open` / `closed` / `main-closed`
-- `sources`: 出典。1 件以上が必須で、詳細パネルの「出典」に媒体名のリンクとして並ぶ。`title` は媒体名＋ページ名（例: `Wikipedia「吉村家」`）、
-  `url` は実際に開いて主張が書かれていることを確かめた URL（https を基本とし、証明書不一致で開けない公式サイトだけ http）、`note`（任意）はその出典が裏付ける項目（例: `創業年・師匠`）。
-  `kind` は出典の種別で、`primary`（店・運営会社・吉村家の公式発信、店主本人のインタビューや連載、有価証券報告書）/ `secondary`（新聞・雑誌・地域メディアの取材記事）/ `tertiary`（Wikipedia、グルメサイトのデータ、まとめ、個人ブログ）。
-  詳細パネルの「確度」は `src/lib/certainty.ts` が最上位の `kind` から導く（一次あり → 確定、二次まで → 報道による、三次だけ → 未確認）ので、手で付けない。出典の並びも一次 → 二次 → 三次に揃えるので、配列の順は気にしなくてよい。
-  裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする。
-  全店の出典を開いて確かめ直したら、`SOURCES_CHECKED_AT`（店舗ページの「出典を確かめた日」）をその日に直す。店ごとの日付は持たない
-- `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
-  多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
-  本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。
-  URL は `src/data/shops.ts` の `mapUrl()` が `https://www.google.com/maps/search/?api=1&query=...` 形式で生成する。
-  place ID（`?q=place_id:...`）は店舗の移転・改装で失効すると「一致する検索結果はありません」になるため使わない
+> 「家系ラーメン家系図」（https://iekei-ramen-family-tree.vercel.app 、CC BY 4.0）をもとに作成

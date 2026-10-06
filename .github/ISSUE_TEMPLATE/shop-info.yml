@@ -1,0 +1,34 @@
+name: 店の情報提供
+description: 載っていない店や、系譜のつながりを教えてください。出典が必要です
+title: "〇〇家の情報提供"
+body:
+  - type: input
+    id: shop
+    attributes:
+      label: お店の名前と場所
+      placeholder: 例）〇〇家（横浜市中区）
+    validations:
+      required: true
+  - type: textarea
+    id: lineage
+    attributes:
+      label: 師匠の店と関係
+      description: どの店で修行したか、直系の認定があるか、諸説あるかなど
+      placeholder: 例）吉村家で修行して 2010 年に独立。直系の認定はなし
+    validations:
+      required: true
+  - type: input
+    id: founded
+    attributes:
+      label: 創業年
+      placeholder: 例）2010 年（おおよそなら「頃」と書いてください）
+    validations:
+      required: false
+  - type: textarea
+    id: sources
+    attributes:
+      label: 出典（URL）
+      description: 師匠の店や創業年が書かれているページ。公式サイト・店主の発信・新聞や雑誌の記事を歓迎します。出典のない情報は載せられません
+      placeholder: https://
+    validations:
+      required: true
