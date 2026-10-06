@@ -115,6 +115,25 @@ describe("validateShops: 出典", () => {
   });
 });
 
+describe("validateShops: どんぶり写真", () => {
+  it("撮影日とメニュー名が揃っていれば違反にしない", () => {
+    const errors = validateShops(replace(branch.id, { photo: { takenAt: "2026-10-06", menu: "ラーメン並" } }));
+    expect(naming(errors, branch.id)).toEqual([]);
+  });
+  it("撮影日が YYYY-MM-DD でない店を名指しする", () => {
+    const errors = validateShops(replace(branch.id, { photo: { takenAt: "2026/10/6", menu: "ラーメン並" } }));
+    expect(naming(errors, branch.id)).not.toEqual([]);
+  });
+  it("形式は合っていても実在しない日付（13 月など）は名指しする", () => {
+    const errors = validateShops(replace(branch.id, { photo: { takenAt: "2026-13-45", menu: "ラーメン並" } }));
+    expect(naming(errors, branch.id)).not.toEqual([]);
+  });
+  it("メニュー名が空の店を名指しする", () => {
+    const errors = validateShops(replace(branch.id, { photo: { takenAt: "2026-10-06", menu: " " } }));
+    expect(naming(errors, branch.id)).not.toEqual([]);
+  });
+});
+
 describe("assertShopsValid: 読み込み時の停止", () => {
   it("整合していれば何もしない", () => {
     expect(() => assertShopsValid(FIXTURE)).not.toThrow();

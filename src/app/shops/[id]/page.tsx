@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import { LINEAGES, NODES, SHOP_BY_ID, SOURCES_CHECKED_AT, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
+import { ShopPhoto } from "@/components/ShopPhoto";
 import { lineagePath } from "@/lib/ancestry";
 import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
+import { hasPhoto } from "@/lib/photo";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { correctionIssueUrl, generationOf, keizuPath, shopDescription, shopLabel, shopPath, shopTitle } from "@/lib/shop-page";
 import { openGraphBase } from "@/lib/site";
@@ -63,6 +65,7 @@ export default async function ShopPage({ params }: Props) {
         <span>{LINEAGES[shop.lineage].label}</span>
       </p>
       <h1><span>{shop.name}</span>{shop.sub && <small>{shop.sub}</small>}</h1>
+      {hasPhoto(shop) && <ShopPhoto shop={shop} priority />}
       <dl className="facts">
         <dt>場所</dt><dd>{shop.pref}・{shop.city}</dd>
         <dt>できた年</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>

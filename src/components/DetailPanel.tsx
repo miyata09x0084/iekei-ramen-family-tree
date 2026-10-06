@@ -3,8 +3,10 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import { LINEAGES, SOURCE_KIND_LABEL, STATUS_LABEL, mapUrl, type Shop } from "@/data/shops";
+import { ShopPhoto } from "@/components/ShopPhoto";
 import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
 import type { PlacedShop } from "@/lib/layout";
+import { hasPhoto } from "@/lib/photo";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { shopLabel, shopPath } from "@/lib/shop-page";
 import { track } from "@/lib/track";
@@ -59,6 +61,8 @@ export function DetailPanel({ shop: current, nodes, onSelect, onClose }: Props) 
           </p>
           <h2><span>{shop.name}</span><span>{shop.sub}</span></h2>
           <Link className="pagelink" href={shopPath(shop.id)}>このお店のページ（貼って共有できる URL）</Link>
+          {/* key で店ごとに img を作り直し、切り替え直後に前の店の写真が残らないようにする */}
+          {hasPhoto(shop) && <ShopPhoto key={shop.id} shop={shop} />}
           <dl className="facts">
             <dt>場所</dt><dd>{shop.pref}・{shop.city}</dd>
             <dt>できた年</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>

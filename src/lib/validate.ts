@@ -11,6 +11,7 @@ import type { Shop } from "@/data/shops";
  *   3. 資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない
  *   4. 創業年が師匠より前でない（本人か師匠が概算なら除く）
  *   5. 全店に出典が 1 件以上あり、各出典は媒体名が非空で URL が http(s) で始まる（#44）
+ *   6. どんぶり写真を持つ店は、撮影日が YYYY-MM-DD で、メニュー名が非空（#60）
  */
 export function validateShops(shops: Shop[]): string[] {
   const errors: string[] = [];
@@ -79,6 +80,16 @@ export function validateShops(shops: Shop[]): string[] {
       if (src.title.trim() === "") errors.push(`"${s.id}" の出典 "${src.url}" に媒体名（title）がない`);
       if (!/^https?:\/\//.test(src.url)) errors.push(`"${s.id}" の出典 "${src.url}" が http(s) で始まらない`);
     }
+  }
+
+  // 6. どんぶり写真: 撮影日が YYYY-MM-DD で、メニュー名が非空（#60）。ファイルの有無は src/data/photos.test.ts が確かめる
+  for (const s of shops) {
+    if (!s.photo) continue;
+    // 形式と実在の両方を見る。"2026-13-45" は形式は合うが Date.parse が NaN を返す
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(s.photo.takenAt) || Number.isNaN(Date.parse(s.photo.takenAt))) {
+      errors.push(`"${s.id}" の写真の撮影日 "${s.photo.takenAt}" が YYYY-MM-DD の実在する日付でない`);
+    }
+    if (s.photo.menu.trim() === "") errors.push(`"${s.id}" の写真にメニュー名（menu）がない`);
   }
 
   return errors;

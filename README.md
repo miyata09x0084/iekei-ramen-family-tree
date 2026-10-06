@@ -69,19 +69,21 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 - `src/components/DetailPanel.tsx` / `Legend.tsx`
 - `src/app/shops/[id]/page.tsx` — 店舗ページ。`generateStaticParams` で全店ぶんを `out/shops/<id>.html` に出す。`src/app/shops/page.tsx` は系統ごとの一覧
 - `src/lib/shop-page.ts` — 店舗ページの URL・題名・説明文・世代・訂正 issue の URL（純粋関数）。`/?shop=<id>` で系図を開くと、`Keizu.tsx` がその店を選択済みで表示する
+- `src/lib/photo.ts` / `src/components/ShopPhoto.tsx` — どんぶり写真の URL・代替テキスト・説明文（純粋関数）と、店舗ページ・詳細パネルの見出し直下に出す部品。写真の実体は `public/shops/<id>.jpg` で、`src/data/photos.test.ts` がデータとファイルの対応を確かめる
 - `src/lib/site.ts` — 正とする URL・サイト名・説明文・OGP 画像の 1 行。`metadataBase` / sitemap / robots はここから作る
 - `src/app/og.png/route.tsx` — OGP 画像（1200×630）。ビルド時に `out/og.png` になる。題字と、系線・丸印だけの系図（資本系は除く）。`src/lib/og.ts` が系図をその座標に変換し、`src/lib/og-font.ts` がビルド時に筆文字フォントを Google Fonts から取る
 - `src/app/sitemap.ts` / `robots.ts` — 静的出力でもビルド時に `out/sitemap.xml` / `out/robots.txt` になる（`dynamic = "force-static"`）
 
 ### データの編集
 
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり、媒体名が空でなく、URL が http(s) で始まることの 5 つです。
+`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり、媒体名が空でなく、URL が http(s) で始まること、どんぶり写真を持つ店は撮影日が `YYYY-MM-DD` でメニュー名が空でないことの 6 つです。
 
 ```ts
 { id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
   parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
   sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", kind: "primary", note: "創業年・師匠" }],
-  mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
+  mapQuery: "屋号 本店 横浜市中区○○1-2-3",
+  photo: { takenAt: "2026-10-06", menu: "ラーメン並" } }
 ```
 
 - `parent`: 師匠となる店の `id`（資本系は `null`）
@@ -94,6 +96,10 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
   詳細パネルの「確度」は `src/lib/certainty.ts` が最上位の `kind` から導く（一次あり → 確定、二次まで → 報道による、三次だけ → 未確認）ので、手で付けない。出典の並びも一次 → 二次 → 三次に揃えるので、配列の順は気にしなくてよい。
   裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする。
   全店の出典を開いて確かめ直したら、`SOURCES_CHECKED_AT`（店舗ページの「出典を確かめた日」）をその日に直す。店ごとの日付は持たない
+- `photo`（任意）: どんぶり写真。自分で店に行って撮った写真だけを載せ、外部サービスや他人の写真は使わない（[ADR 0004](docs/adr/0004-shop-photos-taken-by-ourselves.md)）。
+  `takenAt` は撮影日（`YYYY-MM-DD`）、`menu` は注文したメニュー（例: `ラーメン並`）。写真の下に「メニュー名（撮影日 撮影）」と出る。
+  ファイルは `public/shops/<id>.jpg` に置く。横 1200px 程度の 4:3 の JPEG に縮小し、300KB 以下を目安にする（例: `magick 元.jpg -resize 1200x -quality 80 public/shops/<id>.jpg`）。
+  `photo` を付けた店にファイルがない、またはどの店にも使われていないファイルがあると `npm test` が落ちる。写真がない店には何も出ない
 - `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
   多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
   本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。

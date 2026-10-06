@@ -31,6 +31,17 @@ export interface Source {
   note?: string;
 }
 
+/**
+ * どんぶり写真。自分で店に行って撮ったものだけを載せる（外部サービスや他人の写真は使わない）。
+ * ファイルは public/shops/<id>.jpg に置く（src/lib/photo.ts が URL を組み立て、src/data/photos.test.ts がファイルの有無を確かめる）。
+ */
+export interface Photo {
+  // 撮影日。YYYY-MM-DD（validate.ts が検査する）
+  takenAt: string;
+  // 注文したメニュー。例: "ラーメン並"、"中盛り・硬め"
+  menu: string;
+}
+
 export interface Shop {
   id: string;
   name: string;
@@ -49,6 +60,8 @@ export interface Shop {
   // Google マップで検索する文字列（店名＋住所）。省略時は「店名 + sub または city」で組み立てる。
   // place ID は一度失効すると「一致する検索結果はありません」になるため使わない。
   mapQuery?: string;
+  // どんぶり写真（任意）。撮れた店から順に付ける。無い店には何も出さない
+  photo?: Photo;
 }
 
 /** 詳細パネルの「Google マップで開く」リンク。検索クエリ形式なので店舗が移転しても落ちない。 */
