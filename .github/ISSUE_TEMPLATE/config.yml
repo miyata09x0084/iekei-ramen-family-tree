@@ -1,0 +1,2 @@
+# フォームを使わない issue も立てられるようにする（自分用の 1 行登録のため）
+blank_issues_enabled: true

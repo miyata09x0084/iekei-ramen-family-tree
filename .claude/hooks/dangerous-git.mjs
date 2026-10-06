@@ -1,5 +1,15 @@
-// Claude Code の PreToolUse hook が使う判定。事故の防止が目的で、回避の防止ではない。
-// 引用符の中に書かれたコマンド（bash -c "git reset --hard" など）は見ない。
+// Claude Code の PreToolUse hook が使う判定。破壊的な git コマンドを実行前に止める。
+// 設定は .claude/settings.json。止められたコマンドが必要なときは、自分のターミナルか
+// Claude Code の入力欄の `! <コマンド>` で実行する。
+//
+// 止めるもの:
+//   force push、main への直 push、git reset --hard、git clean -f、git branch -D、
+//   git checkout . / git restore .
+//   判定の途中で失敗したときも、素通しにせず止める。
+//
+// 事故の防止が目的で、回避の防止ではない。次のものは見ない:
+//   引用符で囲んだ引数（git push origin "main"）や sh -c "..." の中身、heredoc の本文、
+//   パス付きの /usr/bin/git、git push --all / --mirror、ブランチの削除（git push origin --delete）
 
 /** 引用符で囲まれた部分を空にする。コミットメッセージや PR 本文の中身で止めないため */
 function stripQuoted(command) {

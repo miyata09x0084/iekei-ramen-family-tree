@@ -47,7 +47,11 @@ export function generationOf(shop: Shop, byId: Map<string, Shop>): number | null
   return lineagePath(shop.id, byId).length - 1;
 }
 
-/** 訂正を知らせる issue の新規作成 URL。題名に屋号を入れておき、1 クリックで立てられるようにする */
+/**
+ * 訂正を知らせる issue の新規作成 URL。題名に屋号を入れておき、1 クリックで立てられるようにする。
+ * フォーム（.github/ISSUE_TEMPLATE/correction.yml）を指定しないと選択画面に飛ばされ、題名が消える
+ */
 export function correctionIssueUrl(shop: Shop): string {
-  return `${REPO_URL}/issues/new?title=${encodeURIComponent(`${shopLabel(shop)}の情報の訂正`)}`;
+  const params = new URLSearchParams({ template: "correction.yml", title: `${shopLabel(shop)}の情報の訂正` });
+  return `${REPO_URL}/issues/new?${params}`;
 }

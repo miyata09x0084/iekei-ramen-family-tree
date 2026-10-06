@@ -1,0 +1,29 @@
+name: 誤りの報告
+description: 系図や店舗ページの情報が違うときに。出典があると助かります
+title: "〇〇家の情報の訂正"
+body:
+  - type: input
+    id: shop
+    attributes:
+      label: お店の名前
+      placeholder: 例）杉田家（千葉店）
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 何が違うか
+      description: 今の表示と、正しいと思う内容を書いてください
+      placeholder: |
+        今の表示: 創業 1999 年
+        正しい内容: 創業 2000 年 3 月
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 正しい情報の出典（URL）
+      description: 公式サイト・店主の発信・新聞や雑誌の記事を歓迎します。なければ空欄で構いません
+      placeholder: https://
+    validations:
+      required: false
