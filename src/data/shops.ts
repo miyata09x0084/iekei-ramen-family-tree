@@ -125,7 +125,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "Wikipedia「六角家 (ラーメン店)」", url: "https://ja.wikipedia.org/wiki/六角家_(ラーメン店)", kind: "tertiary", note: "師匠・できた年・本店閉店・引っ越し" },
       { title: "ASCII.jp「あの銘店をもう一度がついにフィナーレ!! 大トリは横浜「六角家1994+」」", url: "https://ascii.jp/elem/000/004/193/4193163/", kind: "secondary", note: "師匠・できた年" },
-      { title: "ブログ「六角家@東白楽」", url: "https://titabetamono.livedoor.blog/archives/9251742.html", kind: "tertiary", note: "閉店前の本店の様子", image: "https://livedoor.blogimg.jp/titabetamono/imgs/b/e/be29a408.jpg" },
+      { title: "ブログ「【閉店】今日のラーメン：六角家 本店 (東白楽)」", url: "https://www.harumaki.net/2014/12/13/rokkakuya-higashi-hakuraku/", kind: "tertiary", note: "閉店前の本店の様子", image: "https://www.harumaki.net/wp-content/uploads/2014/12/IMG_1165.jpg" },
     ],
     mapQuery: "ラーメン六角家 戸塚 トツカーナモール" }, // 旧・戸塚店（本店は2017年閉店）
   { id: "kaiichi", name: "介一家", sub: "山手", pref: "神奈川", city: "横浜市中区", founded: 1988, approx: true, parent: "rokkaku", lineage: "rokkaku", status: "open", edge: "trained",
