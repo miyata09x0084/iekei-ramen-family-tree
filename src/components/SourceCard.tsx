@@ -34,7 +34,7 @@ export function SourceCard({ shop, onOpen }: Props) {
       aria-label={`出典 ${source.title}（新しいタブ）`}>
       {/* 出典サーバーの画像をそのまま参照する（ホットリンク。複製しない）。静的エクスポートで next/image の最適化は効かず、外部ドメインの設定も要るので素の img にする */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={source.image} alt="" loading="lazy" onError={() => setFailed(true)} />
+      <img src={source.image} alt="" onError={() => setFailed(true)} />
       <span className="caption"><span className="label">出典</span><span className="title">{source.title}</span></span>
     </a>
   );
