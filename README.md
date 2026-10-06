@@ -14,6 +14,7 @@
 | ある店のつながりを知る | お店の名前にカーソルを合わせると、吉村家までのつながりが光る |
 | 店の詳細を見る | お店の名前を押すと右にパネルが開く。場所・できた年・世代・師匠と弟子の一覧 |
 | **店の場所を調べる** | パネルの **「Google マップで開く ↗」** で Google マップが別タブで開く |
+| **1 店を指して共有する** | パネルの **「このお店のページ」** を開き、その URL（`/shops/店のid`）を貼る。吉村家までのつながり・師匠・弟子・出典が文章で読め、「系図でこのお店を見る」で系図に戻れる。全店は右下の「お店の一覧」から |
 | 系統・地域で絞る | 上部のチップ（直系 / 本牧家系 / 六角家系 … 、神奈川 / 東京 / 千葉）を押す |
 | お店の名前で探す | 左上の検索欄に入力 |
 | 歴史を追う | 年スライダーを動かすか **「1974年からもう一度見る」** で、お店が増えていく様子をアニメーションで見る |
@@ -66,6 +67,8 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 - `src/components/TreeCanvas.tsx` — D3 が SVG を専有する描画面。React は class の付け替えだけを伝える
 - `src/components/Keizu.tsx` — 絞り込み・検索・年スライダー・選択の状態管理
 - `src/components/DetailPanel.tsx` / `Legend.tsx`
+- `src/app/shops/[id]/page.tsx` — 店舗ページ。`generateStaticParams` で全店ぶんを `out/shops/<id>.html` に出す。`src/app/shops/page.tsx` は系統ごとの一覧
+- `src/lib/shop-page.ts` — 店舗ページの URL・題名・説明文・世代・訂正 issue の URL（純粋関数）。`/?shop=<id>` で系図を開くと、`Keizu.tsx` がその店を選択済みで表示する
 - `src/lib/site.ts` — 正とする URL・サイト名・説明文・OGP 画像の 1 行。`metadataBase` / sitemap / robots はここから作る
 - `src/app/og.png/route.tsx` — OGP 画像（1200×630）。ビルド時に `out/og.png` になる。題字と、系線・丸印だけの系図（資本系は除く）。`src/lib/og.ts` が系図をその座標に変換し、`src/lib/og-font.ts` がビルド時に筆文字フォントを Google Fonts から取る
 - `src/app/sitemap.ts` / `robots.ts` — 静的出力でもビルド時に `out/sitemap.xml` / `out/robots.txt` になる（`dynamic = "force-static"`）
@@ -89,7 +92,8 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
   `url` は実際に開いて主張が書かれていることを確かめた URL（https を基本とし、証明書不一致で開けない公式サイトだけ http）、`note`（任意）はその出典が裏付ける項目（例: `創業年・師匠`）。
   `kind` は出典の種別で、`primary`（店・運営会社・吉村家の公式発信、店主本人のインタビューや連載、有価証券報告書）/ `secondary`（新聞・雑誌・地域メディアの取材記事）/ `tertiary`（Wikipedia、グルメサイトのデータ、まとめ、個人ブログ）。
   詳細パネルの「確度」は `src/lib/certainty.ts` が最上位の `kind` から導く（一次あり → 確定、二次まで → 報道による、三次だけ → 未確認）ので、手で付けない。出典の並びも一次 → 二次 → 三次に揃えるので、配列の順は気にしなくてよい。
-  裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする
+  裏付けが取れない創業年は `approx: true`、師匠は `edge: "disputed"` にする。
+  全店の出典を開いて確かめ直したら、`SOURCES_CHECKED_AT`（店舗ページの「出典を確かめた日」）をその日に直す。店ごとの日付は持たない
 - `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
   多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
   本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。

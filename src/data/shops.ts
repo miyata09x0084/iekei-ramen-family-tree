@@ -86,6 +86,8 @@ export const STATUS_LABEL: Record<ShopStatus, string> = {
 export const PREFS: Pref[] = ["神奈川", "東京", "千葉"];
 export const YEAR_MIN = 1974;
 export const YEAR_MAX = 2026;
+// 全店の出典を開いて確かめた日。店ごとには持たず、裏取りを回した日だけ直す（店舗ページの「出典を確かめた日」）
+export const SOURCES_CHECKED_AT = "2026-10-05";
 
 // 系譜は公開情報を編集したもの。approx=true の創業年は概算。
 // mapQuery は現存する店舗を指す。本店閉店（main-closed）の店は暖簾を継承する店舗を指す。

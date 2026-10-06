@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import * as d3 from "d3";
-import { LINEAGES, NODES, PREFS, YEAR_MAX, YEAR_MIN, type LineageKey, type Pref } from "@/data/shops";
+import { LINEAGES, NODES, PREFS, SHOP_BY_ID, YEAR_MAX, YEAR_MIN, type LineageKey, type Pref } from "@/data/shops";
 import { computeLayout } from "@/lib/layout";
 import { matches, normalizeQuery, type FilterState } from "@/lib/ancestry";
 import { TreeCanvas, type TreeHandle } from "./TreeCanvas";
@@ -10,6 +10,7 @@ import { DetailPanel } from "./DetailPanel";
 import { Legend } from "./Legend";
 import Link from "next/link";
 import { track } from "@/lib/track";
+import { SHOP_QUERY } from "@/lib/shop-page";
 
 const LINEAGE_CHIPS = (Object.keys(LINEAGES) as LineageKey[]).filter((k) => k !== "root");
 // 修行系譜としての系統数（総本山と資本系を除く）
@@ -49,7 +50,16 @@ export function Keizu() {
     });
   }
   useEffect(() => {
-    replay();
+    // 店舗ページの「系図でこのお店を見る」（keizuPath）から来たときは、再生を飛ばしてその店を選択済みで開く。
+    // 自動選択なので select() は通さず、GA の shop_select（ユーザーの操作）には混ぜない
+    const id = new URLSearchParams(window.location.search).get(SHOP_QUERY);
+    if (id && SHOP_BY_ID.has(id)) {
+      setYear(YEAR_MAX);
+      setSelectedId(id);
+      tree.current?.focus(id);
+    } else {
+      replay();
+    }
     return stopTimer;
     // マウント時に1度だけ再生する意図。replay は state に依存しない
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,7 +145,10 @@ export function Keizu() {
           <button className="btn" type="button" aria-label="縮小" onClick={() => tree.current?.zoomBy(1 / 1.3)}>－</button>
           <button className="btn" type="button" aria-label="全体を表示" onClick={() => { track({ name: "zoom_fit" }); tree.current?.fit(true); }}>⊡</button>
         </div>
-        <Link className="sitelink" href="/privacy">プライバシーポリシー</Link>
+        <nav className="sitelinks" aria-label="サイトのページ">
+          <Link href="/shops">お店の一覧</Link>
+          <Link href="/privacy">プライバシーポリシー</Link>
+        </nav>
         <DetailPanel shop={selected} nodes={layout.nodes} onSelect={select} onClose={() => setSelectedId(null)} />
       </div>
     </div>

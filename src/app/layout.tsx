@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Shippori_Mincho, Yuji_Syuku, Zen_Kaku_Gothic_New } from "next/font/google";
-import { OG_IMAGE, SITE_NAME, SITE_URL, siteDescription, siteTagline } from "@/lib/site";
+import { SITE_NAME, SITE_URL, openGraphBase, siteDescription } from "@/lib/site";
 import "./globals.css";
 
 const yuji = Yuji_Syuku({ weight: "400", subsets: ["latin"], variable: "--font-yuji", display: "swap", preload: false });
@@ -14,10 +14,7 @@ export const metadata: Metadata = {
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
   description: siteDescription(),
   // twitter:image は指定しなければ og:image と同じものが入る
-  openGraph: {
-    type: "website", siteName: SITE_NAME, locale: "ja_JP",
-    images: [{ ...OG_IMAGE, type: "image/png", alt: `${SITE_NAME} — ${siteTagline()}` }],
-  },
+  openGraph: openGraphBase(),
   twitter: { card: "summary_large_image" },
 };
 

@@ -11,6 +11,11 @@ export function ancestry(id: string, byId: Map<string, Shop>): Set<string> {
   return ids;
 }
 
+/** 総本山を先頭に、師匠の順で当店まで並べた系譜（自身を含む）。店舗ページの「吉村家までのつながり」に使う */
+export function lineagePath(id: string, byId: Map<string, Shop>): Shop[] {
+  return [...ancestry(id, byId)].reverse().map((i) => byId.get(i)!);
+}
+
 export interface FilterState {
   lineages: Set<LineageKey>;
   prefs: Set<Pref>;
