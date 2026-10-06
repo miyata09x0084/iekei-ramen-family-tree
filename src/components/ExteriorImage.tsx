@@ -14,7 +14,7 @@ const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 export function ExteriorImage({ shop }: { shop: Shop }) {
   // 詳細パネルは店を切り替えても同じ部品が使い回されるので、失敗を店の id で覚えて次の店には持ち越さない
   const [failedId, setFailedId] = useState<string | null>(null);
-  const src = exteriorImageUrl(shop, API_KEY);
+  const src = exteriorImageUrl(shop.exterior, API_KEY);
   if (!src || failedId === shop.id) return null;
   return (
     <figure className="exterior">

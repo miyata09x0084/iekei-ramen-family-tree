@@ -102,7 +102,7 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
   全店の出典を開いて確かめ直したら、`SOURCES_CHECKED_AT`（店舗ページの「出典を確かめた日」）をその日に直す。店ごとの日付は持たない
 - `mapQuery`（任意）: 詳細パネルの「Google マップで開く」で検索する文字列。`店名 + 住所` を基本とし、
   多店舗ブランドは屋号だけにして全店舗を地図に出す。省略すると `店名 + sub（無ければ city）` で組み立てる。
-  本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。
+  本店閉店（`main-closed`）の店は名前を受け継ぐ店舗を指す。
   URL は `src/data/shops.ts` の `mapUrl()` が `https://www.google.com/maps/search/?api=1&query=...` 形式で生成する。
   place ID（`?q=place_id:...`）は店舗の移転・改装で失効すると「一致する検索結果はありません」になるため使わない
 - `exterior`: 外観画像の位置。全店に必須。`location` は Google ストリートビューに渡す住所（都道府県から番地まで。店名は含めない）。

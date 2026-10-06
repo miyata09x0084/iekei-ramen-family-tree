@@ -84,8 +84,7 @@ export function validateShops(shops: Shop[]): string[] {
 
   // 6. 外観画像の位置: 総本山・資本系を含む全店に住所か pano。空だと全店に画像が揃わない
   for (const s of shops) {
-    const ex = s.exterior as Shop["exterior"] | undefined;
-    if (!ex || (ex.location.trim() === "" && !ex.pano)) {
+    if (s.exterior.location.trim() === "" && !s.exterior.pano) {
       errors.push(`"${s.id}" に外観画像の位置（exterior.location か pano）がない`);
     }
   }

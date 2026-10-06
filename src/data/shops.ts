@@ -52,11 +52,11 @@ export interface Shop {
   // 外観画像の位置。Google ストリートビューに渡す住所（店名は含めない）。全店に必須。
   // 本店閉店の店は名前を受け継ぐ店舗、資本系は本店、閉店した店はあった場所を指す。
   // 住所だと地点や向きがずれる店だけ pano（パノラマ ID）か heading（度）で上書きする。
-  exterior: Exterior;
+  exterior: ExteriorLocation;
 }
 
 /** 外観画像の位置。URL の組み立ては src/lib/exterior.ts */
-export interface Exterior {
+export interface ExteriorLocation {
   location: string;
   heading?: number;
   pano?: string;
@@ -101,7 +101,7 @@ export const YEAR_MAX = 2026;
 export const SOURCES_CHECKED_AT = "2026-10-05";
 
 // 系譜は公開情報を編集したもの。approx=true の創業年は概算。
-// mapQuery は現存する店舗を指す。本店閉店（main-closed）の店は暖簾を継承する店舗を指す。
+// mapQuery は現存する店舗を指す。本店閉店（main-closed）の店は名前を受け継ぐ店舗を指す。
 // exterior.location も同じ店舗の住所（店名なし・都道府県から）。資本系は本店の住所。
 // 多店舗ブランドは屋号のみを検索して全店舗が地図に出るようにする。
 export const NODES: Shop[] = [
@@ -121,7 +121,7 @@ export const NODES: Shop[] = [
       { title: "ブログ「本牧家 本店【2023年5月7日で閉店】」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12801099357.html", kind: "tertiary", note: "できた年・本店閉店" },
     ],
     mapQuery: "本牧家 横須賀店 横須賀市本町3-33-3",
-    exterior: { location: "神奈川県横須賀市本町3-33-3" } }, // 本店閉店後は横須賀店が暖簾を継ぐ
+    exterior: { location: "神奈川県横須賀市本町3-33-3" } }, // 本店閉店後は横須賀店が名前を受け継ぐ
   { id: "suzuki", name: "寿々喜家", sub: "上星川", pref: "神奈川", city: "横浜市保土ケ谷区", founded: 1990, parent: "honmoku", lineage: "honmoku", status: "open", edge: "trained",
     note: "本牧家で修行した店主が、1990年に開いたお店。上星川の住宅街で長く愛されている、本牧家系を代表する一軒。正しい書き方は「寿々㐂家」。",
     sources: [
