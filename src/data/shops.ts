@@ -29,9 +29,9 @@ export interface Source {
   kind: SourceKind;
   // この出典が何を裏付けるか（任意）。例: "創業年・師匠"
   note?: string;
-  // 出典カード（CONTEXT.md）に出す記事の画像。https の絶対 URL（validate.ts が検査する）。
+  // 出典カード（CONTEXT.md）に出す記事の画像。https の絶対 URL で、全店に 1 件以上必須（validate.ts が検査する）。
   // 出典ページの og:image をそのまま参照する（ホットリンク。取り込まない）。
-  // その店（丼・店頭・店主）が写っていると目視で確かめた出典にだけ書く。別店舗の画像と期限つき URL は書かない。
+  // その店の丼（ラーメン）が写っていると目視で確かめた出典にだけ書く。店頭・店主・別店舗の画像と期限つき URL は書かない。
   image?: string;
 }
 
@@ -100,8 +100,8 @@ export const NODES: Shop[] = [
   { id: "yoshimura", name: "吉村家", sub: "横浜駅西口", pref: "神奈川", city: "横浜市西区", founded: 1974, parent: null, lineage: "root", status: "open", edge: null,
     note: "1974年、吉村実さんが新杉田で開いた、家系ラーメンのいちばん最初のお店。豚骨しょうゆのスープに、酒井製麺の太い麺、ほうれん草とのり、チャーシューをのせる。お店の名前の「家」が、そのまま「家系」という呼び名のもとになった。1999年に横浜駅西口へ引っ越し、今は同じ西口の岡野にある。総本山と呼ばれ、毎日行列ができる。",
     sources: [
-      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・引っ越し・場所", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231527_IMG_9695.jpg/1280px-%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231527_IMG_9695.jpg?utm_source=ja.wikipedia.org&utm_campaign=index&utm_content=thumbnail" },
-      { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "できた年・「家系」という名前のもと" },
+      { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・引っ越し・場所" },
+      { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "できた年・「家系」という名前のもと", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E3%81%A8%E3%83%A9%E3%82%A4%E3%82%B9_%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231704_IMG_9709.jpg/1280px-%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E3%81%A8%E3%83%A9%E3%82%A4%E3%82%B9_%E5%90%89%E6%9D%91%E5%AE%B6_2025%E5%B9%B42%E6%9C%8823%E6%97%A5%E3%81%AE%E6%A8%AA%E6%B5%9C_202502231704_IMG_9709.jpg?utm_source=ja.wikipedia.org&utm_campaign=index&utm_content=thumbnail" },
     ],
     mapQuery: "家系総本山 吉村家 横浜市西区岡野" },
 
@@ -125,6 +125,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "Wikipedia「六角家 (ラーメン店)」", url: "https://ja.wikipedia.org/wiki/六角家_(ラーメン店)", kind: "tertiary", note: "師匠・できた年・本店閉店・引っ越し" },
       { title: "ASCII.jp「あの銘店をもう一度がついにフィナーレ!! 大トリは横浜「六角家1994+」」", url: "https://ascii.jp/elem/000/004/193/4193163/", kind: "secondary", note: "師匠・できた年" },
+      { title: "ブログ「六角家@東白楽」", url: "https://titabetamono.livedoor.blog/archives/9251742.html", kind: "tertiary", note: "閉店前の本店の様子", image: "https://livedoor.blogimg.jp/titabetamono/imgs/b/e/be29a408.jpg" },
     ],
     mapQuery: "ラーメン六角家 戸塚 トツカーナモール" }, // 旧・戸塚店（本店は2017年閉店）
   { id: "kaiichi", name: "介一家", sub: "山手", pref: "神奈川", city: "横浜市中区", founded: 1988, approx: true, parent: "rokkaku", lineage: "rokkaku", status: "open", edge: "trained",
@@ -156,6 +157,7 @@ export const NODES: Shop[] = [
       { title: "ASCII.jp「都内トップクラスの家系ラーメン「侍 池尻店」」", url: "https://ascii.jp/elem/000/004/145/4145926/", kind: "secondary", note: "師匠・できた年・つながり" },
       { title: "ブログ「横浜家系ラーメン侍 池尻店＠駒場東大前」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12841559343.html", kind: "tertiary", note: "開いた日" },
       { title: "Retty「横浜家系らーめん侍 渋谷本店」", url: "https://retty.me/restaurant/100001590194/", kind: "tertiary", note: "渋谷本店の開店と引っ越し" },
+      { title: "家系ラーメンマン「侍渋谷本店のらーめんとチャーシューと半ライス」", url: "https://iekei-ramenman.hatenablog.com/entry/samurai_shibuya", kind: "tertiary", note: "師匠・移転", image: "https://cdn.image.st-hatena.com/image/scale/67b1e19a26507be83615fe777caec5387e501fa6/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210920%2F20210920222536.jpg" },
     ],
     mapQuery: "横浜家系らーめん侍 渋谷本店 渋谷区道玄坂2-6-6" },
 
@@ -165,13 +167,15 @@ export const NODES: Shop[] = [
       { title: "ASOBUILD「こだわりの味を守り抜く。家系ラーメン「壱六家」に迫る！」", url: "https://asobuild.com/news/3398/", kind: "secondary", note: "できた年・吉村家とのつながり" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "吉村家で修行せず自分で開いたこと・壱系" },
       { title: "はまれぽ.com「家系一大勢力“壱系”の全貌が明かされる！？」", url: "https://hamarepo.com/story.php?page_no=1&story_id=2328", kind: "secondary", note: "できた年・場所" },
+      { title: "家系ラーメンマン「壱系総本山！「壱六家」磯子本店のチャーシューメン並と小ネギ丼」", url: "https://iekei-ramenman.hatenablog.com/entry/ichirokuya_isogohonten20210714", kind: "tertiary", note: "できた年・店の様子", image: "https://cdn.image.st-hatena.com/image/scale/612592d349fbdf153669e52ada9de4a0a0bfffdf/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210712%2F20210712001344.jpg" },
     ],
     mapQuery: "ラーメン壱六家 磯子本店 横浜市磯子区森2-2-7" },
   { id: "ichihachi", name: "壱八家", sub: "東戸塚", pref: "神奈川", city: "横浜市戸塚区", founded: 1999, parent: "ichiroku", lineage: "ichi", status: "open", edge: "trained",
     note: "1999年、壱六家から作り方を学んで東戸塚で開いたお店。名前は、壱六家の「壱」と、お店を運営する会社エイトの「八」から。うずらの卵と甘めのスープが壱系のしるしで、横浜を中心に何軒かある。",
     sources: [
       { title: "株式会社エイト 公式サイト「History 私たちの歴史」", url: "https://eight-8.co.jp/about_history.html", kind: "primary", note: "できた年・最初の場所" },
-      { title: "株式会社エイト 公式 note「はじめまして 横浜らーめん壱八家です」", url: "https://note.com/kodawari_eight/n/n0f9f952809ed", kind: "primary", note: "師匠・お店の名前のもと", image: "https://assets.st-note.com/production/uploads/images/52684926/rectangle_large_type_2_b18cad9f6bcd9b008199cebe4bbcd525.jpg?fit=bounds&quality=85&width=1280" },
+      { title: "株式会社エイト 公式 note「はじめまして 横浜らーめん壱八家です」", url: "https://note.com/kodawari_eight/n/n0f9f952809ed", kind: "primary", note: "師匠・お店の名前のもと" },
+      { title: "家系ラーメンマン「平日夜なのに並んでる！？「壱八家」東戸塚本店」", url: "https://iekei-ramenman.hatenablog.com/entry/2020/02/25/170000", kind: "tertiary", note: "できた年・運営会社", image: "https://cdn.image.st-hatena.com/image/scale/36e49336a120cd9520808be6ba5835347261dfa0/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20200223%2F20200223230447.jpg" },
     ],
     mapQuery: "壱八家 東戸塚本店 横浜市戸塚区品濃町515-1" },
   { id: "ichinana", name: "壱七家", sub: "立川", pref: "東京", city: "立川市", founded: 2008, parent: "ichiroku", lineage: "ichi", status: "open", edge: "disputed",
@@ -181,6 +185,7 @@ export const NODES: Shop[] = [
       { title: "Retty「横浜家系ラーメン 立川 壱七家」", url: "https://retty.me/area/PRE13/ARE3/SUB301/100000730898/", kind: "tertiary", note: "できた年・場所" },
       { title: "家系ラーメンマン「壱六家の暖簾分け」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/08/180000", kind: "tertiary", note: "壱六家から分かれたお店とする説" },
       { title: "Yahoo!マップ「立川 壱七家」", url: "https://map.yahoo.co.jp/v3/place/1Y4BkbKGlQA", kind: "tertiary", note: "営業しているか・魂心家の姉妹店" },
+      { title: "多摩っぷ「「横浜家系ラーメン 立川 壱七家」でクリーミィでやや濃厚な豚骨ラーメン食べてきた」", url: "https://tamap.tokyo/ichishichiya_tachikawaten/", kind: "secondary", note: "店の様子（取材記事）", image: "https://tamap.tokyo/og/posts/ichishichiya_tachikawaten.jpg" },
     ],
     mapQuery: "横浜家系ラーメン 立川 壱七家 立川市柴崎町3-1-9" },
 
@@ -195,15 +200,17 @@ export const NODES: Shop[] = [
   { id: "musashi", name: "武蔵家", sub: "千葉", pref: "千葉", city: "千葉市中央区", founded: 2003, parent: "musashi-nakano", lineage: "musashi", status: "open", edge: "trained",
     note: "新中野の武蔵家が、2003年に千葉で開いた1号店。ここから千葉県の中に武蔵家系のお店が広がった。",
     sources: [
-      { title: "iekei.jp「武蔵家 千葉本店」", url: "https://iekei.jp/shop/musashiya-chiba", kind: "tertiary", note: "師匠・できた年・つながり", image: "https://pub-bf954aa8adbe410ea0cbc3f1375e2a94.r2.dev/shops/musashiya-chiba/photos/d352482b-acc7-4b07-b49a-36de476ba581_1785404115488_425e7e6f.jpg" },
+      { title: "iekei.jp「武蔵家 千葉本店」", url: "https://iekei.jp/shop/musashiya-chiba", kind: "tertiary", note: "師匠・できた年・つながり" },
       { title: "食べログ「武蔵家 千葉本店」", url: "https://tabelog.com/en/chiba/A1201/A120101/12000921/", kind: "tertiary", note: "開いた日" },
+      { title: "ブログ「武蔵家＠東千葉（千葉本店）」", url: "https://ameblo.jp/yokozunayokozuna777/entry-12792053703.html", kind: "tertiary", note: "できた年・店の様子", image: "https://stat.ameba.jp/user_images/20230304/06/yokozunayokozuna777/b9/30/j/o3264244815250693129.jpg" },
     ],
     mapQuery: "らーめん武蔵家 千葉本店 千葉市中央区道場北町317" },
   { id: "budoka", name: "武道家", sub: "早稲田", pref: "東京", city: "新宿区", founded: 2006, parent: "musashi-nakano", lineage: "musashi", status: "open", edge: "trained",
     note: "新中野の武蔵家で修行した菊地輝さんが、2006年に開いたお店。早稲田の学生街でとても人気があり、「濃い」といえばここ、と言われる東京の家系ラーメンの代表。",
     sources: [
-      { title: "高田馬場経済新聞「早大近くの家系ラーメン『武道家』が20周年」", url: "https://takadanobaba.keizai.biz/headline/1659/", kind: "secondary", note: "師匠・できた年", image: "https://images.keizai.biz/takadanobaba_keizai/headline/1780023567_photo.jpg" },
+      { title: "高田馬場経済新聞「早大近くの家系ラーメン『武道家』が20周年」", url: "https://takadanobaba.keizai.biz/headline/1659/", kind: "secondary", note: "師匠・できた年" },
       { title: "高田馬場経済新聞「早大近くのラーメン店『武道家』が15周年」", url: "https://takadanobaba.keizai.biz/headline/664/", kind: "secondary", note: "師匠・できた年" },
+      { title: "ブログ「横浜家系らーめん 武道家 早稲田本店＠早稲田」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12857108676.html", kind: "tertiary", note: "営業・店の様子", image: "https://stat.ameba.jp/user_images/20240626/23/tatsuya-zero-one/28/b3/j/o1024102415456329935.jpg" },
     ],
     mapQuery: "横浜家系らーめん 武道家 本店 新宿区馬場下町" },
   { id: "budoka2", name: "武道家", sub: "吉祥寺", pref: "東京", city: "武蔵野市", founded: 2013, parent: "budoka", lineage: "musashi", status: "open", edge: "trained",
@@ -211,6 +218,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "さんたつ by 散歩の達人「家系激戦区の吉祥寺にある『武道家 吉祥寺店』」", url: "https://san-tatsu.jp/articles/232841/", kind: "secondary", note: "師匠・できた年" },
       { title: "食べログ「武道家 吉祥寺店」", url: "https://tabelog.com/en/tokyo/A1320/A132001/13159783/", kind: "tertiary", note: "開いた日・場所" },
+      { title: "ブログ「18時までライス無料！家系ラーメンの武道家【吉祥寺】」", url: "https://lovelove-log.hatenablog.com/entry/budouka", kind: "tertiary", note: "店の様子", image: "https://cdn.image.st-hatena.com/image/scale/920d31abc25cf4a598f93d1994aa9aa97500470e/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fm%2Fmanahero%2F20200916%2F20200916074312.jpg" },
     ],
     mapQuery: "横浜家系らーめん 武道家 吉祥寺店 武蔵野市吉祥寺南町1-5-11" },
 
@@ -220,6 +228,7 @@ export const NODES: Shop[] = [
       { title: "Yahoo!ニュース エキスパート「３０年以上、家系ラーメンの礎を築いたレジェンド店に行ってみた！！【家系】」", url: "https://news.yahoo.co.jp/expert/articles/03bbb3f6a018e69fc71d21d2998229bf3463f0aa", kind: "secondary", note: "できた年・店主・川崎店" },
       { title: "ラーメンデータベース「近藤家 本店」", url: "https://ramendb.supleks.jp/s/2488.html", kind: "tertiary", note: "できた年・六角家とのつながり" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "本牧家・六角家とのつながり" },
+      { title: "家系ラーメンマン「クラシカルな家系ラーメンを食べたいならここ！「近藤家」＠都筑区」", url: "https://iekei-ramenman.hatenablog.com/entry/2020/02/04/170000", kind: "tertiary", note: "できた年・師匠", image: "https://cdn.image.st-hatena.com/image/scale/ff2f61d7272fdc898c86058733b480bef04d0e3f/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20200202%2F20200202003017.jpg" },
     ],
     mapQuery: "ラーメン近藤家 本店 横浜市都筑区北山田1-1-39" },
 
@@ -229,6 +238,7 @@ export const NODES: Shop[] = [
       { title: "吉村家 公式サイト「直系店舗のご案内」", url: "http://ieke1.com/source/yosimuraya/chokei.html", kind: "primary", note: "直系に認められたこと" },
       { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "師匠・できた年・直系1号店" },
       { title: "ラーメン杉田家 公式サイト「家系について」", url: "https://sugitaya.com/iekei/", kind: "primary", note: "直系1号店" },
+      { title: "ブログ「杉田家本店」", url: "https://ameblo.jp/chibaadihc/entry-12841849740.html", kind: "tertiary", note: "営業・店の様子", image: "https://stat.ameba.jp/user_images/20240224/09/chibaadihc/97/a6/j/o3552266415405281039.jpg" },
     ],
     mapQuery: "ラーメン杉田家 本店 横浜市磯子区新杉田町3-5" },
   { id: "sugita-chiba", name: "杉田家", sub: "千葉店", pref: "千葉", city: "千葉市中央区", founded: 2011, parent: "sugita", lineage: "direct", status: "open", edge: "direct",
@@ -236,6 +246,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・店主" },
       { title: "ラーメンデータベース「杉田家 千葉祐光店」", url: "https://ramendb.supleks.jp/s/31049.html", kind: "tertiary", note: "開いた日・直系" },
+      { title: "ブログ「ラーメン杉田家＠東千葉 吉村家直系1号店にして千葉を代表するホンモノの家系ラーメン店も、創業15年目へ！」", url: "https://sehensucht.hatenablog.com/entry/580ff4f672931115c790ea8e7a3b0570", kind: "tertiary", note: "できた年・直系", image: "https://cdn.image.st-hatena.com/image/scale/c914dde3ca0d6822587706961a12efc84ceac2be/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fs%2Fsehensucht%2F20250815%2F20250815223348.jpg" },
     ],
     mapQuery: "ラーメン杉田家 千葉祐光店 千葉市中央区祐光4-17-7" },
   { id: "kan2", name: "環２家", sub: "環状2号線", pref: "神奈川", city: "横浜市港南区", founded: 2000, parent: "yoshimura", lineage: "direct", status: "open", edge: "direct",
@@ -244,6 +255,7 @@ export const NODES: Shop[] = [
       { title: "ラーメンデータベース「環2家」", url: "https://ramendb.supleks.jp/s/1614.html", kind: "tertiary", note: "開いた日・直系を外れたこと、もどったこと" },
       { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "直系を外れたこと、もどったこと" },
       { title: "note「時系列で追う家系ラーメンの歴史」", url: "https://note.com/3almon/n/nd016f1274867", kind: "tertiary", note: "師匠・できた年" },
+      { title: "家系ラーメンマン「2021年家系食べ初め！「環2家」のチャーシューメンとライス＠下永谷」", url: "https://iekei-ramenman.hatenablog.com/entry/kanniya-20210102", kind: "tertiary", note: "できた年・直系の経緯", image: "https://cdn.image.st-hatena.com/image/scale/f013b9f9459f5363604dd3e84a2e7a031de174d8/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210113%2F20210113224832.jpg" },
     ],
     mapQuery: "ラーメン環2家 横浜市港南区下永谷3-3-21" },
   { id: "atsugi", name: "厚木家", sub: "本厚木", pref: "神奈川", city: "厚木市", founded: 2005, parent: "yoshimura", lineage: "direct", status: "open", edge: "direct",
@@ -251,6 +263,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "吉村家 公式サイト「直系店舗のご案内」", url: "http://ieke1.com/source/yosimuraya/chokei.html", kind: "primary", note: "直系に認められたこと・場所" },
       { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・店主" },
+      { title: "家系ラーメンマン「ここが家系No.1！！直系「厚木家」でチャーシューメンと半ライス＠本厚木」", url: "https://iekei-ramenman.hatenablog.com/entry/atsugiya-20201116", kind: "tertiary", note: "できた年・店主・直系", image: "https://cdn.image.st-hatena.com/image/scale/64c4601ae623751c5bf9b6cbd3fffde19e375689/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20201115%2F20201115210309.jpg" },
     ],
     mapQuery: "ラーメン厚木家 厚木市妻田東2-25-11" },
   { id: "suehiro", name: "末廣家", sub: "白楽", pref: "神奈川", city: "横浜市神奈川区", founded: 2013, parent: "yoshimura", lineage: "direct", status: "open", edge: "direct",
@@ -258,6 +271,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "Wikipedia「吉村家」", url: "https://ja.wikipedia.org/wiki/吉村家", kind: "tertiary", note: "できた年・店主・直系" },
       { title: "食べログ「ラーメン 末廣家」", url: "https://tabelog.com/kanagawa/A1401/A140205/14051496/", kind: "tertiary", note: "開いた日・直系" },
+      { title: "ブログ「末廣家 (白楽)」", url: "https://yuusuketabearuki.hatenablog.com/entry/2020/08/11/172220", kind: "tertiary", note: "できた年・直系", image: "https://cdn.image.st-hatena.com/image/scale/fe5b3356cf9cf0d9be459c173b632fc05d6aec88/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fn%2Fnyuusuke%2F20200707%2F20200707203814.jpg" },
     ],
     mapQuery: "末廣家 横浜市神奈川区六角橋1-14-7" },
 
@@ -267,6 +281,7 @@ export const NODES: Shop[] = [
       { title: "Wikipedia「王道家」", url: "https://ja.wikipedia.org/wiki/王道家", kind: "tertiary", note: "師匠・できた年・直系を外れたこと・引っ越し" },
       { title: "ASCII.jp「読むだけで美味しいラーメン『物語』第14回」", url: "https://ascii.jp/elem/000/004/013/4013189/", kind: "primary", note: "師匠・できた年・直系を外れたこと" },
       { title: "王道家 公式ブログ「柏 王道家オープン！」", url: "https://oudouya.com/2019/09/14/kashiwa-open/", kind: "primary", note: "柏へもどったこと" },
+      { title: "家系ラーメンマン「ついにあの家系が帰ってきた！10/1オープン！！「柏 王道家」＠柏」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/11/08/170000", kind: "tertiary", note: "柏への再出店・元直系", image: "https://cdn.image.st-hatena.com/image/scale/5fc439be5a6ffc68fb4a2a9806f99820945e18b3/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20191104%2F20191104154547.jpg" },
     ],
     mapQuery: "家系ラーメン 王道家 柏市明原1-7-26" },
   { id: "torakichi", name: "とらきち家", sub: "東白楽", pref: "神奈川", city: "横浜市神奈川区", founded: 2014, parent: "oudou", lineage: "oudou", status: "open", edge: "trained",
@@ -275,6 +290,7 @@ export const NODES: Shop[] = [
       { title: "食べログ「家系ラーメン とらきち家（東白楽）」", url: "https://tabelog.com/kanagawa/A1401/A140205/14053454/", kind: "tertiary", note: "開いた日・王道家とのつながり" },
       { title: "王道家 公式サイト「グループ店舗情報」", url: "https://oudouya.com/shop-info/", kind: "primary", note: "師匠" },
       { title: "ラーメンデータベース「家系ラーメン とらきち家」", url: "https://ramendb.supleks.jp/s/72495.html", kind: "tertiary", note: "開いた日・平塚への引っ越し" },
+      { title: "家系ラーメンマン「これはハマる！！しょっぱ旨「とらきち家」＠東白楽」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/10/16/190100", kind: "tertiary", note: "できた年・師匠", image: "https://cdn.image.st-hatena.com/image/scale/444c11d700f9793cebf7dffc56b1a1074c0585b1/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20191014%2F20191014220107.jpg" },
     ],
     mapQuery: "とらきち家 光 横浜市神奈川区西神奈川3-1-1" },
   { id: "oudou-shirushi", name: "王道乃印", sub: "柏", pref: "千葉", city: "柏市", founded: 2023, parent: "oudou", lineage: "oudou", status: "open", edge: "trained",
@@ -282,6 +298,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "ラーメンデータベース「家系ラーメン 王道乃印 柏店」", url: "https://ramendb.supleks.jp/s/154145.html", kind: "tertiary", note: "開いた日・場所" },
       { title: "PR TIMES「王道家系列が群馬県太田市に初出店! 家系ラーメン『王道乃印 野上家』」", url: "https://prtimes.jp/main/html/rd/p/000000001.000187957.html", kind: "primary", note: "王道家とのつながり" },
+      { title: "ブログ「【新店】家系ラーメン 王道乃印 柏店＠柏」", url: "https://ameblo.jp/ramania/entry-12874463530.html", kind: "tertiary", note: "王道家系列・リニューアルの経緯", image: "https://stat.ameba.jp/user_images/20241110/08/ramania/e7/89/j/o2048204815508210544.jpg" },
     ],
     mapQuery: "家系ラーメン 王道乃印 柏店 柏市柏3-6-16" },
   { id: "oudou-ishii", name: "王道 いしい", sub: "千葉", pref: "千葉", city: "千葉市中央区", founded: 2017, parent: "oudou", lineage: "oudou", status: "open", edge: "trained",
@@ -289,6 +306,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "王道家 公式サイト「グループ店舗情報」", url: "https://oudouya.com/shop-info/", kind: "primary", note: "師匠" },
       { title: "ラーメンデータベース「家系ラーメン 王道 いしい」", url: "https://ramendb.supleks.jp/s/99699.html", kind: "tertiary", note: "開いた日・場所" },
+      { title: "ブログ「家系ラーメン 王道 いしい ＠千葉市中央区」", url: "https://ameblo.jp/toshikun0316/entry-12643320006.html", kind: "tertiary", note: "王道家系列・店の様子", image: "https://stat.ameba.jp/user_images/20201211/08/toshikun0316/5a/60/j/o1080081214864677101.jpg" },
     ],
     mapQuery: "家系ラーメン 王道 いしい 千葉市中央区村田町893-116" },
 
@@ -298,6 +316,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "EDINET DB「株式会社ギフトホールディングス の沿革」", url: "https://edinetdb.jp/company/E34336/history", kind: "primary", note: "できた年・最初の場所・運営する会社" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "資本系" },
+      { title: "ブログ「【町田商店】ラーメン ¥800+大盛 ¥100」", url: "https://kuishinbo-ojisan.hatenablog.com/entry/2023/09/06/143000", kind: "tertiary", note: "店の様子", image: "https://cdn.image.st-hatena.com/image/scale/2c89c09287f7e9c6221a8e10cc2976479c510670/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fk%2Fkuishinbo-ojisan%2F20230906%2F20230906191805.jpg" },
     ],
     mapQuery: "横浜家系ラーメン 町田商店 本店 町田市森野1-34-13" },
   { id: "konshin", name: "魂心家", sub: "", pref: "神奈川", city: "大和市ほか", founded: 2010, parent: null, lineage: "capital", status: "open", edge: null,
@@ -305,6 +324,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "株式会社トイダック 公式サイト「会社沿革」", url: "http://www.toyduck.co.jp/history.html", kind: "primary", note: "できた年・運営する会社" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "資本系" },
+      { title: "ブログ「魂心家」", url: "https://ramen1.hatenablog.com/entry/2022/09/25/110751", kind: "tertiary", note: "店の様子", image: "https://cdn.image.st-hatena.com/image/scale/12abce0fedbd1e01df913def612ba423286d6cda/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fn%2Fniku_jaguar_JP%2F20220925%2F20220925110606.jpg" },
     ],
     mapQuery: "横浜家系ラーメン 魂心家" },
   { id: "ichikaku", name: "壱角家", sub: "", pref: "東京", city: "新宿区ほか", founded: 2014, parent: null, lineage: "capital", status: "open", edge: null,
@@ -312,6 +332,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "EDINET DB「株式会社ガーデン の沿革」", url: "https://edinetdb.jp/company/E40066/history", kind: "primary", note: "できた年・最初の場所・運営する会社" },
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "資本系" },
+      { title: "ブログ「【横浜家系ラーメン 壱角家】家族連れでも利用しやすい！クリーミースープの家系ラーメン」", url: "https://ramendiet.hatenablog.jp/entry/ichikakuya", kind: "tertiary", note: "資本系・店の様子", image: "https://cdn.image.st-hatena.com/image/scale/8c87c52ec0fae136b93e2591c3706bc93844b642/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fs%2Fsaitamanoramen%2F20250422%2F20250422193009.jpg" },
     ],
     mapQuery: "横浜家系ラーメン 壱角家" },
 ];

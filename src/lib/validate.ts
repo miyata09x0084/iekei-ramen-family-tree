@@ -12,6 +12,7 @@ import type { Shop } from "@/data/shops";
  *   4. 創業年が師匠より前でない（本人か師匠が概算なら除く）
  *   5. 全店に出典が 1 件以上あり、各出典は媒体名が非空で URL が http(s) で始まる（#44）。
  *      出典カードの画像（image）があれば https で始まる絶対 URL（http だと混在コンテンツで表示が落ちる。#60）
+ *   6. 全店に画像（image）を持つ出典が 1 件以上ある（出典カードは全店に必ず出す。#60）
  */
 export function validateShops(shops: Shop[]): string[] {
   const errors: string[] = [];
@@ -81,6 +82,11 @@ export function validateShops(shops: Shop[]): string[] {
       if (!/^https?:\/\//.test(src.url)) errors.push(`"${s.id}" の出典 "${src.url}" が http(s) で始まらない`);
       if (src.image !== undefined && !/^https:\/\//.test(src.image)) errors.push(`"${s.id}" の出典カードの画像 "${src.image}" が https で始まらない`);
     }
+  }
+
+  // 6. 出典カード: 全店に画像を持つ出典が 1 件以上
+  for (const s of shops) {
+    if (!s.sources.some((src) => src.image !== undefined)) errors.push(`"${s.id}" に画像（image）を持つ出典がない（出典カードは全店に必ず出す）`);
   }
 
   return errors;
