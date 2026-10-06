@@ -109,7 +109,7 @@ export const NODES: Shop[] = [
     note: "1986年、吉村家の2号店として本牧に開いたお店。店長だった神藤隆さんがここから独立して六角家を開き、本牧家そのものも、あとで吉村家から独立した。本牧家系と六角家系という2つの大きな流れは、ここから始まった。本店は港南区に引っ越したあと2023年に閉店し、今は横須賀店が名前を受け継いでいる。",
     sources: [
       { title: "Wikipedia「家系ラーメン」", url: "https://ja.wikipedia.org/wiki/家系ラーメン", kind: "tertiary", note: "師匠・できた年" },
-      { title: "ブログ「本牧家 本店【2023年5月7日で閉店】」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12801099357.html", kind: "tertiary", note: "できた年・本店閉店", image: "https://stat.ameba.jp/user_images/20230502/23/tatsuya-zero-one/74/e8/j/o1024102315278660911.jpg?cax=1280-720" },
+      { title: "ブログ「本牧家 本店【2023年5月7日で閉店】」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12801099357.html", kind: "tertiary", note: "できた年・本店閉店", image: "https://stat.ameba.jp/user_images/20230502/23/tatsuya-zero-one/74/e8/j/o1024102315278660911.jpg" },
     ],
     mapQuery: "本牧家 横須賀店 横須賀市本町3-33-3" }, // 本店閉店後は横須賀店が暖簾を継ぐ
   { id: "suzuki", name: "寿々喜家", sub: "上星川", pref: "神奈川", city: "横浜市保土ケ谷区", founded: 1990, parent: "honmoku", lineage: "honmoku", status: "open", edge: "trained",
