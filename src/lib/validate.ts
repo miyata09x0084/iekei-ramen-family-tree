@@ -11,6 +11,7 @@ import type { Shop } from "@/data/shops";
  *   3. 資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない
  *   4. 創業年が師匠より前でない（本人か師匠が概算なら除く）
  *   5. 全店に出典が 1 件以上あり、各出典は媒体名が非空で URL が http(s) で始まる（#44）
+ *   6. 全店に外観画像の位置（住所か pano）がある（#60）
  */
 export function validateShops(shops: Shop[]): string[] {
   const errors: string[] = [];
@@ -78,6 +79,14 @@ export function validateShops(shops: Shop[]): string[] {
     for (const src of s.sources) {
       if (src.title.trim() === "") errors.push(`"${s.id}" の出典 "${src.url}" に媒体名（title）がない`);
       if (!/^https?:\/\//.test(src.url)) errors.push(`"${s.id}" の出典 "${src.url}" が http(s) で始まらない`);
+    }
+  }
+
+  // 6. 外観画像の位置: 総本山・資本系を含む全店に住所か pano。空だと全店に画像が揃わない
+  for (const s of shops) {
+    const ex = s.exterior as Shop["exterior"] | undefined;
+    if (!ex || (ex.location.trim() === "" && !ex.pano)) {
+      errors.push(`"${s.id}" に外観画像の位置（exterior.location か pano）がない`);
     }
   }
 

@@ -115,6 +115,20 @@ describe("validateShops: 出典", () => {
   });
 });
 
+describe("validateShops: 外観画像の位置", () => {
+  it("住所が空の店を名指しする", () => {
+    const errors = validateShops(replace(grandchild.id, { exterior: { location: " " } }));
+    expect(naming(errors, grandchild.id)).not.toEqual([]);
+  });
+  it("総本山と資本系にも住所が要る", () => {
+    expect(naming(validateShops(replace(root.id, { exterior: { location: "" } })), root.id)).not.toEqual([]);
+    expect(naming(validateShops(replace(capital.id, { exterior: { location: "" } })), capital.id)).not.toEqual([]);
+  });
+  it("pano があれば住所は空でもよい", () => {
+    expect(validateShops(replace(grandchild.id, { exterior: { location: "", pano: "PANO-ID" } }))).toEqual([]);
+  });
+});
+
 describe("assertShopsValid: 読み込み時の停止", () => {
   it("整合していれば何もしない", () => {
     expect(() => assertShopsValid(FIXTURE)).not.toThrow();

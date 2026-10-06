@@ -8,6 +8,7 @@ import { CERTAINTY_LABEL, certaintyOf, sortSources } from "@/lib/certainty";
 import { disciplesOf, generationLabel, masterOf, relationLabel } from "@/lib/relations";
 import { correctionIssueUrl, generationOf, keizuPath, shopDescription, shopLabel, shopPath, shopTitle } from "@/lib/shop-page";
 import { openGraphBase } from "@/lib/site";
+import { ExteriorImage } from "@/components/ExteriorImage";
 
 // 系譜の見出しに使う総本山。validate.ts が「ちょうど 1 店」を保証している
 const ROOT = NODES.find((n) => n.lineage === "root")!;
@@ -63,6 +64,7 @@ export default async function ShopPage({ params }: Props) {
         <span>{LINEAGES[shop.lineage].label}</span>
       </p>
       <h1><span>{shop.name}</span>{shop.sub && <small>{shop.sub}</small>}</h1>
+      <ExteriorImage shop={shop} />
       <dl className="facts">
         <dt>場所</dt><dd>{shop.pref}・{shop.city}</dd>
         <dt>できた年</dt><dd>{shop.founded}年{shop.approx ? "頃" : ""}</dd>

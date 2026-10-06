@@ -27,6 +27,15 @@ export default function Privacy() {
       </ul>
       <p>検索欄に入力した文字は送りません。送るのは「探したお店が見つかったかどうか」だけです。</p>
 
+      <h2>お店の外観の画像について</h2>
+      <p>
+        お店のページと詳しい説明の欄に出る外観の画像は、Google の「ストリートビュー」から読み込んでいます。
+        画像を読み込むとき、あなたのブラウザから Google に、IP アドレスなどの情報が送られます。
+        Google がその情報をどう扱うかは、
+        <a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener noreferrer">Google のプライバシーポリシー</a>
+        で読めます。
+      </p>
+
       <h2>情報を集めないようにする方法</h2>
       <p>
         ブラウザの設定で Cookie を使わないようにするか、

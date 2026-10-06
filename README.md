@@ -64,6 +64,11 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 - `src/lib/layout.ts` — d3.tree による座標計算と系線の生成（純粋関数）
 - `src/lib/ancestry.ts` — 系譜の遡り、絞り込み判定
 - `src/lib/validate.ts` — 店舗データの系譜の整合の検証（読み込み時に呼ばれ、壊れていればビルドが止まる）
+- `src/lib/exterior.ts` / `src/components/ExteriorImage.tsx` — 店の外観画像（Google ストリートビュー）の URL・画像の出典と、それを出す部品。店舗ページと詳細パネルで使う。
+  画像は保存せず Google から都度読み込む。環境変数 `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`（Street View Static API のキー）が無いビルドでは画像を出さない。
+  キーは Google Cloud で「API の制限: Street View Static API のみ」「ウェブサイトの制限: `https://iekei-ramen-family-tree.vercel.app/*`」を付け、Vercel の環境変数とローカルの `.env.local` に置く。
+  無料枠は月 10,000 リクエスト（1 店を開くたびに 1 リクエスト）。超えると画像が出なくなるだけで、ページは壊れない。
+  `npm run check:exterior` が全店の位置にストリートビューの画像があるかを（無料の metadata API で）確かめる
 - `src/components/TreeCanvas.tsx` — D3 が SVG を専有する描画面。React は class の付け替えだけを伝える
 - `src/components/Keizu.tsx` — 絞り込み・検索・年スライダー・選択の状態管理
 - `src/components/DetailPanel.tsx` / `Legend.tsx`
@@ -75,13 +80,14 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
 
 ### データの編集
 
-`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり、媒体名が空でなく、URL が http(s) で始まることの 5 つです。
+`src/data/shops.ts` の `NODES` 配列に店舗を追加・修正してください。型が付いているので、値の誤りはビルド時に検出されます。型で拾えない店舗データの誤りは `src/lib/validate.ts` が読み込み時に検証し、`next dev` と `next build` が原因の店の id を名指しするエラーで止まります。検証するのは、系譜の整合（資本系を除く全店が師匠をたどって総本山に到達し、同じ店を二度通らない）、id の一意性、師匠と関係の有無（総本山と資本系は両方が空、それ以外は両方が非空。総本山は 1 店だけ）、創業年が師匠より前でないこと（概算の店は除く）、全店に出典が 1 件以上あり、媒体名が空でなく、URL が http(s) で始まること、全店に外観画像の位置（`exterior`）があることの 6 つです。
 
 ```ts
 { id: "example", name: "屋号", sub: "地名", pref: "神奈川", city: "横浜市", founded: 2020, approx: true,
   parent: "yoshimura", lineage: "direct", status: "open", edge: "direct", note: "解説",
   sources: [{ title: "屋号 公式サイト", url: "https://example.com/about", kind: "primary", note: "創業年・師匠" }],
-  mapQuery: "屋号 本店 横浜市中区○○1-2-3" }
+  mapQuery: "屋号 本店 横浜市中区○○1-2-3",
+  exterior: { location: "神奈川県横浜市中区○○1-2-3" } }
 ```
 
 - `parent`: 師匠となる店の `id`（資本系は `null`）
@@ -99,3 +105,7 @@ Claude Code で作業するときは、`.claude/settings.json` の hook が破�
   本店閉店（`main-closed`）の店は暖簾を継承する店舗を指す。
   URL は `src/data/shops.ts` の `mapUrl()` が `https://www.google.com/maps/search/?api=1&query=...` 形式で生成する。
   place ID（`?q=place_id:...`）は店舗の移転・改装で失効すると「一致する検索結果はありません」になるため使わない
+- `exterior`: 外観画像の位置。全店に必須。`location` は Google ストリートビューに渡す住所（都道府県から番地まで。店名は含めない）。
+  本店閉店（`main-closed`）の店は名前を受け継ぐ店舗、資本系は本店、閉店した店はあった場所を指す。
+  住所だと地点や向きがずれる店だけ、`pano`（パノラマ ID。あれば `location` より優先）か `heading`（向き、度）で上書きする。
+  住所を入れたら `npm run check:exterior` で画像があるかを確かめる
