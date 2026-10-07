@@ -115,8 +115,9 @@ export const NODES: Shop[] = [
   { id: "suzuki", name: "寿々喜家", sub: "上星川", pref: "神奈川", city: "横浜市保土ケ谷区", founded: 1990, parent: "honmoku", lineage: "honmoku", status: "open", edge: "trained",
     note: "本牧家で修行した店主が、1990年に開いたお店。上星川の住宅街で長く愛されている、本牧家系を代表する一軒。正しい書き方は「寿々㐂家」。",
     sources: [
-      { title: "家系ラーメンマン「寿々㐂家＠上星川」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/24/170000", kind: "tertiary", note: "師匠・できた年", image: "https://cdn.image.st-hatena.com/image/scale/81c126b908da6138266f6a5a7b96223955a7b2a0/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20190923%2F20190923154708.jpg" },
+      { title: "家系ラーメンマン「寿々㐂家＠上星川」", url: "https://iekei-ramenman.hatenablog.com/entry/2019/09/24/170000", kind: "tertiary", note: "師匠・できた年" },
       { title: "横浜ウォッチャー「上星川の家系ラーメン 寿々㐂家」", url: "https://travelyokohama.jp/entry/iekei-ramen-suzukiya-20250217", kind: "tertiary", note: "できた年・系統" },
+      { title: "家系ラーメンマン「家系の名店「寿々㐂家」でらーめん並＠上星川」", url: "https://iekei-ramenman.hatenablog.com/entry/suzukiya-kamihoshikawa20210109", kind: "tertiary", note: "できた年・店の様子", image: "https://cdn.image.st-hatena.com/image/scale/aba94e213e8bb151ba454a604416120d0e43e464/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fi%2Fiekei_ramenman%2F20210107%2F20210107195545.jpg" },
     ],
     mapQuery: "寿々喜家 本店 横浜市保土ケ谷区上星川2-3-1" },
 
@@ -219,7 +220,7 @@ export const NODES: Shop[] = [
     sources: [
       { title: "さんたつ by 散歩の達人「家系激戦区の吉祥寺にある『武道家 吉祥寺店』」", url: "https://san-tatsu.jp/articles/232841/", kind: "secondary", note: "師匠・できた年" },
       { title: "食べログ「武道家 吉祥寺店」", url: "https://tabelog.com/en/tokyo/A1320/A132001/13159783/", kind: "tertiary", note: "開いた日・場所" },
-      { title: "ブログ「18時までライス無料！家系ラーメンの武道家【吉祥寺】」", url: "https://lovelove-log.hatenablog.com/entry/budouka", kind: "tertiary", note: "店の様子", image: "https://cdn.image.st-hatena.com/image/scale/920d31abc25cf4a598f93d1994aa9aa97500470e/backend=imagemagick;version=1;width=1300/https%3A%2F%2Fcdn-ak.f.st-hatena.com%2Fimages%2Ffotolife%2Fm%2Fmanahero%2F20200916%2F20200916074312.jpg" },
+      { title: "ブログ「横浜家系らーめん 武道家 吉祥寺店＠吉祥寺」", url: "https://ameblo.jp/tatsuya-zero-one/entry-12878423042.html", kind: "tertiary", note: "店の様子（早稲田本店の支店）", image: "https://stat.ameba.jp/user_images/20241216/23/tatsuya-zero-one/18/c7/j/o1024102415522327766.jpg" },
     ],
     mapQuery: "横浜家系らーめん 武道家 吉祥寺店 武蔵野市吉祥寺南町1-5-11" },
 
