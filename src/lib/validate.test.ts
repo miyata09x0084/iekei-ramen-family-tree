@@ -107,7 +107,21 @@ describe("validateShops: 出典", () => {
     expect(naming(errors, "example.com/page")).not.toEqual([]);
   });
   it("http の URL は違反にしない（公式サイトが http のみの店があるため）", () => {
-    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "http://example.com/page", kind: "primary" }] }))).toEqual([]);
+    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "http://example.com/page", kind: "primary", image: "https://example.com/a.jpg" }] }))).toEqual([]);
+  });
+  it("出典カードの画像（image）が https の絶対 URL でない出典を、店の id と画像 URL で名指しする", () => {
+    for (const image of ["http://example.com/a.jpg", "/shops/a.jpg", "example.com/a.jpg"]) {
+      const errors = validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "https://example.com/", kind: "primary", image }] }));
+      expect(naming(errors, grandchild.id)).not.toEqual([]);
+      expect(naming(errors, image)).not.toEqual([]);
+    }
+  });
+  it("https の画像を持つ出典は違反にしない", () => {
+    expect(validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "https://example.com/", kind: "primary", image: "https://example.com/a.jpg" }] }))).toEqual([]);
+  });
+  it("画像（image）を持つ出典が 1 件もない店を名指しする（出典カードは全店に必ず出す）", () => {
+    const errors = validateShops(replace(grandchild.id, { sources: [{ title: "媒体", url: "https://example.com/", kind: "primary" }] }));
+    expect(naming(errors, grandchild.id)).not.toEqual([]);
   });
   it("媒体名が空の出典を名指しする", () => {
     const errors = validateShops(replace(grandchild.id, { sources: [{ title: "", url: "https://example.com/", kind: "primary" }] }));
