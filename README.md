@@ -77,7 +77,7 @@ npm test        # Vitest
 ## ライセンス
 
 - コード: [MIT](LICENSE)
-- 店舗データ（`src/data/shops.ts` の内容）: [CC BY 4.0](LICENSE-DATA)
+- 店舗データ（`src/data/shops.ts` の内容）と `docs/spec/` の文書: [CC BY 4.0](LICENSE-DATA)
 
 データを使うときは、次のように出典を書いてください。
 
