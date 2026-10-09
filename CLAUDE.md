@@ -32,7 +32,7 @@ issue を入れるか捨てるか迷ったら、この一文に合うほうを�
 | 完了を宣言する前 | `superpowers:verification-before-completion` | — |
 | PR の説明文を書く | ユーザースキルの `pr`（Summary / Evidence / Merge Danger の 3 節）。`.github/pull_request_template.md` は置かず、形はこのスキルに一本化する | — |
 
-設計文書（spec・計画書）はリポジトリに残さない。計画は Plan モードで使い捨てにし、残すのは ADR と PR の説明文だけにする（[ADR 0003](docs/adr/0003-issue-lifecycle-and-refinement-depth.md)）。
+issue ごとの設計文書と計画書はリポジトリに残さない。計画は Plan モードで使い捨てにし、残すのは ADR と PR の説明文だけにする（[ADR 0003](docs/adr/0003-issue-lifecycle-and-refinement-depth.md)）。例外は着手時点の要件・外部設計の凍結版（`docs/spec/`）だけで、更新しない（ADR 0003 の補足）。
 
 ## 読むもの
 
